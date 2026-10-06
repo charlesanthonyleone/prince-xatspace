@@ -7,10 +7,10 @@
 <meta name="description" content="Charles Leone (Prince) on xat: a static gold and green marble xatspace.">
 <meta name="theme-color" content="#050a07">
 <!--
-  PRINCE XATSPACE v5: one static stage, no page scrolling.
+  PRINCE XATSPACE v6: one static stage, no page scrolling, composed as a royal star-map.
   Everything opens from clickable objects: avatar or tablet = About, planet = Groups,
-  Libra scales = Astrology (Western | Vedic), turntable = Music room, islands = photo lightbox,
-  portals = XatMarket / XatDeck.
+  Libra constellation = Astrology (Western | Vedic), record = Music room,
+  Saturn's photo ring = lightbox, portals = XatMarket / XatDeck.
   Edit markers: [COLOR] [IMAGE] [MUSIC] [TEXT] [LINK] [ID] [LAYOUT] [MOTION]
   Assets: ./ig1.jpg to ig10.jpg, venture-xatmarket.png, venture-xatdeck.png, track1.mp3 to track4.mp3
 -->
@@ -247,8 +247,6 @@
 
   /* ---------- 5. VENTURE PORTALS: XatMarket + XatDeck ---------- */
   .portal { display: flex; flex-direction: column; align-items: center; text-decoration: none; --in: .9s; }
-  .portal-market { left: 37.5vw; bottom: 3.6vh; width: clamp(96px, 7.8vw, 122px); }
-  .portal-deck   { left: 48.5vw; bottom: 6.8vh; width: clamp(86px, 6.8vw, 106px); --in: 1.05s; }
   .portal .arch { position: relative; display: block; width: 100%; aspect-ratio: 5 / 7; border-radius: 999px 999px 6px 6px; overflow: hidden;
     border: 2px solid var(--gold); box-shadow: 0 0 0 5px rgba(5,10,7,.85), 0 0 0 6px rgba(212,175,55,.45), 0 18px 34px rgba(0,0,0,.7), 0 0 26px rgba(212,175,55,.3);
     transition: box-shadow .6s, translate .6s cubic-bezier(.3,1.4,.5,1); }
@@ -268,7 +266,6 @@
   .portal:hover .swirl { animation-duration: 2.5s; opacity: .8; }
 
   /* ---------- 6. MUSIC: a carved turntable half-sunk into the corner ---------- */
-  .turntable { --disc: clamp(300px, 27vw, 390px); right: calc(var(--disc) * -.3); bottom: calc(var(--disc) * -.3); width: var(--disc); height: var(--disc); --in: .55s; }
   .disc-btn { position: absolute; inset: 0; border-radius: 50%; }
   .disc { width: 100%; height: 100%; overflow: visible; animation: spin 7s linear infinite; animation-play-state: paused;
     filter: drop-shadow(0 0 0 rgba(0,0,0,0)) drop-shadow(0 -10px 40px rgba(0,0,0,.6)); }
@@ -280,7 +277,7 @@
     transform-origin: 14% 14%; rotate: -24deg; transition: rotate 1.4s cubic-bezier(.4,0,.2,1); filter: drop-shadow(0 6px 8px rgba(0,0,0,.6)); }
   .playing .tonearm { rotate: 0deg; }
 
-  .np-capsule { right: calc(clamp(300px, 27vw, 390px) * .7 + 22px); bottom: 3.4vh; --in: .7s;
+  .np-capsule {
     display: flex; align-items: center; gap: 12px; padding: 9px 12px 9px 16px; border-radius: 999px; max-width: 330px;
     background: linear-gradient(180deg, rgba(20,70,43,.92), rgba(5,14,9,.95)); border: 1px solid rgba(212,175,55,.6);
     box-shadow: 0 14px 30px rgba(0,0,0,.6), 0 0 18px rgba(212,175,55,.2), inset 0 1px 0 rgba(255,240,200,.12); }
@@ -297,36 +294,6 @@
   .ctl.ghost { width: 28px; height: 28px; background: transparent; color: var(--gold-light); border: 1px solid rgba(212,175,55,.5); box-shadow: none; }
   .ctl:hover { transform: scale(1.1); box-shadow: 0 0 22px rgba(245,224,138,.75); }
 
-  /* =====================================================================
-     FLOATING ISLAND GALLERY — 10 islands, hand-placed "shuffled" field
-     ===================================================================== */
-  #islands { position: absolute; left: 20vw; right: 15vw; top: 23vh; bottom: 22vh; }
-  .isle-pos { position: absolute; width: calc(var(--base) * var(--s)); --base: clamp(92px, 8.2vw, 140px); will-change: transform; }
-  .isle-drift { animation: drift var(--dur, 9s) ease-in-out infinite; animation-delay: var(--del, 0s); }
-  @keyframes drift { 0%,100% { transform: translate(0,0) rotate(-1.2deg); } 33% { transform: translate(5px,-11px) rotate(1deg); } 66% { transform: translate(-6px,-4px) rotate(-.4deg); } }
-  .isle-body { position: relative; display: block; width: 100%; filter: brightness(var(--br, 1)) blur(var(--bl, 0px)); transition: translate .6s cubic-bezier(.3,1.4,.5,1), filter .6s; }
-  .isle-body .photo { position: relative; z-index: 2; display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: var(--blob); rotate: var(--tilt, 0deg);
-    border: 2px solid rgba(212,175,55,.75); box-shadow: 0 0 0 4px rgba(5,10,7,.6), 0 0 22px rgba(212,175,55,.28), 0 18px 30px rgba(0,0,0,.55); transition: box-shadow .6s, border-color .6s; }
-  .isle-body .photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(55%) sepia(12%) brightness(.9); transition: filter .7s, transform 1.2s; }
-  .isle-body .photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 30% 22%, rgba(255,246,207,.2), transparent 40%); }
-  .rock { position: relative; z-index: 1; display: block; width: 134%; margin: -24% 0 0 -17%; aspect-ratio: 1.75 / 1; clip-path: var(--rock);
-    background:
-      linear-gradient(100deg, transparent 0 37%, rgba(212,175,55,.65) 38%, transparent 39.5% 100%),
-      linear-gradient(64deg, transparent 0 61%, rgba(245,224,138,.4) 62%, transparent 63% 100%),
-      linear-gradient(180deg, #2f7a52 0%, #0f5132 16%, #0b2e13 42%, #020604 100%); }
-  .rock::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: linear-gradient(90deg, transparent, #F5E08A, transparent); }
-  .shard { position: absolute; z-index: 0; width: 16%; aspect-ratio: 1.4; left: var(--sx, 30%); top: 112%; clip-path: polygon(0 0, 100% 0, 70% 60%, 45% 100%, 20% 55%);
-    background: linear-gradient(180deg, #1b5c3a, #030805); animation: shardBob 5s ease-in-out infinite; }
-  .shard.s2 { width: 10%; left: var(--sx2, 62%); top: 125%; animation-duration: 6.5s; animation-delay: -2s; }
-  @keyframes shardBob { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-8px) rotate(8deg); } }
-  .isle-glow { position: absolute; z-index: 0; left: 10%; right: 10%; top: 128%; height: 16%; border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(212,175,55,.38), transparent 70%); filter: blur(6px); pointer-events: none; }
-  .isle-body:hover, .isle-body:focus-visible { translate: 0 -10px; filter: brightness(1.12) blur(0); }
-  .isle-body:hover .photo, .isle-body:focus-visible .photo { border-color: #FFF2BF; box-shadow: 0 0 0 4px rgba(5,10,7,.6), 0 0 36px rgba(245,224,138,.65), 0 22px 34px rgba(0,0,0,.6); }
-  .isle-body:hover .photo img, .isle-body:focus-visible .photo img { filter: none; transform: scale(1.07); }
-  .field-label { position: absolute; left: 0; bottom: -30px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
-    font-family: var(--royal); font-size: 10px; letter-spacing: .5em; color: rgba(245,224,138,.7); --in: 1.1s; }
-  .field-label:hover { color: var(--gold-light); }
 
   /* =====================================================================
      PANELS — one overlay system, four bespoke panel styles
@@ -429,28 +396,15 @@
      PORTRAIT / MOBILE SCENE  [LAYOUT]
      ===================================================================== */
   @media (max-width: 760px), (max-aspect-ratio: 3/4) {
-    .avatar-obj { --av: clamp(84px, 24vw, 104px); left: 6vw; top: 4.5vh; }
-    .ident { left: calc(6vw + clamp(84px, 24vw, 104px) + 26px); top: calc(4.5vh + 4px); right: 4vw; }
     .ident h1 { font-size: clamp(22px, 7vw, 32px); }
     .ident .handle { font-size: 9px; letter-spacing: .32em; margin-top: 6px; }
     .ident .links { margin-top: 10px; gap: 6px; }
     .chip { height: 24px; padding: 0 9px; font-size: 8.5px; letter-spacing: .14em; }
-    .motto { display: none; }
-    #islands { left: 3vw; right: 3vw; top: 22vh; bottom: 43vh; }
-    .isle-pos { --base: clamp(60px, 18vw, 84px); }
-    .field-label { display: none; }
-    .about-obj { --w: 74px; --chain: 59vh; right: auto; left: 7vw; }
-    .about-obj .chain { display: none; }
     .tablet { gap: 4px; padding-top: 12px; }
     .tablet .t-label { font-size: 10px; letter-spacing: .25em; }
     .tablet .t-sub { font-size: 10px; }
-    .groups-obj { left: calc(50% - 46px); top: 60vh; width: 92px; }
-    .portal-market { left: 5vw; bottom: 3vh; width: 64px; }
-    .portal-deck { left: calc(5vw + 76px); bottom: 3vh; width: 58px; }
     .portal .p-name { font-size: 8px; letter-spacing: .12em; }
     .portal .keystone { width: 22px; height: 22px; margin-bottom: -10px; }
-    .turntable { --disc: 230px; right: -66px; bottom: -66px; }
-    .np-capsule { right: auto; left: 5vw; bottom: calc(3vh + 132px); max-width: 64vw; gap: 8px; padding: 6px 8px 6px 12px; }
     .np-title { max-width: 96px; font-size: 12.5px; }
     .np-kicker { font-size: 7.5px; letter-spacing: .14em; }
     .ctl { width: 30px; height: 30px; }
@@ -466,7 +420,6 @@
     .lb-frame img { max-width: 90vw; max-height: 66vh; }
   }
   @media (max-height: 560px) and (min-aspect-ratio: 3/4) {
-    .turntable { --disc: 240px; } .about-obj { --chain: 8vh; }
   }
 
   /* [MOTION] reduced motion: keep it calm */
@@ -478,19 +431,10 @@
      LIBRA SCALES object (replaces Friends): opens the astrology panel
      ===================================================================== */
   .glyph, .wh-sign, .wh-pg, .si-g, .pan-glyph, .b3g, .gl, .ag { font-family: 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'DejaVu Sans', sans-serif; }
-  .libra-obj { left: 3.2vw; bottom: 4.5vh; width: clamp(170px, 14vw, 220px); --in: .75s; display: flex; flex-direction: column; align-items: center; border-radius: 24px; }
-  .libra-svg { width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 0 14px rgba(212,175,55,.35)) drop-shadow(0 12px 18px rgba(0,0,0,.6)); transition: filter .5s, transform .6s cubic-bezier(.3,1.4,.5,1); }
-  .libra-svg .beam { transform-box: view-box; animation: beamSway 6.5s ease-in-out infinite; }
-  .libra-svg .pan { transform-box: view-box; animation: panLevel 6.5s ease-in-out infinite; }
   @keyframes beamSway { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
   @keyframes panLevel { 0%,100% { transform: rotate(6deg); } 50% { transform: rotate(-6deg); } }
-  .libra-svg .finial { animation: finialGlow 4s ease-in-out infinite; }
   @keyframes finialGlow { 0%,100% { opacity: .75; } 50% { opacity: 1; } }
   .pan-glyph { font-size: 15px; fill: #050a07; text-anchor: middle; font-family: 'Noto Sans Symbols', 'DejaVu Sans', sans-serif; }
-  .libra-obj .lb-label { margin-top: 2px; font-family: var(--royal); font-weight: 700; font-size: 13px; letter-spacing: .42em; padding-left: .42em; color: var(--gold-light); }
-  .libra-obj .lb-sub { font-family: var(--serif); font-style: italic; font-size: 11.5px; color: rgba(247,243,232,.6); }
-  .libra-obj:hover .libra-svg, .libra-obj:focus-visible .libra-svg { filter: drop-shadow(0 0 30px rgba(245,224,138,.8)) drop-shadow(0 12px 18px rgba(0,0,0,.6)); transform: scale(1.05); }
-  .libra-obj:hover .beam, .libra-obj:hover .pan { animation-duration: 2.4s; }
 
   /* =====================================================================
      ASTROLOGY PANEL (showpiece): scrolls internally only
@@ -647,9 +591,6 @@
   .glyph-ref i { font-style: normal; font-size: 10px; color: rgba(247,243,232,.55); font-family: var(--sans); text-align: center; }
   .astro-foot { margin: 18px 0 0; text-align: center; font-size: 11px; color: rgba(247,243,232,.4); }
   @media (max-width: 760px), (max-aspect-ratio: 3/4) {
-    .libra-obj { left: auto; right: 3vw; bottom: auto; top: 59.5vh; width: 118px; }
-    .libra-obj .lb-label { font-size: 10px; letter-spacing: .3em; }
-    .libra-obj .lb-sub { display: none; }
     .panel.astro { padding: 40px 14px 20px; border-radius: 24px; max-height: 90vh; }
     .astro-meta { font-size: 10px; }
     .astro-tabs { display: flex; }
@@ -673,14 +614,163 @@
   .ctl svg { display: block; }
   .ctl .i-pause, .playing .ctl .i-play { display: none; }
   .playing .ctl .i-pause { display: block; }
-  .isle-body { transition: translate .6s cubic-bezier(.3,1.4,.5,1), filter .6s, opacity .9s ease var(--in, 1s), scale 1.3s cubic-bezier(.2,1.3,.4,1) var(--in, 1s); }
-  body:not(.entered) .isle-body { opacity: 0; scale: .4; }
   .groups-obj, .avatar-obj, .disc-btn { border-radius: 50%; }
   .panel-wrap:not(.open), .lightbox:not(.open) { pointer-events: none; }
   .portrait { object-position: 62% 40%; }
   img { object-fit: cover; }
   .lb-frame img { object-fit: cover; }
   .tablet { cursor: pointer; font: inherit; color: inherit; }
+
+  /* =====================================================================
+     v6 COMPOSITION: a royal star-map console
+     Hero: Saturn with the photo ring, dead centre. Identity top-left, About top-right.
+     Wings: I Astrology (left) and II Groups (right), mirrored on the horizon line (51%).
+     Console dock (bottom centre): XatMarket, music, XatDeck. Gilt frame ties it together.
+     [LAYOUT] --edge is the frame inset; every object aligns to it.
+     ===================================================================== */
+  #stage { --edge: 14px; --hz: 51%; }
+  .bg-saturn { display: none; }
+
+  /* ---------- frame ---------- */
+  .stage-frame { inset: var(--edge); pointer-events: none; border: 1px solid rgba(212,175,55,.26); border-radius: 4px; --in: 0s;
+    box-shadow: inset 0 0 0 5px rgba(5,10,7,.18), inset 0 0 0 6px rgba(212,175,55,.08), inset 0 0 120px rgba(0,0,0,.35); }
+  .fc { position: absolute; width: 64px; height: 64px; overflow: visible; filter: drop-shadow(0 0 6px rgba(212,175,55,.35)); }
+  .fc.tl { left: -7px; top: -7px; } .fc.tr { right: -7px; top: -7px; transform: scaleX(-1); }
+  .fc.bl { left: -7px; bottom: -7px; transform: scaleY(-1); } .fc.br { right: -7px; bottom: -7px; transform: scale(-1,-1); }
+  .fr-crest { position: absolute; left: 50%; top: -16px; width: 32px; height: 32px; margin-left: -16px; padding: 4px; border-radius: 50%;
+    background: var(--onyx); box-shadow: 0 0 0 1px rgba(212,175,55,.55), 0 0 16px rgba(212,175,55,.35); }
+  .fr-crest svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .fr-tick { position: absolute; top: var(--hz); width: 9px; height: 9px; margin-top: -5px; rotate: 45deg; border: 1px solid var(--gold); background: var(--onyx); }
+  .fr-tick.l { left: -5px; } .fr-tick.r { right: -5px; }
+  .legend { margin: 0; bottom: calc(var(--edge) + 2.4vh); font-family: var(--royal); font-size: 10px; letter-spacing: .38em; text-transform: uppercase;
+    color: rgba(245,224,138,.48); white-space: nowrap; --in: 1.2s; }
+  .lg-l { left: calc(var(--edge) + 2.4vw); } .lg-r { right: calc(var(--edge) + 2.4vw); }
+  .motto { display: none; }
+
+  /* ---------- shared caption plaque ---------- */
+  .cap { display: inline-flex; align-items: center; gap: 10px; font-family: var(--royal); font-weight: 700; font-size: 12px; letter-spacing: .4em;
+    text-transform: uppercase; color: var(--gold-light); white-space: nowrap; text-shadow: 0 1px 0 #000; }
+  .cap::before, .cap::after { content: ""; width: 20px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .cap::after { transform: scaleX(-1); }
+  .cap-n { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; letter-spacing: 0;
+    border: 1px solid rgba(212,175,55,.6); font-size: 9px; color: var(--gold); background: rgba(5,10,7,.6); }
+  .cap-t { margin-right: -.4em; }
+  .cap-x { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: .04em; text-transform: none; font-size: 12px; color: rgba(247,243,232,.55); }
+  .cap-s { display: block; margin-top: 3px; font-family: var(--serif); font-style: italic; font-size: 12px; color: rgba(247,243,232,.58); }
+
+  /* ---------- identity (top-left) + About (top-right) ---------- */
+  .avatar-obj { --av: clamp(136px, 12vw, 178px); left: calc(var(--edge) + 2.4vw); top: calc(var(--edge) + 3.2vh); }
+  .ident { left: calc(var(--edge) + 2.4vw + clamp(136px, 12vw, 178px) + 44px); top: calc(var(--edge) + 3.2vh + 20px); }
+  .about-obj { --chain: 12vh; right: calc(var(--edge) + 2.6vw); top: var(--edge); }
+
+  /* ---------- I · ASTROLOGY: Libra constellation (left wing) ---------- */
+  .libra-obj { --w: clamp(220px, 17.5vw, 262px); left: calc(var(--edge) + 1.6vw); right: auto; bottom: auto; top: var(--hz); width: var(--w);
+    transform: translateY(-54%); display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 22px; --in: .7s; }
+  .libra-svg { width: 100%; height: auto; overflow: visible; filter: none; transition: filter .5s, transform .7s cubic-bezier(.3,1.4,.5,1); }
+  .c-lines line, .pan-arc { stroke: #F5E08A; stroke-width: 1.1; fill: none; stroke-linecap: round; opacity: .62; transition: opacity .5s; }
+  .pan-arc { opacity: .32; stroke-dasharray: 2 3; }
+  .c-shimmer line { stroke: #fffdf2; stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 4 64; opacity: .9; animation: cShim 6s linear infinite; }
+  .c-shimmer line:nth-child(2n) { animation-delay: -2s; } .c-shimmer line:nth-child(3n) { animation-delay: -4s; }
+  @keyframes cShim { to { stroke-dashoffset: -136; } }
+  .cs { transform-box: fill-box; transform-origin: center; animation: cTwinkle var(--t, 3s) ease-in-out infinite; animation-delay: var(--d, 0s); }
+  .cs .halo { fill: url(#g-halo); } .cs .core { fill: #fffdf2; } .cs .spk { fill: #FFF6CF; opacity: .9; }
+  @keyframes cTwinkle { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.72); } }
+  .nebula { position: absolute; left: -6%; right: -6%; top: -8%; height: 92%; pointer-events: none; z-index: -1; border-radius: 50%; will-change: opacity;
+    background: radial-gradient(ellipse 34% 30% at 58% 34%, rgba(245,224,138,.2), transparent 70%),
+                radial-gradient(ellipse 50% 46% at 50% 48%, rgba(47,154,106,.4), rgba(20,70,43,.18) 55%, transparent 75%);
+    animation: nebPulse 9s ease-in-out infinite; }
+  .libra-obj { isolation: isolate; }
+  @keyframes nebPulse { 0%,100% { opacity: .75; } 50% { opacity: 1; } }
+  .c-name { font-family: var(--serif); font-style: italic; font-size: 8px; fill: rgba(247,243,232,.5); text-anchor: middle; }
+  .libra-obj:hover .libra-svg, .libra-obj:focus-visible .libra-svg { filter: drop-shadow(0 0 14px rgba(245,224,138,.55)); transform: scale(1.05); }
+  .libra-obj:hover .c-lines line, .libra-obj:focus-visible .c-lines line { opacity: 1; }
+  .libra-obj:hover .c-shimmer line { animation-duration: 2.2s; }
+  .libra-obj:hover .cs { animation-duration: 1.4s; }
+
+  /* ---------- II · GROUPS (right wing, mirrors Astrology) ---------- */
+  .groups-obj { --w: clamp(196px, 15.5vw, 236px); left: auto; right: calc(var(--edge) + 1.6vw); top: var(--hz); width: var(--w); aspect-ratio: auto;
+    transform: translateY(-54%); animation: none; display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 22px; --in: .75s; }
+  .groups-obj svg { width: 70%; height: auto; aspect-ratio: 1; animation: gBob 8s ease-in-out infinite; margin-bottom: 10px; }
+  @keyframes gBob { 0%,100% { translate: 0 -5px; } 50% { translate: 0 5px; } }
+
+  /* ---------- HERO: Saturn + photo ring ---------- */
+  .saturn-hero { left: 50%; top: var(--hz); width: 0; height: 0; --in: .3s;
+    --rx: 418px; --ry: 121px; --pr: 142px; --ps: 100px; --smr: 396px; --tilt: -10deg; --capy: 210px; }
+  .saturn-hero > * { position: absolute; }
+  .starmap { left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+  .sm { position: absolute; border-radius: 50%; border: 1px solid rgba(212,175,55,.13); left: calc(var(--sr) * -1); top: calc(var(--sr) * -1); width: calc(var(--sr) * 2); height: calc(var(--sr) * 2); }
+  .sm1 { --sr: var(--smr); } .sm2 { --sr: calc(var(--smr) * .9); border-style: dashed; border-color: rgba(212,175,55,.08); }
+  .starmap i { position: absolute; left: 0; top: 0; font-style: normal; font-size: 15px; line-height: 1; color: rgba(245,224,138,.26);
+    font-family: 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'DejaVu Sans', sans-serif; translate: -50% -50%;
+    transform: rotate(var(--a)) translateY(calc(var(--smr) * -.95)) rotate(calc(var(--a) * -1)); }
+  .ring-tilt { left: 0; top: 0; width: 0; height: 0; transform: rotate(var(--tilt)); z-index: 2; pointer-events: none; }
+  .ring-tilt.front { z-index: 6; }
+  .track { position: absolute; border-radius: 50%; --k: 1; left: calc(var(--rx) * var(--k) * -1); top: calc(var(--ry) * var(--k) * -1);
+    width: calc(var(--rx) * var(--k) * 2); height: calc(var(--ry) * var(--k) * 2); border: 1px solid rgba(245,224,138,.55); }
+  .t-main { box-shadow: 0 0 14px rgba(212,175,55,.22), inset 0 0 14px rgba(212,175,55,.14); }
+  .t-in { --k: .82; border-style: dashed; border-color: rgba(212,175,55,.32); }
+  .t-out { --k: 1.17; border-color: rgba(212,175,55,.16); }
+  .t-band { --k: 1.08; border: calc(var(--ry) * .32) solid rgba(212,175,55,.05); }
+  .ring-tilt.front .track { clip-path: inset(50% 0 0 0); }
+  .hero-planet { left: calc(var(--pr) * -1); top: calc(var(--pr) * -1); width: calc(var(--pr) * 2); height: calc(var(--pr) * 2); z-index: 5; pointer-events: none; }
+  .hero-planet svg { position: relative; display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 20px 40px rgba(0,0,0,.75)); }
+  .planet-glow { position: absolute; inset: -34%; border-radius: 50%; animation: heroGlow 8s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(245,224,138,.2) 0%, rgba(47,154,106,.14) 38%, transparent 66%); }
+  @keyframes heroGlow { 0%,100% { opacity: .75; transform: scale(.97); } 50% { opacity: 1; transform: scale(1.03); } }
+  .orbs { left: 0; top: 0; width: 0; height: 0; }
+  .orb { position: absolute; left: 0; top: 0; width: var(--ps); height: var(--ps); margin: calc(var(--ps) / -2) 0 0 calc(var(--ps) / -2); border-radius: 50%; will-change: transform, opacity; }
+  .orb-in { position: relative; display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 2px solid var(--gold);
+    box-shadow: 0 0 0 3px rgba(5,10,7,.85), 0 0 0 4px rgba(245,224,138,.45), 0 12px 26px rgba(0,0,0,.6), 0 0 22px rgba(212,175,55,.28);
+    transition: transform .5s cubic-bezier(.3,1.4,.5,1), box-shadow .5s, opacity .9s ease var(--in, 1s), scale 1.3s cubic-bezier(.2,1.3,.4,1) var(--in, 1s); }
+  .orb-in img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .orb-in::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: 1;
+    background: radial-gradient(circle at 32% 24%, rgba(255,246,207,.22), transparent 42%); }
+  body:not(.entered) .orb-in { opacity: 0; scale: .3; }
+  .orb:hover .orb-in, .orb:focus-visible .orb-in { transform: scale(1.16); border-color: #FFF2BF;
+    box-shadow: 0 0 0 3px rgba(5,10,7,.85), 0 0 0 4px rgba(255,242,191,.85), 0 16px 30px rgba(0,0,0,.6), 0 0 40px rgba(245,224,138,.7); }
+  .orb:focus-visible { outline: none; }
+  .hero-cap { left: 0; top: var(--capy); transform: translateX(-50%); z-index: 1; font-size: 11px; }
+
+  /* ---------- CONSOLE DOCK ---------- */
+  .dock { position: absolute; left: 50%; bottom: calc(var(--edge) + 2.2vh); transform: translateX(-50%); z-index: 8;
+    display: flex; align-items: flex-end; gap: clamp(30px, 3.4vw, 52px); }
+  .dock > .obj { position: relative; left: auto; right: auto; top: auto; bottom: auto; }
+  .portal-market, .portal-deck { width: clamp(84px, 6.6vw, 100px); }
+  .music-dock { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; padding: 8px 10px 8px 8px; border-radius: 999px;
+    background: radial-gradient(ellipse at 30% 50%, rgba(212,175,55,.08), transparent 70%); }
+  .turntable { position: relative; right: auto; bottom: auto; flex: none; --disc: clamp(82px, 6.8vw, 100px); width: var(--disc); height: var(--disc); }
+  .np-capsule { position: relative; right: auto; left: auto; bottom: auto; max-width: 340px; }
+  .music-dock .np-title { max-width: 160px; }
+
+  @media (max-width: 760px), (max-aspect-ratio: 3/4) {
+    #stage { --edge: 8px; --hz: 36vh; }
+    .fc { width: 38px; height: 38px; }
+    .fr-crest { width: 24px; height: 24px; margin-left: -12px; top: -12px; padding: 3px; }
+    .fr-tick { top: 36vh; }
+    .legend { display: none; }
+    .avatar-obj { --av: clamp(80px, 22vw, 96px); left: calc(var(--edge) + 4.5vw); top: calc(var(--edge) + 2.6vh); }
+    .ident { left: calc(var(--edge) + 4.5vw + clamp(80px, 22vw, 96px) + 24px); top: calc(var(--edge) + 2.6vh + 8px); right: 5vw; }
+    .about-obj { --w: 74px; --chain: 56vh; right: auto; left: calc(50% - 37px); top: 0; }
+    .about-obj .chain { display: none; }
+    .libra-obj { --w: 33vw; left: calc(var(--edge) + 1.5vw); top: 56.5vh; transform: none; }
+    .c-name { display: none; }
+    .groups-obj { --w: 33vw; right: calc(var(--edge) + 1.5vw); top: 56.5vh; transform: none; }
+    .groups-obj svg { width: 56%; margin: 4px 0 8px; }
+    .cap { font-size: 9px; letter-spacing: .22em; gap: 6px; } .cap-t { margin-right: -.22em; }
+    .cap::before, .cap::after { width: 8px; }
+    .cap-n { width: 17px; height: 17px; font-size: 7.5px; }
+    .cap-s { font-size: 10px; }
+    .hero-cap { font-size: 8.5px; } .hero-cap .cap-x { display: none; }
+    .starmap i { font-size: 11px; }
+    .dock { bottom: calc(var(--edge) + 2vh); left: calc(var(--edge) + 4vw); right: calc(var(--edge) + 4vw); transform: none; justify-content: space-between; gap: 8px; }
+    .portal-market, .portal-deck { width: 62px; }
+    .music-dock { flex-direction: column; gap: 8px; margin-bottom: 4px; padding: 0; background: none; }
+    .turntable { --disc: 70px; }
+    .np-capsule { max-width: 56vw; gap: 6px; padding: 5px 6px 5px 10px; }
+    .np-title { max-width: 74px; font-size: 12px; }
+    .np-capsule .eq, .np-kicker { display: none; }
+    .ctl { width: 28px; height: 28px; } .ctl.ghost { width: 24px; height: 24px; }
+  }
 </style>
 </head>
 <body>
@@ -820,13 +910,65 @@
   <div class="layer marble-bg"></div><div class="layer marble-clouds"></div><div class="layer marble-veins"></div>
   <div class="layer xat-pattern"></div><div class="layer marble-sheen"></div><div class="layer vignette"></div>
   <canvas id="particles-canvas" class="layer"></canvas>
-  <div class="bg-saturn" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg></div>
   <div class="ambient-rocket" aria-hidden="true"><svg viewBox="0 0 60 150" aria-hidden="true" focusable="false"><use href="#sym-rocket" width="60" height="150"/></svg></div>
 
   <!-- =============================================================
-       3. THE STAGE: one fixed scene, objects scattered (no scrolling)
+       3. THE STAGE: one fixed scene, a royal star-map console (no scrolling)
        ============================================================= -->
   <main id="stage">
+    <!-- ===== unifying frame: gilt hairline border, corner flourishes, crest at top-centre ===== -->
+    <div class="stage-frame obj" aria-hidden="true">
+      <svg class="fc tl" viewBox="0 0 80 80" aria-hidden="true" focusable="false"><path d="M2 78 V14 Q2 2 14 2 H78" fill="none" stroke="url(#g-gold)" stroke-width="1.6"/><path d="M9 78 V20 Q9 9 20 9 H78" fill="none" stroke="rgba(245,224,138,.45)" stroke-width=".7"/><path d="M14 26 Q14 14 26 14" fill="none" stroke="url(#g-gold)" stroke-width="1"/><path d="M2 2 L12 12" stroke="url(#g-gold)" stroke-width="1"/><path d="M20 20 l4 -6 l4 6 l-4 6 z" fill="url(#g-gold)" transform="translate(-6 -6)"/></svg><svg class="fc tr" viewBox="0 0 80 80" aria-hidden="true" focusable="false"><path d="M2 78 V14 Q2 2 14 2 H78" fill="none" stroke="url(#g-gold)" stroke-width="1.6"/><path d="M9 78 V20 Q9 9 20 9 H78" fill="none" stroke="rgba(245,224,138,.45)" stroke-width=".7"/><path d="M14 26 Q14 14 26 14" fill="none" stroke="url(#g-gold)" stroke-width="1"/><path d="M2 2 L12 12" stroke="url(#g-gold)" stroke-width="1"/><path d="M20 20 l4 -6 l4 6 l-4 6 z" fill="url(#g-gold)" transform="translate(-6 -6)"/></svg><svg class="fc bl" viewBox="0 0 80 80" aria-hidden="true" focusable="false"><path d="M2 78 V14 Q2 2 14 2 H78" fill="none" stroke="url(#g-gold)" stroke-width="1.6"/><path d="M9 78 V20 Q9 9 20 9 H78" fill="none" stroke="rgba(245,224,138,.45)" stroke-width=".7"/><path d="M14 26 Q14 14 26 14" fill="none" stroke="url(#g-gold)" stroke-width="1"/><path d="M2 2 L12 12" stroke="url(#g-gold)" stroke-width="1"/><path d="M20 20 l4 -6 l4 6 l-4 6 z" fill="url(#g-gold)" transform="translate(-6 -6)"/></svg><svg class="fc br" viewBox="0 0 80 80" aria-hidden="true" focusable="false"><path d="M2 78 V14 Q2 2 14 2 H78" fill="none" stroke="url(#g-gold)" stroke-width="1.6"/><path d="M9 78 V20 Q9 9 20 9 H78" fill="none" stroke="rgba(245,224,138,.45)" stroke-width=".7"/><path d="M14 26 Q14 14 26 14" fill="none" stroke="url(#g-gold)" stroke-width="1"/><path d="M2 2 L12 12" stroke="url(#g-gold)" stroke-width="1"/><path d="M20 20 l4 -6 l4 6 l-4 6 z" fill="url(#g-gold)" transform="translate(-6 -6)"/></svg>
+      <span class="fr-crest"><svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg></span>
+      <span class="fr-tick l"></span><span class="fr-tick r"></span>
+    </div>
+    <p class="obj legend lg-l" aria-hidden="true">&#10022; Long live the Prince</p>
+    <p class="obj legend lg-r" aria-hidden="true">Libra &middot; RA 15h &middot; Dec &minus;15&deg; &#10022;</p>
+
+    <!-- ===== HERO · SATURN, whose ring is made of the 10 Instagram photos
+         [IMAGE] ./ig1.jpg … ig10.jpg   [MOTION] ORBIT_SECONDS in the script
+         Photos orbit on a tilted ellipse: front = large/bright, back = small/dim and behind the planet.
+         Click a photo = lightbox. ===== -->
+    <div class="obj saturn-hero" id="saturn-hero">
+      <div class="starmap" aria-hidden="true"><span class="sm sm1"></span><span class="sm sm2"></span><i style="--a:0deg">&#9800;</i><i style="--a:30deg">&#9801;</i><i style="--a:60deg">&#9802;</i><i style="--a:90deg">&#9803;</i><i style="--a:120deg">&#9804;</i><i style="--a:150deg">&#9805;</i><i style="--a:180deg">&#9806;</i><i style="--a:210deg">&#9807;</i><i style="--a:240deg">&#9808;</i><i style="--a:270deg">&#9809;</i><i style="--a:300deg">&#9810;</i><i style="--a:330deg">&#9811;</i></div>
+      <div class="ring-tilt" aria-hidden="true"><span class="track t-band"></span><span class="track t-main"></span><span class="track t-in"></span><span class="track t-out"></span></div>
+      <div class="hero-planet" aria-hidden="true">
+        <span class="planet-glow"></span>
+        <svg viewBox="0 0 200 200" focusable="false">
+          <defs>
+            <radialGradient id="g-term" cx=".28" cy=".25" r=".95"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".85"/></radialGradient>
+            <clipPath id="clip-hp"><circle cx="100" cy="100" r="96"/></clipPath>
+          </defs>
+          <circle cx="100" cy="100" r="96" fill="url(#g-planet)"/>
+          <circle cx="100" cy="100" r="96" fill="#0f5132" filter="url(#f-marble)" opacity=".22"/>
+          <g clip-path="url(#clip-hp)" transform="rotate(-10 100 100)" fill="none" stroke="url(#g-gold)">
+            <path d="M0 62 Q100 48 200 62" stroke-width="1.2" opacity=".45"/>
+            <path d="M0 84 Q100 70 200 84" stroke-width="4" opacity=".16"/>
+            <path d="M0 104 Q100 92 200 104" stroke-width="1.6" opacity=".5"/>
+            <path d="M0 126 Q100 116 200 126" stroke-width="6" opacity=".12"/>
+            <path d="M0 146 Q100 138 200 146" stroke-width="1" opacity=".4"/>
+          </g>
+          <circle cx="100" cy="100" r="96" fill="url(#g-term)"/>
+          <ellipse cx="68" cy="58" rx="30" ry="16" fill="#fff6cf" opacity=".12" transform="rotate(-32 68 58)"/>
+          <circle cx="100" cy="100" r="96" fill="none" stroke="url(#g-gold)" stroke-width="2.2"/>
+        </svg>
+      </div>
+      <div class="ring-tilt front" aria-hidden="true"><span class="track t-main"></span><span class="track t-in"></span></div>
+      <div class="orbs" id="orbs">
+      <button type="button" class="orb" data-idx="0" aria-label="Open photo 1 of 10"><span class="orb-in" style="--in:1.00s"><img src="./ig1.jpg" alt="Instagram photo 1" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="1" aria-label="Open photo 2 of 10"><span class="orb-in" style="--in:1.09s"><img src="./ig2.jpg" alt="Instagram photo 2" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="2" aria-label="Open photo 3 of 10"><span class="orb-in" style="--in:1.18s"><img src="./ig3.jpg" alt="Instagram photo 3" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="3" aria-label="Open photo 4 of 10"><span class="orb-in" style="--in:1.27s"><img src="./ig4.jpg" alt="Instagram photo 4" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="4" aria-label="Open photo 5 of 10"><span class="orb-in" style="--in:1.36s"><img src="./ig5.jpg" alt="Instagram photo 5" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="5" aria-label="Open photo 6 of 10"><span class="orb-in" style="--in:1.45s"><img src="./ig6.jpg" alt="Instagram photo 6" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="6" aria-label="Open photo 7 of 10"><span class="orb-in" style="--in:1.54s"><img src="./ig7.jpg" alt="Instagram photo 7" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="7" aria-label="Open photo 8 of 10"><span class="orb-in" style="--in:1.63s"><img src="./ig8.jpg" alt="Instagram photo 8" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="8" aria-label="Open photo 9 of 10"><span class="orb-in" style="--in:1.72s"><img src="./ig9.jpg" alt="Instagram photo 9" loading="eager"></span></button>
+      <button type="button" class="orb" data-idx="9" aria-label="Open photo 10 of 10"><span class="orb-in" style="--in:1.81s"><img src="./ig10.jpg" alt="Instagram photo 10" loading="eager"></span></button>
+      </div>
+      <span class="cap hero-cap"><span class="cap-n">III</span><span class="cap-t">The Ring of Saturn</span><span class="cap-x">10 moments</span></span>
+    </div>
+
     <!-- ===== IDENTITY: carved astrolabe portrait with gyroscope orbits (click = About) ===== -->
     <!-- [IMAGE] avatar = ./ig8.jpg -->
     <button type="button" class="obj avatar-obj" data-open="about" aria-label="Open About Charles Leone">
@@ -845,18 +987,6 @@
     <!-- [TEXT] vertical motto (desktop only) -->
     <p class="obj motto" aria-hidden="true">Long live the Prince</p>
 
-    <!-- ===== GROUPS: ringed planet with rotating engraved text ===== -->
-    <button type="button" class="obj groups-obj" data-open="groups" aria-label="Open Groups">
-      <svg viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-        <defs><path id="groups-arc" d="M120,120 m-108,0 a108,108 0 1,1 216,0 a108,108 0 1,1 -216,0"/></defs>
-        <circle cx="120" cy="120" r="96" fill="none" stroke="rgba(212,175,55,.35)" stroke-width="1" stroke-dasharray="2 6"/>
-        <g class="spin-text"><text fill="url(#g-gold)" font-family="Cinzel, Georgia, serif" font-size="13" font-weight="700" letter-spacing="4">
-          <textPath href="#groups-arc" textLength="670" lengthAdjust="spacing">&#10022; GROUPS &#10022; CHATS &#10022; CLANS &#10022; GROUPS &#10022; CHATS &#10022; CLANS</textPath></text></g>
-        <use href="#sym-saturn" x="38" y="38" width="164" height="164"/>
-        <circle r="4" fill="#FFF6CF" filter="url(#f-glow)"><animateMotion dur="7s" repeatCount="indefinite" path="M24,120 a96,96 0 1,1 192,0 a96,96 0 1,1 -192,0"/></circle>
-      </svg>
-    </button>
-
     <!-- ===== ABOUT: carved marble tablet hanging on gold chains ===== -->
     <div class="obj about-obj">
       <div class="swing">
@@ -868,50 +998,68 @@
       </div>
     </div>
 
-    <!-- ===== FLOATING ISLAND GALLERY — 10 Instagram photos on drifting marble rocks
-         [IMAGE] ./ig1.jpg … ig10.jpg   [LAYOUT] positions: DESK/MOB lists (data-d / data-m)
-         Click an island = lightbox. ===== -->
-    <div id="islands">
-      <span class="obj field-label">&#10022; THE GALLERY &middot; 10</span>
-      <div class="isle-pos" style="left:8%;top:30%;--s:1;z-index:8;--dur:9.2s;--del:-0.0s;--blob:58% 42% 55% 45% / 46% 54% 46% 54%;--rock:polygon(0 18%, 8% 4%, 22% 0, 40% 6%, 58% 0, 78% 5%, 92% 0, 100% 16%, 90% 42%, 78% 50%, 70% 74%, 56% 80%, 50% 100%, 42% 78%, 28% 70%, 20% 46%, 8% 38%);--tilt:-4deg;--sx:20%;--sx2:55%" data-d="8,30,1,0.7" data-m="16,14,1,0.7"><div class="isle-drift"><button type="button" class="isle-body" data-idx="0" aria-label="Open photo 1 of 10"><span class="photo"><img src="./ig1.jpg" alt="Instagram photo 1" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:25%;top:15%;--s:0.78;z-index:5;--dur:11.5s;--del:-1.3s;--blob:44% 56% 40% 60% / 58% 42% 58% 42%;--rock:polygon(0 10%, 14% 0, 34% 5%, 52% 0, 70% 4%, 88% 0, 100% 12%, 94% 34%, 82% 44%, 74% 66%, 62% 72%, 58% 92%, 46% 70%, 34% 64%, 24% 40%, 6% 30%);--tilt:3deg;--sx:37%;--sx2:66%" data-d="25,15,0.78,0.4" data-m="50,6,0.8,0.4"><div class="isle-drift"><button type="button" class="isle-body" data-idx="1" aria-label="Open photo 2 of 10"><span class="photo"><img src="./ig2.jpg" alt="Instagram photo 2" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:30%;top:58%;--s:1.15;z-index:10;--dur:8.4s;--del:-2.6s;--blob:50% 50% 38% 62% / 52% 40% 60% 48%;--rock:polygon(0 14%, 12% 2%, 30% 0, 50% 6%, 68% 0, 86% 3%, 100% 14%, 92% 30%, 86% 52%, 66% 60%, 60% 86%, 50% 70%, 40% 96%, 34% 62%, 18% 54%, 10% 32%);--tilt:-2deg;--sx:54%;--sx2:77%" data-d="30,58,1.15,0.95" data-m="82,16,1,0.85"><div class="isle-drift"><button type="button" class="isle-body" data-idx="2" aria-label="Open photo 3 of 10"><span class="photo"><img src="./ig3.jpg" alt="Instagram photo 3" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:44%;top:22%;--s:0.9;z-index:7;--dur:12.8s;--del:-3.9s;--blob:62% 38% 52% 48% / 40% 56% 44% 60%;--rock:polygon(0 18%, 8% 4%, 22% 0, 40% 6%, 58% 0, 78% 5%, 92% 0, 100% 16%, 90% 42%, 78% 50%, 70% 74%, 56% 80%, 50% 100%, 42% 78%, 28% 70%, 20% 46%, 8% 38%);--tilt:5deg;--sx:26%;--sx2:58%" data-d="44,22,0.9,0.6" data-m="30,42,0.9,0.6"><div class="isle-drift"><button type="button" class="isle-body" data-idx="3" aria-label="Open photo 4 of 10"><span class="photo"><img src="./ig4.jpg" alt="Instagram photo 4" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:52%;top:72%;--s:0.7;z-index:4;--dur:10.1s;--del:-5.2s;--blob:40% 60% 60% 40% / 50% 50% 50% 50%;--rock:polygon(0 10%, 14% 0, 34% 5%, 52% 0, 70% 4%, 88% 0, 100% 12%, 94% 34%, 82% 44%, 74% 66%, 62% 72%, 58% 92%, 46% 70%, 34% 64%, 24% 40%, 6% 30%);--tilt:-3deg;--sx:43%;--sx2:69%" data-d="52,72,0.7,0.35" data-m="68,44,1.1,0.95"><div class="isle-drift"><button type="button" class="isle-body" data-idx="4" aria-label="Open photo 5 of 10"><span class="photo"><img src="./ig5.jpg" alt="Instagram photo 5" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:60%;top:40%;--s:1.05;z-index:9;--dur:9.7s;--del:-6.5s;--blob:58% 42% 55% 45% / 46% 54% 46% 54%;--rock:polygon(0 14%, 12% 2%, 30% 0, 50% 6%, 68% 0, 86% 3%, 100% 14%, 92% 30%, 86% 52%, 66% 60%, 60% 86%, 50% 70%, 40% 96%, 34% 62%, 18% 54%, 10% 32%);--tilt:2deg;--sx:60%;--sx2:80%" data-d="60,40,1.05,0.85" data-m="12,68,0.75,0.35"><div class="isle-drift"><button type="button" class="isle-body" data-idx="5" aria-label="Open photo 6 of 10"><span class="photo"><img src="./ig6.jpg" alt="Instagram photo 6" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:72%;top:10%;--s:0.72;z-index:4;--dur:13.4s;--del:-7.8s;--blob:44% 56% 40% 60% / 58% 42% 58% 42%;--rock:polygon(0 18%, 8% 4%, 22% 0, 40% 6%, 58% 0, 78% 5%, 92% 0, 100% 16%, 90% 42%, 78% 50%, 70% 74%, 56% 80%, 50% 100%, 42% 78%, 28% 70%, 20% 46%, 8% 38%);--tilt:-5deg;--sx:32%;--sx2:61%" data-d="72,10,0.72,0.3" data-m="46,72,1,0.8"><div class="isle-drift"><button type="button" class="isle-body" data-idx="6" aria-label="Open photo 7 of 10"><span class="photo"><img src="./ig7.jpg" alt="Instagram photo 7" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:80%;top:62%;--s:0.95;z-index:8;--dur:8.9s;--del:-9.1s;--blob:50% 50% 38% 62% / 52% 40% 60% 48%;--rock:polygon(0 10%, 14% 0, 34% 5%, 52% 0, 70% 4%, 88% 0, 100% 12%, 94% 34%, 82% 44%, 74% 66%, 62% 72%, 58% 92%, 46% 70%, 34% 64%, 24% 40%, 6% 30%);--tilt:4deg;--sx:49%;--sx2:72%" data-d="80,62,0.95,0.75" data-m="84,70,0.8,0.5"><div class="isle-drift"><button type="button" class="isle-body" data-idx="7" aria-label="Open photo 8 of 10"><span class="photo"><img src="./ig8.jpg" alt="Instagram photo 8" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:90%;top:28%;--s:0.8;z-index:6;--dur:11.1s;--del:-10.4s;--blob:62% 38% 52% 48% / 40% 56% 44% 60%;--rock:polygon(0 14%, 12% 2%, 30% 0, 50% 6%, 68% 0, 86% 3%, 100% 14%, 92% 30%, 86% 52%, 66% 60%, 60% 86%, 50% 70%, 40% 96%, 34% 62%, 18% 54%, 10% 32%);--tilt:-1deg;--sx:21%;--sx2:83%" data-d="90,28,0.8,0.5" data-m="28,94,0.7,0.3"><div class="isle-drift"><button type="button" class="isle-body" data-idx="8" aria-label="Open photo 9 of 10"><span class="photo"><img src="./ig9.jpg" alt="Instagram photo 9" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-      <div class="isle-pos" style="left:16%;top:80%;--s:0.66;z-index:3;--dur:12.2s;--del:-11.7s;--blob:40% 60% 60% 40% / 50% 50% 50% 50%;--rock:polygon(0 18%, 8% 4%, 22% 0, 40% 6%, 58% 0, 78% 5%, 92% 0, 100% 16%, 90% 42%, 78% 50%, 70% 74%, 56% 80%, 50% 100%, 42% 78%, 28% 70%, 20% 46%, 8% 38%);--tilt:3deg;--sx:38%;--sx2:64%" data-d="16,80,0.66,0.25" data-m="66,96,0.72,0.45"><div class="isle-drift"><button type="button" class="isle-body" data-idx="9" aria-label="Open photo 10 of 10"><span class="photo"><img src="./ig10.jpg" alt="Instagram photo 10" loading="eager"></span><span class="rock"></span><span class="shard"></span><span class="shard s2"></span><span class="isle-glow"></span></button></div></div>
-    </div>
-
-    <!-- ===== ASTROLOGY: carved Libra scales (click = the dual natal chart) ===== -->
+    <!-- ===== I · ASTROLOGY: the constellation Libra, drawn as the Scales in starlight (click = natal charts) ===== -->
     <button type="button" class="obj libra-obj" data-open="astro" aria-label="Open astrology: Western and Vedic natal charts">
-      <svg class="libra-svg" viewBox="0 0 260 215" aria-hidden="true" focusable="false"><ellipse cx="130" cy="204" rx="62" ry="7" fill="rgba(212,175,55,.25)" filter="url(#f-glow)"/><path d="M84,204 L176,204 L166,190 L94,190 Z" fill="url(#g-seal)" stroke="url(#g-gold)" stroke-width="1.6"/><path d="M84,204 L176,204 L166,190 L94,190 Z" fill="#0b2e13" filter="url(#f-marble)" opacity=".7"/><path d="M120,190 L124,64 L136,64 L140,190 Z" fill="url(#g-hull)" stroke="url(#g-gold)" stroke-width="1.4"/><path d="M126,100 Q130,96 134,100 M126,140 Q130,136 134,140" stroke="#F5E08A" stroke-width=".8" fill="none" opacity=".7"/><g class="beam" style="transform-origin:130px 56px"><path d="M30,56 Q130,46 230,56" stroke="url(#g-gold)" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M36,55 Q130,47 224,55" stroke="#FFF2BF" stroke-width="1" fill="none" opacity=".6"/><g class="pan" style="transform-origin:30px 58px"><path d="M30,58 L4,128 M30,58 L56,128 M30,58 L30,126" stroke="#F5E08A" stroke-width="1.1" stroke-dasharray="2.5 1.8" opacity=".9"/><path d="M-4,128 Q30,158 64,128 Z" fill="url(#g-gold)" stroke="#FFF2BF" stroke-width=".8"/><path d="M-4,128 Q30,158 64,128 Z" fill="#0b2e13" filter="url(#f-marble)" opacity=".35"/><ellipse cx="30" cy="128" rx="34" ry="4.5" fill="#06180c" stroke="#F5E08A" stroke-width=".8"/><text class="pan-glyph" x="30" y="125">☉︎</text><circle cx="30" cy="58" r="3.4" fill="url(#g-gold)"/></g><g class="pan" style="transform-origin:230px 58px"><path d="M230,58 L204,128 M230,58 L256,128 M230,58 L230,126" stroke="#F5E08A" stroke-width="1.1" stroke-dasharray="2.5 1.8" opacity=".9"/><path d="M196,128 Q230,158 264,128 Z" fill="url(#g-gold)" stroke="#FFF2BF" stroke-width=".8"/><path d="M196,128 Q230,158 264,128 Z" fill="#0b2e13" filter="url(#f-marble)" opacity=".35"/><ellipse cx="230" cy="128" rx="34" ry="4.5" fill="#06180c" stroke="#F5E08A" stroke-width=".8"/><text class="pan-glyph" x="230" y="125">☽︎</text><circle cx="230" cy="58" r="3.4" fill="url(#g-gold)"/></g></g><circle cx="130" cy="54" r="9" fill="url(#g-gold)" stroke="#FFF2BF" stroke-width=".8"/><circle cx="130" cy="54" r="3.6" fill="#050a07"/><g class="finial" filter="url(#f-glow)"><path d="M110,30 H121 A10.5,10.5 0 1,1 139,30 H150" stroke="url(#g-gold)" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M110,39 H150" stroke="url(#g-gold)" stroke-width="3.4" stroke-linecap="round"/></g></svg>
-      <span class="lb-label">ASTROLOGY</span><span class="lb-sub">the Scales &middot; Libra</span>
+      <span class="nebula" aria-hidden="true"></span>
+      <svg class="libra-svg" viewBox="-14 0 288 200" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="g-neb" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2f9a6a" stop-opacity=".55"/><stop offset=".45" stop-color="#14462b" stop-opacity=".35"/><stop offset="1" stop-color="#14462b" stop-opacity="0"/></radialGradient>
+          <radialGradient id="g-neb2" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#F5E08A" stop-opacity=".32"/><stop offset="1" stop-color="#D4AF37" stop-opacity="0"/></radialGradient>
+          <radialGradient id="g-halo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffdf2" stop-opacity=".95"/><stop offset=".25" stop-color="#F5E08A" stop-opacity=".5"/><stop offset="1" stop-color="#D4AF37" stop-opacity="0"/></radialGradient>
+          <linearGradient id="g-cline" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF2BF"/><stop offset=".5" stop-color="#ffffff"/><stop offset="1" stop-color="#F5E08A"/></linearGradient>
+          <filter id="f-neb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+        </defs>
+
+        <g class="dust"><circle cx="80.7" cy="30.2" r="0.69" fill="#fff6cf" opacity="0.18"/><circle cx="140.0" cy="73.1" r="0.33" fill="#fff6cf" opacity="0.35"/><circle cx="0.5" cy="86.7" r="0.34" fill="#fff6cf" opacity="0.19"/><circle cx="108.9" cy="165.4" r="0.37" fill="#fff6cf" opacity="0.24"/><circle cx="165.7" cy="189.5" r="0.65" fill="#fff6cf" opacity="0.31"/><circle cx="263.4" cy="9.3" r="0.82" fill="#fff6cf" opacity="0.27"/><circle cx="30.4" cy="23.6" r="0.49" fill="#fff6cf" opacity="0.48"/><circle cx="40.6" cy="116.3" r="0.68" fill="#fff6cf" opacity="0.30"/><circle cx="143.4" cy="12.6" r="0.34" fill="#fff6cf" opacity="0.23"/><circle cx="180.5" cy="85.5" r="0.49" fill="#fff6cf" opacity="0.38"/><circle cx="116.9" cy="60.0" r="0.78" fill="#fff6cf" opacity="0.43"/><circle cx="58.3" cy="114.9" r="0.62" fill="#fff6cf" opacity="0.50"/><circle cx="194.2" cy="57.6" r="0.89" fill="#fff6cf" opacity="0.20"/><circle cx="107.1" cy="151.4" r="0.39" fill="#fff6cf" opacity="0.35"/><circle cx="1.0" cy="133.6" r="0.76" fill="#fff6cf" opacity="0.38"/><circle cx="235.1" cy="62.7" r="0.72" fill="#fff6cf" opacity="0.39"/><circle cx="152.4" cy="91.2" r="0.80" fill="#fff6cf" opacity="0.53"/><circle cx="122.7" cy="132.8" r="0.34" fill="#fff6cf" opacity="0.43"/><circle cx="171.2" cy="198.6" r="0.79" fill="#fff6cf" opacity="0.26"/><circle cx="98.0" cy="133.7" r="0.31" fill="#fff6cf" opacity="0.33"/><circle cx="37.1" cy="23.4" r="0.34" fill="#fff6cf" opacity="0.46"/><circle cx="26.2" cy="49.5" r="0.53" fill="#fff6cf" opacity="0.50"/><circle cx="12.6" cy="89.8" r="0.63" fill="#fff6cf" opacity="0.50"/><circle cx="219.4" cy="172.8" r="0.47" fill="#fff6cf" opacity="0.32"/><circle cx="90.5" cy="176.8" r="0.87" fill="#fff6cf" opacity="0.21"/><circle cx="39.3" cy="46.4" r="0.44" fill="#fff6cf" opacity="0.34"/><circle cx="155.0" cy="52.5" r="0.30" fill="#fff6cf" opacity="0.32"/><circle cx="93.4" cy="113.3" r="0.87" fill="#fff6cf" opacity="0.43"/><circle cx="134.3" cy="123.5" r="0.71" fill="#fff6cf" opacity="0.17"/><circle cx="241.9" cy="156.0" r="0.82" fill="#fff6cf" opacity="0.47"/><circle cx="99.9" cy="79.8" r="0.36" fill="#fff6cf" opacity="0.40"/><circle cx="7.4" cy="13.5" r="0.43" fill="#fff6cf" opacity="0.21"/><circle cx="85.2" cy="10.5" r="0.30" fill="#fff6cf" opacity="0.21"/><circle cx="18.4" cy="72.7" r="0.32" fill="#fff6cf" opacity="0.50"/><circle cx="161.9" cy="29.7" r="0.45" fill="#fff6cf" opacity="0.29"/><circle cx="92.0" cy="24.6" r="0.81" fill="#fff6cf" opacity="0.55"/><circle cx="120.5" cy="96.8" r="0.35" fill="#fff6cf" opacity="0.19"/><circle cx="85.9" cy="53.0" r="0.80" fill="#fff6cf" opacity="0.21"/><circle cx="-3.5" cy="190.2" r="0.62" fill="#fff6cf" opacity="0.21"/><circle cx="142.1" cy="5.4" r="0.62" fill="#fff6cf" opacity="0.54"/><circle cx="231.7" cy="139.2" r="0.46" fill="#fff6cf" opacity="0.30"/><circle cx="36.8" cy="154.4" r="0.62" fill="#fff6cf" opacity="0.46"/><circle cx="82.3" cy="44.6" r="0.79" fill="#fff6cf" opacity="0.54"/><circle cx="228.7" cy="161.2" r="0.79" fill="#fff6cf" opacity="0.45"/><circle cx="53.5" cy="103.5" r="0.51" fill="#fff6cf" opacity="0.16"/><circle cx="-2.2" cy="55.9" r="0.46" fill="#fff6cf" opacity="0.43"/></g>
+        <path class="pan-arc" d="M8 126 Q28 152 48 126"/><path class="pan-arc" d="M212 126 Q232 152 252 126"/>
+        <g class="c-lines"><line x1="130" y1="30" x2="80" y2="45"/><line x1="80" y1="45" x2="28" y2="60"/><line x1="130" y1="30" x2="180" y2="45"/><line x1="180" y1="45" x2="232" y2="60"/><line x1="130" y1="30" x2="130" y2="92"/><line x1="130" y1="92" x2="130" y2="146"/><line x1="130" y1="146" x2="106" y2="164"/><line x1="130" y1="146" x2="154" y2="164"/><line x1="106" y1="164" x2="154" y2="164"/><line x1="28" y1="60" x2="8" y2="126"/><line x1="28" y1="60" x2="48" y2="126"/><line x1="8" y1="126" x2="28" y2="146"/><line x1="28" y1="146" x2="48" y2="126"/><line x1="8" y1="126" x2="48" y2="126"/><line x1="232" y1="60" x2="212" y2="126"/><line x1="232" y1="60" x2="252" y2="126"/><line x1="212" y1="126" x2="232" y2="146"/><line x1="232" y1="146" x2="252" y2="126"/><line x1="212" y1="126" x2="252" y2="126"/></g>
+        <g class="c-shimmer"><line x1="130" y1="30" x2="80" y2="45"/><line x1="80" y1="45" x2="28" y2="60"/><line x1="130" y1="30" x2="180" y2="45"/><line x1="180" y1="45" x2="232" y2="60"/><line x1="130" y1="30" x2="130" y2="92"/><line x1="130" y1="92" x2="130" y2="146"/><line x1="130" y1="146" x2="106" y2="164"/><line x1="130" y1="146" x2="154" y2="164"/><line x1="106" y1="164" x2="154" y2="164"/><line x1="28" y1="60" x2="8" y2="126"/><line x1="28" y1="60" x2="48" y2="126"/><line x1="8" y1="126" x2="28" y2="146"/><line x1="28" y1="146" x2="48" y2="126"/><line x1="8" y1="126" x2="48" y2="126"/><line x1="232" y1="60" x2="212" y2="126"/><line x1="232" y1="60" x2="252" y2="126"/><line x1="212" y1="126" x2="232" y2="146"/><line x1="232" y1="146" x2="252" y2="126"/><line x1="212" y1="126" x2="252" y2="126"/></g>
+        <g class="c-stars"><g class="cs" style="--d:-0.00s;--t:2.60s"><circle class="halo" cx="130" cy="30" r="17.7"/><path class="spk" d="M130 15.72 L131.53 28.47 L144.28 30 L131.53 31.53 L130 44.28 L128.47 31.53 L115.72 30 L128.47 28.47 Z"/><circle class="core" cx="130" cy="30" r="3.4"/></g><g class="cs" style="--d:-0.37s;--t:3.13s"><circle class="halo" cx="80" cy="45" r="9.9"/><circle class="core" cx="80" cy="45" r="1.9"/></g><g class="cs" style="--d:-0.74s;--t:3.66s"><circle class="halo" cx="28" cy="60" r="15.6"/><path class="spk" d="M28 47.4 L29.35 58.65 L40.6 60 L29.35 61.35 L28 72.6 L26.65 61.35 L15.399999999999999 60 L26.65 58.65 Z"/><circle class="core" cx="28" cy="60" r="3.0"/></g><g class="cs" style="--d:-1.11s;--t:4.19s"><circle class="halo" cx="180" cy="45" r="9.9"/><circle class="core" cx="180" cy="45" r="1.9"/></g><g class="cs" style="--d:-1.48s;--t:4.72s"><circle class="halo" cx="232" cy="60" r="13.5"/><path class="spk" d="M232 49.08 L233.17 58.83 L242.92000000000002 60 L233.17 61.17 L232 70.92 L230.83 61.17 L221.07999999999998 60 L230.83 58.83 Z"/><circle class="core" cx="232" cy="60" r="2.6"/></g><g class="cs" style="--d:-1.85s;--t:2.85s"><circle class="halo" cx="130" cy="92" r="8.8"/><circle class="core" cx="130" cy="92" r="1.7"/></g><g class="cs" style="--d:-2.22s;--t:3.38s"><circle class="halo" cx="130" cy="146" r="11.4"/><path class="spk" d="M130 136.76 L130.99 145.01 L139.24 146 L130.99 146.99 L130 155.24 L129.01 146.99 L120.75999999999999 146 L129.01 145.01 Z"/><circle class="core" cx="130" cy="146" r="2.2"/></g><g class="cs" style="--d:-2.59s;--t:3.91s"><circle class="halo" cx="106" cy="164" r="8.3"/><circle class="core" cx="106" cy="164" r="1.6"/></g><g class="cs" style="--d:-2.96s;--t:4.44s"><circle class="halo" cx="154" cy="164" r="8.3"/><circle class="core" cx="154" cy="164" r="1.6"/></g><g class="cs" style="--d:-0.13s;--t:4.97s"><circle class="halo" cx="8" cy="126" r="9.4"/><circle class="core" cx="8" cy="126" r="1.8"/></g><g class="cs" style="--d:-0.50s;--t:3.10s"><circle class="halo" cx="48" cy="126" r="9.4"/><circle class="core" cx="48" cy="126" r="1.8"/></g><g class="cs" style="--d:-0.87s;--t:3.63s"><circle class="halo" cx="28" cy="146" r="10.9"/><path class="spk" d="M28 137.18 L28.945 145.055 L36.82 146 L28.945 146.945 L28 154.82 L27.055 146.945 L19.18 146 L27.055 145.055 Z"/><circle class="core" cx="28" cy="146" r="2.1"/></g><g class="cs" style="--d:-1.24s;--t:4.16s"><circle class="halo" cx="212" cy="126" r="9.4"/><circle class="core" cx="212" cy="126" r="1.8"/></g><g class="cs" style="--d:-1.61s;--t:4.69s"><circle class="halo" cx="252" cy="126" r="9.4"/><circle class="core" cx="252" cy="126" r="1.8"/></g><g class="cs" style="--d:-1.98s;--t:2.82s"><circle class="halo" cx="232" cy="146" r="10.9"/><path class="spk" d="M232 137.18 L232.945 145.055 L240.82 146 L232.945 146.945 L232 154.82 L231.055 146.945 L223.18 146 L231.055 145.055 Z"/><circle class="core" cx="232" cy="146" r="2.1"/></g></g>
+        <text class="c-name" x="130" y="12">&#946; Zubeneschamali</text>
+        <text class="c-name" x="28" y="80">&#945; Zubenelgenubi</text>
+      </svg>
+      <span class="cap"><span class="cap-n">I</span><span class="cap-t">Astrology</span></span>
+      <span class="cap-s">Libra &middot; the Scales</span>
     </button>
 
-    <!-- ===== VENTURES: two marble portals  [LINK]/[IMAGE] ===== -->
-    <a class="obj portal portal-market" href="https://xatmarket.com" target="_blank" rel="noopener" aria-label="XatMarket (opens in a new tab)"><span class="keystone"><svg viewBox="0 0 200 200" width="20" height="20" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg></span><span class="arch"><img src="./venture-xatmarket.png" alt="XatMarket preview"><span class="swirl"></span></span><span class="p-name">XatMarket</span><span class="p-base"></span></a>
-    <a class="obj portal portal-deck" href="https://xatdeck.com" target="_blank" rel="noopener" aria-label="XatDeck (opens in a new tab)"><span class="keystone"><svg viewBox="0 0 60 150" width="9" height="22" aria-hidden="true" focusable="false"><use href="#sym-rocket" width="60" height="150"/></svg></span><span class="arch"><img src="./venture-xatdeck.png" alt="XatDeck preview"><span class="swirl"></span></span><span class="p-name">XatDeck</span><span class="p-base"></span></a>
-
-    <!-- ===== MUSIC: carved turntable sunk into the corner (click = music room) ===== -->
-    <div class="obj turntable" id="turntable">
-      <button type="button" class="disc-btn" data-open="music" aria-label="Open the music room"><svg class="disc" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="99" fill="#040605" stroke="url(#g-gold)" stroke-width="1.6"/><circle cx="100" cy="100" r="40.0" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="43.1" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="46.2" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="49.3" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="52.4" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="55.5" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="58.6" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="61.7" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="64.8" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="67.9" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="71.0" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="74.1" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="77.2" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="80.3" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="83.4" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="86.5" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="89.6" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="92.7" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="62" fill="none" stroke="rgba(212,175,55,.35)" stroke-width=".8"/><circle cx="100" cy="100" r="86" fill="none" stroke="rgba(212,175,55,.22)" stroke-width=".8"/><circle cx="100" cy="100" r="35" fill="url(#g-seal)" stroke="url(#g-gold)" stroke-width="2"/><circle cx="100" cy="100" r="35" fill="#0b2e13" filter="url(#f-marble)" opacity=".6"/><use href="#sym-saturn" x="72" y="72" width="56" height="56"/><circle cx="100" cy="100" r="2.6" fill="url(#g-gold)"/></svg><span class="disc-sheen"></span></button>
-      <svg class="tonearm" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-        <circle cx="7" cy="7" r="5" fill="#0b2e13" stroke="url(#g-gold)" stroke-width="1.5"/>
-        <path d="M14 14 L74 64" stroke="url(#g-gold)" stroke-width="3.4" stroke-linecap="round"/>
-        <path d="M70 61 L82 70 L78 76 L66 67 Z" fill="url(#g-gold)"/>
-        <circle cx="14" cy="14" r="9" fill="url(#g-gold)"/><circle cx="14" cy="14" r="4" fill="#050a07"/>
+    <!-- ===== II · GROUPS: ringed planet with rotating engraved text (4 xat chats) ===== -->
+    <button type="button" class="obj groups-obj" data-open="groups" aria-label="Open Groups">
+      <svg viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <defs><path id="groups-arc" d="M120,120 m-108,0 a108,108 0 1,1 216,0 a108,108 0 1,1 -216,0"/></defs>
+        <circle cx="120" cy="120" r="96" fill="none" stroke="rgba(212,175,55,.35)" stroke-width="1" stroke-dasharray="2 6"/>
+        <g class="spin-text"><text fill="url(#g-gold)" font-family="Cinzel, Georgia, serif" font-size="13" font-weight="700" letter-spacing="4">
+          <textPath href="#groups-arc" textLength="670" lengthAdjust="spacing">&#10022; GROUPS &#10022; CHATS &#10022; CLANS &#10022; GROUPS &#10022; CHATS &#10022; CLANS</textPath></text></g>
+        <use href="#sym-saturn" x="38" y="38" width="164" height="164"/>
+        <circle r="4" fill="#FFF6CF" filter="url(#f-glow)"><animateMotion dur="7s" repeatCount="indefinite" path="M24,120 a96,96 0 1,1 192,0 a96,96 0 1,1 -192,0"/></circle>
       </svg>
-    </div>
-    <div class="obj np-capsule" id="np-capsule">
-      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span class="np-text"><span class="np-kicker">Now playing &middot; shuffle</span><span class="np-title" id="np-title">Track I</span></span>
-      <button type="button" class="ctl" id="np-play" aria-label="Play"><svg viewBox="0 0 24 24" width="14" height="14" class="i-play" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" width="14" height="14" class="i-pause" aria-hidden="true" focusable="false"><path d="M6.5 5h3.8v14H6.5zM13.7 5h3.8v14h-3.8z" fill="currentColor"/></svg></button>
-      <button type="button" class="ctl ghost" id="np-next" aria-label="Next track"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 6.5-9 6.5zM16 5.5h2.4v13H16z" fill="currentColor"/></svg></button>
-      <!-- [LINK] secondary: full Spotify playlist -->
-      <a class="ctl ghost" href="https://open.spotify.com/playlist/4vis7W4hQTkfXnA6icUYdT" target="_blank" rel="noopener" aria-label="Open full Spotify playlist" title="Open full Spotify playlist"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7 9.4c3.6-1.1 7.4-.8 10.4.9M7.6 12.4c3-.8 6-.5 8.4.8M8.2 15.2c2.4-.6 4.6-.4 6.5.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></a>
+      <span class="cap"><span class="cap-n">II</span><span class="cap-t">Groups</span></span>
+      <span class="cap-s">four xat chats</span>
+    </button>
+
+    <!-- ===== THE CONSOLE (bottom dock): XatMarket portal · music console · XatDeck portal ===== -->
+    <div class="dock">
+      <a class="obj portal portal-market" style="--in:0.95s" href="https://xatmarket.com" target="_blank" rel="noopener" aria-label="XatMarket (opens in a new tab)"><span class="keystone"><svg viewBox="0 0 200 200" width="20" height="20" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg></span><span class="arch"><img src="./venture-xatmarket.png" alt="XatMarket preview"><span class="swirl"></span></span><span class="p-name">XatMarket</span><span class="p-base"></span></a>
+      <div class="obj music-dock" style="--in:.8s">
+        <!-- [MUSIC] carved record: click = music room -->
+        <div class="turntable" id="turntable">
+          <button type="button" class="disc-btn" data-open="music" aria-label="Open the music room"><svg class="disc" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="99" fill="#040605" stroke="url(#g-gold)" stroke-width="1.6"/><circle cx="100" cy="100" r="40.0" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="43.1" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="46.2" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="49.3" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="52.4" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="55.5" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="58.6" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="61.7" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="64.8" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="67.9" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="71.0" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="74.1" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="77.2" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="80.3" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="83.4" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="86.5" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width=".7"/><circle cx="100" cy="100" r="89.6" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width=".7"/><circle cx="100" cy="100" r="92.7" fill="none" stroke="rgba(255,255,255,0.075)" stroke-width=".7"/><circle cx="100" cy="100" r="62" fill="none" stroke="rgba(212,175,55,.35)" stroke-width=".8"/><circle cx="100" cy="100" r="86" fill="none" stroke="rgba(212,175,55,.22)" stroke-width=".8"/><circle cx="100" cy="100" r="35" fill="url(#g-seal)" stroke="url(#g-gold)" stroke-width="2"/><circle cx="100" cy="100" r="35" fill="#0b2e13" filter="url(#f-marble)" opacity=".6"/><use href="#sym-saturn" x="72" y="72" width="56" height="56"/><circle cx="100" cy="100" r="2.6" fill="url(#g-gold)"/></svg><span class="disc-sheen"></span></button>
+          <svg class="tonearm" viewBox="0 0 90 90" aria-hidden="true" focusable="false">
+            <circle cx="7" cy="7" r="5" fill="#0b2e13" stroke="url(#g-gold)" stroke-width="1.5"/>
+            <path d="M14 14 L74 64" stroke="url(#g-gold)" stroke-width="3.4" stroke-linecap="round"/>
+            <path d="M70 61 L82 70 L78 76 L66 67 Z" fill="url(#g-gold)"/>
+            <circle cx="14" cy="14" r="9" fill="url(#g-gold)"/><circle cx="14" cy="14" r="4" fill="#050a07"/>
+          </svg>
+        </div>
+        <div class="np-capsule" id="np-capsule">
+          <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="np-text"><span class="np-kicker">Now playing &middot; shuffle</span><span class="np-title" id="np-title">Track I</span></span>
+          <button type="button" class="ctl" id="np-play" aria-label="Play"><svg viewBox="0 0 24 24" width="14" height="14" class="i-play" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" width="14" height="14" class="i-pause" aria-hidden="true" focusable="false"><path d="M6.5 5h3.8v14H6.5zM13.7 5h3.8v14h-3.8z" fill="currentColor"/></svg></button>
+          <button type="button" class="ctl ghost" id="np-next" aria-label="Next track"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 6.5-9 6.5zM16 5.5h2.4v13H16z" fill="currentColor"/></svg></button>
+          <!-- [LINK] secondary: full Spotify playlist -->
+          <a class="ctl ghost" href="https://open.spotify.com/playlist/4vis7W4hQTkfXnA6icUYdT" target="_blank" rel="noopener" aria-label="Open full Spotify playlist" title="Open full Spotify playlist"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7 9.4c3.6-1.1 7.4-.8 10.4.9M7.6 12.4c3-.8 6-.5 8.4.8M8.2 15.2c2.4-.6 4.6-.4 6.5.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></a>
+        </div>
+      </div>
+      <a class="obj portal portal-deck" style="--in:1.1s" href="https://xatdeck.com" target="_blank" rel="noopener" aria-label="XatDeck (opens in a new tab)"><span class="keystone"><svg viewBox="0 0 60 150" width="9" height="22" aria-hidden="true" focusable="false"><use href="#sym-rocket" width="60" height="150"/></svg></span><span class="arch"><img src="./venture-xatdeck.png" alt="XatDeck preview"><span class="swirl"></span></span><span class="p-name">XatDeck</span><span class="p-base"></span></a>
     </div>
   </main>
 
@@ -1258,28 +1406,58 @@
   if (reduceMotion) { const lbl = document.querySelector('.launch-label'); if (lbl) lbl.textContent = 'Enter'; }
 
   /* ================================================================
-     FLOATING ISLANDS — placement, depth and parallax
-     [LAYOUT] positions come from data-d (desktop) / data-m (portrait)
+     SATURN'S PHOTO RING: 10 photos orbit a tilted ellipse (rAF-driven)
+     front half → larger, brighter, in front of the planet
+     back half  → smaller, dimmer, passes behind the planet body
+     [MOTION] ORBIT_SECONDS = one full revolution
      ================================================================ */
   const portraitMQ = window.matchMedia('(max-width: 760px), (max-aspect-ratio: 3/4)');
-  const isles = [...document.querySelectorAll('.isle-pos')].map((el, i) => ({ el, i, depth: 0.5 }));
-  function placeIsles() {
-    const key = portraitMQ.matches ? 'm' : 'd';
-    isles.forEach(o => {
-      const [x, y, s, d] = o.el.dataset[key].split(',').map(Number);
-      o.depth = d;
-      Object.assign(o.el.style, { left: x + '%', top: y + '%', zIndex: String(Math.round(d * 10) + 1) });
-      o.el.style.setProperty('--s', s);
-      o.el.style.setProperty('--br', (0.58 + 0.42 * d).toFixed(2));
-      o.el.style.setProperty('--bl', (d < 0.5 ? (0.5 - d) * 3.2 : 0).toFixed(2) + 'px');
-      o.el.querySelector('.isle-body').style.setProperty('--in', (0.9 + o.i * 0.11).toFixed(2) + 's');
-    });
+  const hero = $('saturn-hero');
+  const orbEls = [...document.querySelectorAll('.orb')];
+  const ORBIT_SECONDS = 96;
+  const ring = { rx: 418, ry: 121, tilt: -10 * Math.PI / 180 };
+  let orbitPhase = -Math.PI / 2 + 0.31, orbitSpeed = 1, orbitTarget = 1;
+  function layoutRing() {
+    const W = innerWidth, H = innerHeight, port = portraitMQ.matches;
+    let rx, ry, pr, ps, smr, td;
+    if (port) { rx = Math.min(W * .395, H * .23, 240); ry = rx * .31; pr = rx * .34; ps = Math.max(44, Math.min(66, rx * .36)); smr = Math.min(W * .47, H * .21); td = -9; }
+    else { rx = Math.min(W * .29, H * .48, 440); ry = rx * .29; pr = rx * .34; ps = Math.max(60, Math.min(104, rx * .215)); smr = Math.min(H * .44, W * .3); td = -10; }
+    ring.rx = rx; ring.ry = ry; ring.tilt = td * Math.PI / 180;
+    const ymax = Math.hypot(rx * Math.sin(ring.tilt), ry * Math.cos(ring.tilt));
+    const set = (k, v) => hero.style.setProperty(k, v);
+    set('--rx', rx.toFixed(1) + 'px'); set('--ry', ry.toFixed(1) + 'px'); set('--pr', pr.toFixed(1) + 'px');
+    set('--ps', ps.toFixed(1) + 'px'); set('--smr', smr.toFixed(1) + 'px'); set('--tilt', td + 'deg');
+    set('--capy', (ymax + ps * .56 + (port ? 4 : 12)).toFixed(1) + 'px');
   }
-  placeIsles();
-  if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', placeIsles);
+  layoutRing();
+  window.addEventListener('resize', layoutRing);
+  if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', layoutRing);
+  orbEls.forEach(el => {
+    el.addEventListener('pointerenter', () => { orbitTarget = 0; });
+    el.addEventListener('pointerleave', () => { orbitTarget = 1; });
+    el.addEventListener('focus', () => { orbitTarget = 0; });
+    el.addEventListener('blur', () => { orbitTarget = 1; });
+  });
+  const TAU = Math.PI * 2;
+  function orbitStep(dt) {
+    orbitSpeed += (orbitTarget - orbitSpeed) * Math.min(1, dt * 4);
+    if (!reduceMotion) orbitPhase = (orbitPhase + dt * (TAU / ORBIT_SECONDS) * orbitSpeed) % TAU;
+    const c = Math.cos(ring.tilt), s = Math.sin(ring.tilt);
+    for (let i = 0; i < orbEls.length; i++) {
+      const th = orbitPhase + i * TAU / orbEls.length, sn = Math.sin(th);
+      const ex = ring.rx * Math.cos(th), ey = ring.ry * sn;
+      const x = ex * c - ey * s, y = ex * s + ey * c;
+      const d = (sn + 1) / 2;                     // 0 = far side, 1 = nearest
+      const el = orbEls[i];
+      el.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${(.5 + .58 * d).toFixed(3)})`;
+      el.style.zIndex = sn > 0 ? String(10 + Math.round(d * 20)) : String(1 + Math.round(d * 3));
+      el.style.opacity = (.5 + .5 * d).toFixed(3);
+    }
+  }
+
 
   /* ================================================================
-     PANELS — About / Friends / Groups / Music (Esc, backdrop or × closes)
+     PANELS — About / Astrology / Groups / Music (Esc, backdrop or × closes)
      ================================================================ */
   let lastFocus = null;
   function openPanel(name) {
@@ -1307,7 +1485,7 @@
     $('lb-cap').textContent = `${lbIndex + 1} / ${PHOTOS.length}`;
   }
   function openLightbox(i) { closeAll(true); lastFocus = document.activeElement; showPhoto(i); $('lightbox').classList.add('open'); }
-  document.querySelectorAll('.isle-body').forEach(b => b.addEventListener('click', () => openLightbox(+b.dataset.idx)));
+  document.querySelectorAll('.orb').forEach(b => b.addEventListener('click', () => openLightbox(+b.dataset.idx)));
   $('lb-prev').addEventListener('click', () => showPhoto(lbIndex - 1));
   $('lb-next').addEventListener('click', () => showPhoto(lbIndex + 1));
   let touchX = null;
@@ -1364,11 +1542,7 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => { p.update(f); p.draw(smx, smy); });
     }
-    for (const o of isles) {   // deeper islands (higher depth) move more → parallax
-      const k = reduceMotion ? 0 : o.depth;
-      const ax = Math.sin(t * 0.25 + o.i * 1.7) * 6 * k, ay = Math.cos(t * 0.21 + o.i) * 4 * k;
-      o.el.style.transform = `translate(-50%,-50%) translate3d(${(-smx * 34 * k + ax).toFixed(1)}px, ${(-smy * 22 * k + ay).toFixed(1)}px, 0)`;
-    }
+    orbitStep(Math.min(0.1, f * 16.67 / 1000));
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
