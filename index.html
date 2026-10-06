@@ -7,7 +7,7 @@
 <meta name="description" content="Charles Leone (Prince) on xat: a static gold and green marble xatspace.">
 <meta name="theme-color" content="#050a07">
 <!--
-  PRINCE XATSPACE v8: one static stage, no page scrolling. Centrepiece = the xat logo, high in the top-middle.
+  PRINCE XATSPACE v9: one static stage, no page scrolling. Centrepiece = the xat logo, high in the top-middle.
   Everything opens from clickable objects: portrait = xat forum profile, hanging tablet = About, planet = Groups,
   Libra constellation = Astrology (Western | Vedic), big record = Music room,
   photo ring around the xat logo = lightbox, glowing doors = XatMarket / XatDeck.
@@ -995,6 +995,118 @@
 
   /* perf: keep the static logo cached in its own layer; animate only composited layers around it */
   .hero-planet .xat-logo, .xg-rays, .xg-glint, .hero-planet .planet-glow, .bg-planets { will-change: transform; }
+
+  /* =====================================================================
+     v9 COMPOSITION
+     tippy top: Charles [tiny xat globe] Leone, Prince + ID under it · centrepiece globe + photo ring below
+     top-left: portrait + hanging About · top-right: Groups · centre: motto
+     bottom-left: disclaimer · bottom-right: Astrology · bottom-centre: record, player bar flush with the bottom edge
+     ===================================================================== */
+  .fr-crest { display: none; }
+
+  /* ---------- tippy-top cartouche ---------- */
+  .topbar { left: 50%; top: 0; transform: translateX(-50%); margin: 0; z-index: 9; display: flex; align-items: center; gap: 16px;
+    padding: 6px 30px 8px; border: 1px solid rgba(212,175,55,.55); border-top: 0; border-radius: 0 0 26px 26px; white-space: nowrap; --in: .2s;
+    background: linear-gradient(180deg, #020604 0%, rgba(5,12,8,.94) 100%);
+    box-shadow: 0 10px 26px rgba(0,0,0,.55), 0 0 24px rgba(212,175,55,.16), inset 0 -1px 0 rgba(255,242,191,.12); }
+  .topbar .nm { position: static; top: auto; left: auto; right: auto; transform: none; font-size: clamp(22px, 2.1vw, 32px); letter-spacing: .1em; line-height: 1.15; }
+  .top-globe { flex: none; width: clamp(40px, 3.4vw, 50px); height: clamp(40px, 3.4vw, 50px); overflow: visible;
+    filter: drop-shadow(0 0 10px rgba(245,224,138,.5)); animation: topGlobe 7s ease-in-out infinite; }
+  @keyframes topGlobe { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(2px) rotate(4deg); } }
+  .prince-id { top: calc(clamp(40px, 3.4vw, 50px) + 26px); z-index: 9; }
+
+  /* ---------- centre motto ---------- */
+  .motto-quote { left: 50%; top: calc((var(--ringb, 400px) + 100% - var(--sdisc) * .8) / 2); transform: translate(-50%, -50%); margin: 0; --in: .5s;
+    display: flex; align-items: center; gap: 20px; white-space: nowrap; pointer-events: none; }
+  .motto-quote::before, .motto-quote::after { content: ""; width: clamp(40px, 5vw, 80px); height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .motto-quote::after { transform: scaleX(-1); }
+  .mq-text { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: clamp(26px, 2.5vw, 38px); letter-spacing: .01em; line-height: 1.25;
+    filter: drop-shadow(0 0 14px rgba(212,175,55,.38)) drop-shadow(0 2px 2px rgba(0,0,0,.7)); }
+
+  /* ---------- corners ---------- */
+  .groups-obj { top: calc(var(--edge) + 3.4vh); bottom: auto; right: calc(var(--edge) + 2.4vw); }
+  .libra-obj { left: auto; right: calc(var(--edge) + 1.8vw); top: auto; bottom: calc(var(--edge) + 2.6vh); }
+  .disclaimer { top: auto; bottom: calc(var(--edge) + 2.8vh); left: calc(var(--edge) + 2.4vw); right: auto; width: clamp(220px, 17vw, 248px);
+    text-align: left; padding: 0 0 0 12px; border-right: 0; border-left: 1px solid rgba(212,175,55,.45); }
+
+  /* ---------- record: player bar flush with the bottom edge ---------- */
+  .record .np-capsule { bottom: calc(var(--disc) * .2); border-radius: 22px 22px 0 0; border-bottom: 0; padding-bottom: 11px; }
+
+  /* ---------- storm: dark green clouds ---------- */
+  .storm-clouds { z-index: 6; bottom: auto; height: 38vh; overflow: hidden;
+    -webkit-mask: linear-gradient(180deg, #000 0%, #000 42%, transparent 100%); mask: linear-gradient(180deg, #000 0%, #000 42%, transparent 100%); }
+  .cl { position: absolute; top: 0; left: 0; width: 200%; height: 100%; display: flex; will-change: transform; }
+  .cl-tile { flex: none; width: 50%; height: 100%; display: block; }
+  .cl1 { animation: cloudDrift 160s linear infinite; }
+  .cl2 { top: 3%; height: 92%; opacity: .6; animation: cloudDrift 110s linear infinite reverse; }
+  .cl3 { width: 100%; background: linear-gradient(180deg, rgba(1,8,4,.9), rgba(3,20,10,.55) 30%, transparent 70%); }
+  @keyframes cloudDrift { to { transform: translateX(-50%); } }
+  .storm-flash { background: radial-gradient(ellipse 62% 46% at var(--fx, 50%) 6%, rgba(61,255,154,.42), rgba(20,120,70,.16) 45%, transparent 76%); }
+
+  /* ---------- esoteric gateway doors ---------- */
+  .door { --dw: clamp(92px, 7.4vw, 108px); width: calc(var(--dw) * 1.5); border-radius: 0; }
+  .door-market { left: calc(50% - var(--sdisc) / 2 - 30px - var(--dw) * 1.5); }
+  .door-deck { left: calc(50% + var(--sdisc) / 2 + 30px); }
+  .door-stage { position: relative; display: flex; align-items: flex-end; justify-content: center; width: 100%; }
+  .door-body { flex: none; width: var(--dw); }
+  .pillar { flex: none; position: relative; width: calc(var(--dw) * .16); height: calc(var(--dw) * 1.6); margin: 0 calc(var(--dw) * .035); }
+  .pillar-svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 4px rgba(212,175,55,.45)); }
+  .p-cap { fill: url(#g-gold); } .p-shaft { fill: #0b2e13; stroke: url(#g-gold); stroke-width: .8; }
+  .p-flute line { stroke: rgba(245,224,138,.35); stroke-width: .6; }
+  .p-orb { fill: #c9ffe2; filter: drop-shadow(0 0 3px #3dff9a); }
+  .door-halo { position: absolute; z-index: -1; left: 50%; top: calc(var(--dw) * -.1); width: calc(var(--dw) * 1.34); height: calc(var(--dw) * 1.34);
+    margin-left: calc(var(--dw) * -.67); overflow: visible; pointer-events: none; opacity: .7; will-change: transform;
+    animation: spin 70s linear infinite; transition: opacity .6s, filter .6s; }
+  .door-deck .door-halo { animation-direction: reverse; }
+  .h-o { fill: none; stroke: url(#g-gold); stroke-width: .9; }
+  .h-d { fill: none; stroke: rgba(245,224,138,.42); stroke-width: .5; stroke-dasharray: 1.5 2; }
+  .h-t line { stroke: rgba(245,224,138,.65); stroke-width: .6; }
+  .h-r path { fill: none; stroke: #F5E08A; stroke-width: .7; stroke-linecap: round; opacity: .65; }
+  .h-g { fill: none; stroke: rgba(245,224,138,.5); stroke-width: .6; }
+  .h-p circle { fill: none; stroke: rgba(127,240,180,.3); stroke-width: .5; }
+  .tr-mid { fill: none; stroke: rgba(212,175,55,.28); stroke-width: 3.4; }
+  .vortex { position: absolute; inset: -40%; border-radius: 50%; will-change: transform; animation: spin 8s linear infinite; animation-play-state: paused;
+    background: repeating-radial-gradient(circle at 50% 50%, transparent 0 5px, rgba(255,246,207,.32) 6px, transparent 8px 13px),
+                conic-gradient(from 0deg, rgba(61,255,154,.32), rgba(212,175,55,.42), rgba(61,255,154,.32), rgba(212,175,55,.42), rgba(61,255,154,.32)); }
+  .door-inner img { position: absolute; inset: 0; mix-blend-mode: luminosity; }
+  .mind-eye { position: absolute; left: 50%; top: 56%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 10px 4px rgba(255,246,207,.9), 0 0 30px 12px rgba(61,255,154,.45); animation: seamPulse 3s ease-in-out infinite; }
+  .leaf-sigil { position: absolute; left: 27%; top: 30%; width: 46%; height: auto; overflow: visible; fill: rgba(245,224,138,.14); stroke: rgba(245,224,138,.78); stroke-width: 1.1; }
+  .door-steps { display: block; width: 100%; }
+  .door-steps i { display: block; height: 5px; margin: 0 auto; border-top: 1px solid rgba(245,224,138,.7); background: linear-gradient(180deg, #14462b, #041009);
+    box-shadow: 0 -2px 10px rgba(245,224,138,.22); }
+  .door-steps i:nth-child(1) { width: 82%; } .door-steps i:nth-child(2) { width: 100%; }
+  .door-motes { position: absolute; left: 18%; right: 18%; bottom: 26px; height: 70%; pointer-events: none; }
+  .door-motes i { position: absolute; bottom: 0; left: var(--mx0); width: 3px; height: 3px; border-radius: 50%; background: #FFF6CF; box-shadow: 0 0 6px #F5E08A;
+    opacity: 0; animation: moteRise var(--mt, 5s) linear infinite; animation-delay: var(--md, 0s); }
+  @keyframes moteRise { 0% { opacity: 0; transform: translateY(0); } 20% { opacity: .9; } 100% { opacity: 0; transform: translateY(-130px); } }
+  .door-aura { left: -30%; right: -30%; }
+  .door:hover .door-halo, .door:focus-visible .door-halo { opacity: 1; filter: drop-shadow(0 0 6px rgba(245,224,138,.9)) drop-shadow(0 0 16px rgba(61,255,154,.5)); }
+  .door:hover .vortex, .door:focus-visible .vortex { animation-play-state: running; }
+  .door:hover .door-inner img, .door:focus-visible .door-inner img { opacity: .28; }
+  .door:hover .pillar-svg, .door:focus-visible .pillar-svg { filter: drop-shadow(0 0 8px rgba(255,242,191,.9)); }
+  .door:hover .door-motes i { animation-duration: 2.2s; }
+
+  @media (max-width: 760px), (max-aspect-ratio: 3/4) {
+    .topbar { padding: 3px 14px 5px; gap: 8px; border-radius: 0 0 18px 18px; }
+    .topbar .nm { font-size: 15px; letter-spacing: .06em; }
+    .top-globe { width: 30px; height: 30px; }
+    .prince-id { top: 46px; }
+    .avatar-obj { top: calc(var(--edge) + 54px); }
+    .about-obj { top: calc(var(--edge) + 54px + 68px); }
+    .groups-obj { --w: 92px; top: calc(var(--edge) + 54px); bottom: auto; right: calc(var(--edge) + 5vw); }
+    .libra-obj { --w: 40vw; top: 56vh; bottom: auto; right: calc(var(--edge) + 2vw); left: auto; }
+    .disclaimer { top: 56.5vh; bottom: auto; left: calc(var(--edge) + 3vw); right: auto; width: 50vw; font-size: 9px; line-height: 1.42; padding-left: 8px; }
+    .motto-quote { top: calc((var(--ringb, 380px) + 56vh) / 2); width: 88vw; white-space: normal; justify-content: center; }
+    .motto-quote::before, .motto-quote::after { display: none; }
+    .mq-text { font-size: 21px; text-align: center; }
+    .door { --dw: 44px; width: calc(var(--dw) * 1.36); }
+    .pillar { width: calc(var(--dw) * .12); margin: 0 calc(var(--dw) * .02); }
+    .door-market { left: var(--edge); } .door-deck { left: auto; right: var(--edge); }
+    .door-motes { display: none; }
+    .storm-clouds { height: 30vh; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cl, .door-halo, .top-globe, .door-motes i { animation: none; } }
 </style>
 </head>
 <body>
@@ -1135,6 +1247,8 @@
   <div class="layer xat-pattern"></div><div class="layer marble-sheen"></div><div class="layer vignette"></div>
   <!-- far-background planets: faint, slow drift  [MOTION] -->
   <div class="layer bg-planets" aria-hidden="true"><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><radialGradient id="g-bpg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#7fe0ac"/><stop offset=".55" stop-color="#1a6a43"/><stop offset="1" stop-color="#03140a"/></radialGradient><radialGradient id="g-bpo" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFF2BF"/><stop offset=".5" stop-color="#9C7A1E"/><stop offset="1" stop-color="#1a1203"/></radialGradient></defs></svg><span class="bp bp1" style="--s:150px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><ellipse cx="50" cy="50" rx="47" ry="11" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".8" transform="rotate(-18 50 50)"/><circle cx="50" cy="50" r="24" fill="url(#g-bpg)"/><path d="M3 50 A47 11 0 0 0 97 50" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".9" transform="rotate(-18 50 50)"/></svg></span><span class="bp bp2" style="--s:64px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" fill="url(#g-bpo)"/></svg></span><span class="bp bp3" style="--s:110px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><ellipse cx="50" cy="50" rx="47" ry="11" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".8" transform="rotate(-18 50 50)"/><circle cx="50" cy="50" r="24" fill="url(#g-bpo)"/><path d="M3 50 A47 11 0 0 0 97 50" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".9" transform="rotate(-18 50 50)"/></svg></span><span class="bp bp4" style="--s:42px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" fill="url(#g-bpg)"/></svg></span><span class="bp bp5" style="--s:86px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" fill="url(#g-bpg)"/></svg></span><span class="bp bp6" style="--s:30px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><ellipse cx="50" cy="50" rx="47" ry="11" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".8" transform="rotate(-18 50 50)"/><circle cx="50" cy="50" r="24" fill="url(#g-bpo)"/><path d="M3 50 A47 11 0 0 0 97 50" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".9" transform="rotate(-18 50 50)"/></svg></span></div>
+  <!-- dark green storm clouds across the top (lightning + rain live on the canvases)  [MOTION] -->
+  <div class="layer storm-clouds" aria-hidden="true"><span class="cl cl3"></span><span class="cl cl1"><svg class="cl-tile" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true" focusable="false"><filter id="f-cl7" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0026 0.011" numOctaves="4" seed="7" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .008  0 0 0 0 .055  0 0 0 0 .028  0 0 0 3.8 -1.05"/></filter><rect width="1440" height="360" filter="url(#f-cl7)"/></svg><svg class="cl-tile" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true" focusable="false"><filter id="f-cl7b" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0026 0.011" numOctaves="4" seed="7" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .008  0 0 0 0 .055  0 0 0 0 .028  0 0 0 3.8 -1.05"/></filter><rect width="1440" height="360" filter="url(#f-cl7b)"/></svg></span><span class="cl cl2"><svg class="cl-tile" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true" focusable="false"><filter id="f-cl19" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0042 0.016" numOctaves="4" seed="19" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .1  0 0 0 0 .34  0 0 0 0 .2  0 0 0 3.2 -1.7"/></filter><rect width="1440" height="360" filter="url(#f-cl19)"/></svg><svg class="cl-tile" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true" focusable="false"><filter id="f-cl19b" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0042 0.016" numOctaves="4" seed="19" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .1  0 0 0 0 .34  0 0 0 0 .2  0 0 0 3.2 -1.7"/></filter><rect width="1440" height="360" filter="url(#f-cl19b)"/></svg></span></div>
 
   <canvas id="storm-canvas" class="layer"></canvas><div class="layer storm-flash" id="storm-flash"></div>
   <canvas id="particles-canvas" class="layer"></canvas>
@@ -1232,9 +1346,12 @@
       </div>
     </div>
 
-    <!-- ===== NAME: "Charles" left of the globe, "Leone" right of it; Prince + xat ID underneath  [TEXT]/[ID] ===== -->
-    <h1 class="obj nameplate"><span class="nm nm-l gold-shimmer">Charles</span> <span class="nm nm-r gold-shimmer">Leone&trade;</span></h1>
+    <!-- ===== NAME at the very top: Charles [tiny xat globe] Leone, with Prince + xat ID right under it  [TEXT]/[ID] ===== -->
+    <h1 class="obj topbar"><span class="nm nm-l gold-shimmer">Charles</span><svg class="top-globe" viewBox="0 0 440 440" aria-hidden="true" focusable="false"><g transform="rotate(-21.5 220 222)"><ellipse cx="220" cy="222" rx="195" ry="30" fill="none" stroke="url(#g-xring)" stroke-width="34"/></g><circle cx="220" cy="219" r="99" fill="url(#g-xplanet)"/><rect x="110" y="110" width="220" height="220" fill="url(#g-xcres)" mask="url(#m-xcres)"/><circle cx="220" cy="219" r="99" fill="none" stroke="url(#g-gold)" stroke-width="5"/><g transform="rotate(-21.5 220 222)"><path d="M25 222 A195 30 0 0 0 415 222" fill="none" stroke="url(#g-xring)" stroke-width="34"/></g></svg><span class="nm nm-r gold-shimmer">Leone&trade;</span></h1>
     <p class="obj prince-id"><span class="pid-name">Prince</span><span class="pid-dot" aria-hidden="true"></span><span class="pid-num"><span class="pid-k">ID</span> 809877009</span></p>
+
+    <!-- [TEXT] centre motto -->
+    <p class="obj motto-quote"><span class="mq-text gold-shimmer">Every Problem Has A Thousand Solutions</span></p>
 
     <!-- ===== ABOUT: marble tablet hanging from the portrait on braided gold cords ===== -->
     <div class="obj about-obj">
@@ -1291,23 +1408,37 @@
       </svg>
     </button>
 
-    <!-- ===== VENTURES: two glowing doorways  [LINK]/[IMAGE] ===== -->
+    <!-- ===== VENTURES: two esoteric gateway doors  [LINK]/[IMAGE] ===== -->
     <a class="obj door door-market" style="--in:0.95s" href="https://xatmarket.com" target="_blank" rel="noopener" aria-label="XatMarket (opens in a new tab)">
       <span class="door-aura" aria-hidden="true"></span><span class="door-spill" aria-hidden="true"></span>
-      <span class="door-body">
-        <span class="door-inner"><img src="./venture-xatmarket.png" alt=""></span>
-        <span class="leaf l"></span><span class="leaf r"></span><span class="seam"></span>
-        <svg class="door-trim" viewBox="0 -8 120 212" aria-hidden="true" focusable="false"><path class="tr-out" d="M2 204 V60 A58 58 0 0 1 118 60 V204"/><path class="tr-in" d="M14 204 V62 A46 46 0 0 1 106 62 V204"/><g class="runes"><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(9.0 60.0) rotate(-90) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(11.5 44.2) rotate(-72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(18.7 30.0) rotate(-54) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(30.0 18.7) rotate(-36) scale(.9)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(44.2 11.5) rotate(-18) scale(.9)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(60.0 9.0) rotate(0) scale(.9)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(75.8 11.5) rotate(18) scale(.9)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(90.0 18.7) rotate(36) scale(.9)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(101.3 30.0) rotate(54) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(108.5 44.2) rotate(72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(111.0 60.0) rotate(90) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 76) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 76) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(7.5 91) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(112.5 91) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(7.5 106) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(112.5 106) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(7.5 121) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(112.5 121) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(7.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(112.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(7.5 151) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(112.5 151) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(7.5 166) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(112.5 166) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(7.5 181) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(112.5 181) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 196) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 196) scale(.8)"/></g><path class="tr-sill" d="M-4 204 H124"/><g class="keystone-sig"><path d="M60 -6 L71 13 H49 Z" fill="#050a07" stroke="url(#g-gold)" stroke-width="1.4"/><path d="M53.5 7 Q60 1 66.5 7 Q60 13 53.5 7 Z" fill="none" stroke="#FFF6CF" stroke-width=".9"/><circle class="pupil" cx="60" cy="7" r="1.8" fill="#FFF6CF"/></g></svg>
+      <svg class="door-halo" viewBox="-50 -50 100 100" aria-hidden="true" focusable="false"><g class="h-spin"><circle r="48.5" class="h-o"/><circle r="45" class="h-d"/><g class="h-t"><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(0)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(15)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(30)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(45)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(60)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(75)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(90)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(105)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(120)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(135)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(150)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(165)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(180)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(195)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(210)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(225)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(240)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(255)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(270)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(285)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(300)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(315)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(330)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(345)"/></g><g class="h-r"><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="rotate(15) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="rotate(45) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="rotate(75) translate(0 -37.5) scale(.7)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="rotate(105) translate(0 -37.5) scale(.7)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="rotate(135) translate(0 -37.5) scale(.7)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="rotate(165) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="rotate(195) translate(0 -37.5) scale(.7)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="rotate(225) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="rotate(255) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="rotate(285) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="rotate(315) translate(0 -37.5) scale(.7)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="rotate(345) translate(0 -37.5) scale(.7)"/></g></g><g class="h-spin2"><circle r="31" class="h-d"/><polygon points="0.00,-30.00 25.98,15.00 -25.98,15.00" class="h-g"/><polygon points="0.00,30.00 -25.98,-15.00 25.98,-15.00" class="h-g"/><g class="h-p"><circle cx="14.00" cy="0.00" r="14"/><circle cx="7.00" cy="12.12" r="14"/><circle cx="-7.00" cy="12.12" r="14"/><circle cx="-14.00" cy="0.00" r="14"/><circle cx="-7.00" cy="-12.12" r="14"/><circle cx="7.00" cy="-12.12" r="14"/><circle r="14"/></g></g></svg>
+      <span class="door-stage">
+        <span class="pillar l" aria-hidden="true"><svg class="pillar-svg" viewBox="0 0 20 210" preserveAspectRatio="none" aria-hidden="true" focusable="false"><circle cx="10" cy="6" r="5" class="p-orb"/><path d="M2 14 H18 L16 20 H4 Z" class="p-cap"/><rect x="5" y="20" width="10" height="168" class="p-shaft"/><g class="p-flute"><line x1="7" y1="22" x2="7" y2="186"/><line x1="10" y1="22" x2="10" y2="186"/><line x1="13" y1="22" x2="13" y2="186"/></g><path d="M4 188 H16 L18 196 H2 Z" class="p-cap"/><rect x="0" y="196" width="20" height="14" class="p-cap"/></svg></span>
+        <span class="door-body">
+          <span class="door-inner"><span class="vortex"></span><img src="./venture-xatmarket.png" alt=""><span class="mind-eye"></span></span>
+          <span class="leaf l"><svg class="leaf-sigil" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path d="M14 4 A10 10 0 1 0 14 24 A7.5 7.5 0 1 1 14 4 Z"/></svg></span><span class="leaf r"><svg class="leaf-sigil" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><circle cx="12" cy="14" r="4.2"/><line x1="18.50" y1="14.00" x2="21.50" y2="14.00"/><line x1="16.60" y1="18.60" x2="18.72" y2="20.72"/><line x1="12.00" y1="20.50" x2="12.00" y2="23.50"/><line x1="7.40" y1="18.60" x2="5.28" y2="20.72"/><line x1="5.50" y1="14.00" x2="2.50" y2="14.00"/><line x1="7.40" y1="9.40" x2="5.28" y2="7.28"/><line x1="12.00" y1="7.50" x2="12.00" y2="4.50"/><line x1="16.60" y1="9.40" x2="18.72" y2="7.28"/></svg></span><span class="seam"></span>
+          <svg class="door-trim" viewBox="0 -8 120 212" aria-hidden="true" focusable="false"><path class="tr-out" d="M2 204 V60 A58 58 0 0 1 118 60 V204"/><path class="tr-mid" d="M8 204 V61 A52 52 0 0 1 112 61 V204"/><path class="tr-in" d="M14 204 V62 A46 46 0 0 1 106 62 V204"/><g class="runes"><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(9.0 60.0) rotate(-90) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(11.5 44.2) rotate(-72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(18.7 30.0) rotate(-54) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(30.0 18.7) rotate(-36) scale(.9)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(44.2 11.5) rotate(-18) scale(.9)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(60.0 9.0) rotate(0) scale(.9)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(75.8 11.5) rotate(18) scale(.9)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(90.0 18.7) rotate(36) scale(.9)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(101.3 30.0) rotate(54) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(108.5 44.2) rotate(72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(111.0 60.0) rotate(90) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 76) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 76) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(7.5 91) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(112.5 91) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(7.5 106) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(112.5 106) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(7.5 121) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(112.5 121) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(7.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(112.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(7.5 151) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(112.5 151) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(7.5 166) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(112.5 166) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(7.5 181) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(112.5 181) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 196) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 196) scale(.8)"/></g><path class="tr-sill" d="M-4 204 H124"/><g class="keystone-sig"><circle cx="60" cy="5" r="11" fill="#050a07" stroke="url(#g-gold)" stroke-width="1.4"/><circle cx="64.20" cy="5.00" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="62.10" cy="8.64" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="57.90" cy="8.64" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="55.80" cy="5.00" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="57.90" cy="1.36" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="62.10" cy="1.36" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="60" cy="5" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/></g></svg>
+        </span>
+        <span class="pillar r" aria-hidden="true"><svg class="pillar-svg" viewBox="0 0 20 210" preserveAspectRatio="none" aria-hidden="true" focusable="false"><circle cx="10" cy="6" r="5" class="p-orb"/><path d="M2 14 H18 L16 20 H4 Z" class="p-cap"/><rect x="5" y="20" width="10" height="168" class="p-shaft"/><g class="p-flute"><line x1="7" y1="22" x2="7" y2="186"/><line x1="10" y1="22" x2="10" y2="186"/><line x1="13" y1="22" x2="13" y2="186"/></g><path d="M4 188 H16 L18 196 H2 Z" class="p-cap"/><rect x="0" y="196" width="20" height="14" class="p-cap"/></svg></span>
       </span>
+      <span class="door-steps" aria-hidden="true"><i></i><i></i></span>
+      <span class="door-motes" aria-hidden="true"><i style="--mx0:0%;--md:0.0s;--mt:4.5s"></i><i style="--mx0:37%;--md:0.9s;--mt:5.7s"></i><i style="--mx0:74%;--md:1.8s;--mt:6.9s"></i><i style="--mx0:11%;--md:2.7s;--mt:4.5s"></i><i style="--mx0:48%;--md:3.6s;--mt:5.7s"></i><i style="--mx0:85%;--md:4.5s;--mt:6.9s"></i><i style="--mx0:22%;--md:0.4s;--mt:4.5s"></i></span>
       <span class="door-name">XatMarket</span>
     </a>
     <a class="obj door door-deck" style="--in:1.05s" href="https://xatdeck.com" target="_blank" rel="noopener" aria-label="XatDeck (opens in a new tab)">
       <span class="door-aura" aria-hidden="true"></span><span class="door-spill" aria-hidden="true"></span>
-      <span class="door-body">
-        <span class="door-inner"><img src="./venture-xatdeck.png" alt=""></span>
-        <span class="leaf l"></span><span class="leaf r"></span><span class="seam"></span>
-        <svg class="door-trim" viewBox="0 -8 120 212" aria-hidden="true" focusable="false"><path class="tr-out" d="M2 204 V60 A58 58 0 0 1 118 60 V204"/><path class="tr-in" d="M14 204 V62 A46 46 0 0 1 106 62 V204"/><g class="runes"><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(9.0 60.0) rotate(-90) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(11.5 44.2) rotate(-72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(18.7 30.0) rotate(-54) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(30.0 18.7) rotate(-36) scale(.9)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(44.2 11.5) rotate(-18) scale(.9)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(60.0 9.0) rotate(0) scale(.9)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(75.8 11.5) rotate(18) scale(.9)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(90.0 18.7) rotate(36) scale(.9)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(101.3 30.0) rotate(54) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(108.5 44.2) rotate(72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(111.0 60.0) rotate(90) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 76) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 76) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(7.5 91) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(112.5 91) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(7.5 106) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(112.5 106) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(7.5 121) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(112.5 121) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(7.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(112.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(7.5 151) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(112.5 151) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(7.5 166) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(112.5 166) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(7.5 181) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(112.5 181) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 196) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 196) scale(.8)"/></g><path class="tr-sill" d="M-4 204 H124"/><g class="keystone-sig"><circle cx="60" cy="5" r="11" fill="#050a07" stroke="url(#g-gold)" stroke-width="1.4"/><circle cx="64.20" cy="5.00" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="62.10" cy="8.64" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="57.90" cy="8.64" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="55.80" cy="5.00" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="57.90" cy="1.36" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="62.10" cy="1.36" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/><circle cx="60" cy="5" r="4.2" fill="none" stroke="#FFF6CF" stroke-width=".6"/></g></svg>
+      <svg class="door-halo" viewBox="-50 -50 100 100" aria-hidden="true" focusable="false"><g class="h-spin"><circle r="48.5" class="h-o"/><circle r="45" class="h-d"/><g class="h-t"><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(0)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(15)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(30)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(45)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(60)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(75)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(90)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(105)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(120)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(135)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(150)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(165)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(180)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(195)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(210)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(225)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(240)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(255)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(270)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(285)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(300)"/><line x1="0" y1="-47" x2="0" y2="-40" transform="rotate(315)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(330)"/><line x1="0" y1="-47" x2="0" y2="-43" transform="rotate(345)"/></g><g class="h-r"><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="rotate(15) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="rotate(45) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="rotate(75) translate(0 -37.5) scale(.7)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="rotate(105) translate(0 -37.5) scale(.7)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="rotate(135) translate(0 -37.5) scale(.7)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="rotate(165) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="rotate(195) translate(0 -37.5) scale(.7)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="rotate(225) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="rotate(255) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="rotate(285) translate(0 -37.5) scale(.7)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="rotate(315) translate(0 -37.5) scale(.7)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="rotate(345) translate(0 -37.5) scale(.7)"/></g></g><g class="h-spin2"><circle r="31" class="h-d"/><polygon points="0.00,-30.00 25.98,15.00 -25.98,15.00" class="h-g"/><polygon points="0.00,30.00 -25.98,-15.00 25.98,-15.00" class="h-g"/><g class="h-p"><circle cx="14.00" cy="0.00" r="14"/><circle cx="7.00" cy="12.12" r="14"/><circle cx="-7.00" cy="12.12" r="14"/><circle cx="-14.00" cy="0.00" r="14"/><circle cx="-7.00" cy="-12.12" r="14"/><circle cx="7.00" cy="-12.12" r="14"/><circle r="14"/></g></g></svg>
+      <span class="door-stage">
+        <span class="pillar l" aria-hidden="true"><svg class="pillar-svg" viewBox="0 0 20 210" preserveAspectRatio="none" aria-hidden="true" focusable="false"><circle cx="10" cy="6" r="5" class="p-orb"/><path d="M2 14 H18 L16 20 H4 Z" class="p-cap"/><rect x="5" y="20" width="10" height="168" class="p-shaft"/><g class="p-flute"><line x1="7" y1="22" x2="7" y2="186"/><line x1="10" y1="22" x2="10" y2="186"/><line x1="13" y1="22" x2="13" y2="186"/></g><path d="M4 188 H16 L18 196 H2 Z" class="p-cap"/><rect x="0" y="196" width="20" height="14" class="p-cap"/></svg></span>
+        <span class="door-body">
+          <span class="door-inner"><span class="vortex"></span><img src="./venture-xatdeck.png" alt=""><span class="mind-eye"></span></span>
+          <span class="leaf l"><svg class="leaf-sigil" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path d="M14 4 A10 10 0 1 0 14 24 A7.5 7.5 0 1 1 14 4 Z"/></svg></span><span class="leaf r"><svg class="leaf-sigil" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><circle cx="12" cy="14" r="4.2"/><line x1="18.50" y1="14.00" x2="21.50" y2="14.00"/><line x1="16.60" y1="18.60" x2="18.72" y2="20.72"/><line x1="12.00" y1="20.50" x2="12.00" y2="23.50"/><line x1="7.40" y1="18.60" x2="5.28" y2="20.72"/><line x1="5.50" y1="14.00" x2="2.50" y2="14.00"/><line x1="7.40" y1="9.40" x2="5.28" y2="7.28"/><line x1="12.00" y1="7.50" x2="12.00" y2="4.50"/><line x1="16.60" y1="9.40" x2="18.72" y2="7.28"/></svg></span><span class="seam"></span>
+          <svg class="door-trim" viewBox="0 -8 120 212" aria-hidden="true" focusable="false"><path class="tr-out" d="M2 204 V60 A58 58 0 0 1 118 60 V204"/><path class="tr-mid" d="M8 204 V61 A52 52 0 0 1 112 61 V204"/><path class="tr-in" d="M14 204 V62 A46 46 0 0 1 106 62 V204"/><g class="runes"><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(9.0 60.0) rotate(-90) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(11.5 44.2) rotate(-72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(18.7 30.0) rotate(-54) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(30.0 18.7) rotate(-36) scale(.9)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(44.2 11.5) rotate(-18) scale(.9)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(60.0 9.0) rotate(0) scale(.9)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(75.8 11.5) rotate(18) scale(.9)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(90.0 18.7) rotate(36) scale(.9)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(101.3 30.0) rotate(54) scale(.9)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(108.5 44.2) rotate(72) scale(.9)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(111.0 60.0) rotate(90) scale(.9)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 76) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 76) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(7.5 91) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(112.5 91) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(7.5 106) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(112.5 106) scale(.8)"/><path d="M0 -4 V4 M0 -1 L3 -4 M0 -1 L-3 -4" transform="translate(7.5 121) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(112.5 121) scale(.8)"/><path d="M-2 -4 V4 M-2 -2 L2 0 L-2 2" transform="translate(7.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(112.5 136) scale(.8)"/><path d="M0 -4 V4 M0 -2 L3 -4 M0 0 L3 -2" transform="translate(7.5 151) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(112.5 151) scale(.8)"/><path d="M0 -4 V4 M0 -4 L3 -2 L0 0 L3 4" transform="translate(7.5 166) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(112.5 166) scale(.8)"/><path d="M0 -4 V4 M-3 -4 L0 -1 L3 -4" transform="translate(7.5 181) scale(.8)"/><path d="M0 -4 L3 -1 L0 2 L-3 -1 Z M-3 4 L0 2 L3 4" transform="translate(112.5 181) scale(.8)"/><path d="M-3 4 L0 -4 L3 4 M-2 1 H2" transform="translate(7.5 196) scale(.8)"/><path d="M-3 -4 V4 M3 -4 V4 M-3 -4 L3 4 M3 -4 L-3 4" transform="translate(112.5 196) scale(.8)"/></g><path class="tr-sill" d="M-4 204 H124"/><g class="keystone-sig"><path d="M60 -7 L72 14 H48 Z" fill="#050a07" stroke="url(#g-gold)" stroke-width="1.4"/><path d="M53.5 7 Q60 1 66.5 7 Q60 13 53.5 7 Z" fill="none" stroke="#FFF6CF" stroke-width=".9"/><circle class="pupil" cx="60" cy="7" r="1.8" fill="#FFF6CF"/></g></svg>
+        </span>
+        <span class="pillar r" aria-hidden="true"><svg class="pillar-svg" viewBox="0 0 20 210" preserveAspectRatio="none" aria-hidden="true" focusable="false"><circle cx="10" cy="6" r="5" class="p-orb"/><path d="M2 14 H18 L16 20 H4 Z" class="p-cap"/><rect x="5" y="20" width="10" height="168" class="p-shaft"/><g class="p-flute"><line x1="7" y1="22" x2="7" y2="186"/><line x1="10" y1="22" x2="10" y2="186"/><line x1="13" y1="22" x2="13" y2="186"/></g><path d="M4 188 H16 L18 196 H2 Z" class="p-cap"/><rect x="0" y="196" width="20" height="14" class="p-cap"/></svg></span>
       </span>
+      <span class="door-steps" aria-hidden="true"><i></i><i></i></span>
+      <span class="door-motes" aria-hidden="true"><i style="--mx0:0%;--md:0.0s;--mt:4.5s"></i><i style="--mx0:37%;--md:0.9s;--mt:5.7s"></i><i style="--mx0:74%;--md:1.8s;--mt:6.9s"></i><i style="--mx0:11%;--md:2.7s;--mt:4.5s"></i><i style="--mx0:48%;--md:3.6s;--mt:5.7s"></i><i style="--mx0:85%;--md:4.5s;--mt:6.9s"></i><i style="--mx0:22%;--md:0.4s;--mt:4.5s"></i></span>
       <span class="door-name">XatDeck</span>
     </a>
 
@@ -1331,8 +1462,8 @@
       </div>
     </div>
 
-    <!-- [TEXT] ventures disclaimer, Saturn-voiced -->
-    <p class="obj disclaimer"><b>A word from Saturn</b>Out here in orbit, every door is free to walk through: XatMarket and XatDeck are 100% commercial-free. Every service is either free or part of xat&rsquo;s own core, and if anything ever trades hands, it&rsquo;s for the xat ecosystem, paid in xats or days only &mdash; nothing ever leaves orbit. <span class="disc-relic">P.S. Those photos circling the planet? Ancient relics. Want to see the current me? You&rsquo;ve gotta video chat.</span></p>
+    <!-- [TEXT] ventures disclaimer, in Charles's voice -->
+    <p class="obj disclaimer"><b>A word from Charles</b>XatMarket and XatDeck are 100% commercial-free. Every service there is either free or part of xat&rsquo;s core, and if anything is ever sold, it&rsquo;s for the xat ecosystem and paid for only in xats or days &mdash; nothing happens outside of xat. <span class="disc-relic">P.S. These photos are ancient relics from another orbit. Want to see the current me? You&rsquo;ve gotta video chat.</span></p>
   </main>
 
   <!-- =============================================================
@@ -1697,9 +1828,9 @@
     // [LAYOUT] gy = globe height, pr = globe radius, ox/oy = photo-ring offset from the globe (ring sits a little left),
     //          fs/gap/ny = the split name, idGap = space above "Prince · ID"
     if (port) { const k = Math.min(W / 390, H / 844);
-      L = { gy: H * .35, pr: 33 * k, ox: -12 * k, oy: 15 * k, rx: Math.min(124 * k, W * .33), ry: 26 * k, td: -5, ps: 40 * k, fs: 18 * k, gap: 80 * k, ny: -41 * k, idGap: 16 * k }; }
+      L = { gy: H * .372, pr: 33 * k, ox: -12 * k, oy: 15 * k, rx: Math.min(124 * k, W * .33), ry: 26 * k, td: -5, ps: 40 * k, fs: 18 * k, gap: 80 * k, ny: -41 * k, idGap: 16 * k }; }
     else { const k = Math.min(W / 1440, H / 900);
-      L = { gy: H * .291, pr: 92 * k, ox: -40 * k, oy: 38 * k, rx: 300 * k, ry: 62 * k, td: -5, ps: 72 * k, fs: 44 * k, gap: 196 * k, ny: -90 * k, idGap: 24 * k }; }
+      L = { gy: H * .262, pr: 92 * k, ox: -40 * k, oy: 38 * k, rx: 300 * k, ry: 62 * k, td: -5, ps: 72 * k, fs: 44 * k, gap: 196 * k, ny: -90 * k, idGap: 24 * k }; }
     Object.assign(ring, { rx: L.rx, ry: L.ry, tilt: L.td * Math.PI / 180, ox: L.ox, oy: L.oy });
     const ymax = Math.hypot(L.rx * Math.sin(ring.tilt), L.ry * Math.cos(ring.tilt));
     const px = v => v.toFixed(1) + 'px';
@@ -1708,6 +1839,7 @@
     hs.setProperty('--tilt', L.td + 'deg'); hs.setProperty('--ox', px(L.ox)); hs.setProperty('--oy', px(L.oy));
     ss.setProperty('--gy', px(L.gy)); ss.setProperty('--nmy', px(L.gy + L.ny)); ss.setProperty('--nmfs', px(L.fs)); ss.setProperty('--nmgap', px(L.gap));
     ss.setProperty('--idy', px(L.gy + L.oy + ymax + L.ps * .54 + L.idGap));
+    ss.setProperty('--ringb', px(L.gy + L.oy + ymax + L.ps * .54));   // bottom of the photo ring (centre motto sits below it)
   }
   layoutRing();
   window.addEventListener('resize', layoutRing);
@@ -1736,7 +1868,7 @@
   }
 
   /* ================================================================
-     STORM: occasional green lightning up top (every ~20–40 s) + a soft
+     STORM: dark green clouds up top, green rain, occasional green lightning (every ~20–40 s) + a soft
      synthesized thunder rumble (WebAudio, no audio file, kept quiet).
      Skipped entirely with prefers-reduced-motion.
      ================================================================ */
@@ -1782,7 +1914,7 @@
     function strike() {
       if (document.hidden) return;
       const W = innerWidth, H = innerHeight, x = W * (.1 + Math.random() * .8);
-      bolts = makeBolt(x, -10, H * (.2 + Math.random() * .16), (Math.random() - .5) * .5, 0);
+      bolts = makeBolt(x, H * (.04 + Math.random() * .06), H * (.18 + Math.random() * .16), (Math.random() - .5) * .5, 0);
       flash.style.setProperty('--fx', (x / W * 100).toFixed(1) + '%');
       flash.classList.remove('on'); void flash.offsetWidth; flash.classList.add('on');
       t0 = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
@@ -1814,9 +1946,26 @@
     g.rotate(-21.5 * Math.PI / 180); g.strokeStyle = ringG; g.lineWidth = 4.5;
     g.beginPath(); g.ellipse(0, 0, 29, 5.5, 0, 0, Math.PI); g.stroke();                   // front half
   })();
+  /* ---------------- GREEN RAIN (streaks, batched into two strokes per frame) ---------------- */
+  const RAIN_N = innerWidth < 768 ? 46 : 110;   // [MOTION] raindrops
+  const rain = Array.from({ length: RAIN_N }, () => ({ x: Math.random() * innerWidth * 1.2, y: Math.random() * innerHeight, l: 10 + Math.random() * 16, v: 7 + Math.random() * 6, b: Math.random() < .3 ? 1 : 0 }));
+  function drawRain(f) {
+    const W = canvas.width, H = canvas.height, wind = .16;
+    for (const b of [0, 1]) {
+      ctx.beginPath();
+      for (const d of rain) {
+        if (d.b !== b) continue;
+        d.y += d.v * f; d.x -= d.v * wind * f;
+        if (d.y > H + 20 || d.x < -20) { d.y = -20 - Math.random() * 80; d.x = Math.random() * W * 1.2; }
+        ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + d.l * wind, d.y - d.l);
+      }
+      ctx.strokeStyle = b ? 'rgba(170,255,205,.30)' : 'rgba(90,220,150,.16)'; ctx.lineWidth = b ? 1.1 : .8; ctx.stroke();
+    }
+  }
   const drops = [], RAIN_MAX = innerWidth < 768 ? 6 : 10;   // [MOTION] max globes on screen
   function fxDraw(f) {
     if (!document.body.classList.contains('entered')) return;
+    drawRain(f);
     if (drops.length < RAIN_MAX && Math.random() < .007 * f)
       drops.push({ x: Math.random() * canvas.width, y: -24, s: 6 + Math.random() * 9, vy: .3 + Math.random() * .4, a: .16 + Math.random() * .22, ph: Math.random() * 6.28, r: (Math.random() - .5) * .5 });
     for (let i = drops.length - 1; i >= 0; i--) {
