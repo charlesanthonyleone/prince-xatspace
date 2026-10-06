@@ -7,8 +7,8 @@
 <meta name="description" content="Charles Leone (Prince) on xat: a static gold and green marble xatspace.">
 <meta name="theme-color" content="#050a07">
 <!--
-  PRINCE XATSPACE v7: one static stage, no page scrolling. Centrepiece = the xat logo.
-  Everything opens from clickable objects: avatar or tablet = About, planet = Groups,
+  PRINCE XATSPACE v8: one static stage, no page scrolling. Centrepiece = the xat logo, high in the top-middle.
+  Everything opens from clickable objects: portrait = xat forum profile, hanging tablet = About, planet = Groups,
   Libra constellation = Astrology (Western | Vedic), big record = Music room,
   photo ring around the xat logo = lightbox, glowing doors = XatMarket / XatDeck.
   Edit markers: [COLOR] [IMAGE] [MUSIC] [TEXT] [LINK] [ID] [LAYOUT] [MOTION]
@@ -901,6 +901,100 @@
   }
 
   .record .tonearm { left: 3%; top: -5%; width: 27%; height: 27%; }
+
+  /* =====================================================================
+     v8 COMPOSITION
+     top-middle: xat globe with "Charles" | "Leone" either side and "Prince · ID" under it
+     top-left: portrait (links to the forum) with About hanging · top-right: disclaimer
+     bottom-left: Astrology · bottom-right: Groups · bottom-centre: big record, player bar at the very bottom
+     [LAYOUT] the globe/name/ring numbers live in layoutRing() in the script
+     ===================================================================== */
+  #stage { --sdisc: clamp(330px, 29vw, 420px); --gy: 262px; --nmy: 179px; --nmfs: 46px; --nmgap: 200px; --idy: 430px; }
+  .ident, .motto { display: none; }
+  a.avatar-obj { display: block; text-decoration: none; color: inherit; }
+
+  /* ---------- globe up top ---------- */
+  .saturn-hero { top: var(--gy); }
+  .ring-tilt { left: var(--ox, 0px); top: var(--oy, 0px); }
+  .xg-rays { position: absolute; inset: -6%; border-radius: 50%; pointer-events: none; opacity: .85;
+    background: repeating-conic-gradient(from 0deg, rgba(245,224,138,.12) 0deg 3deg, transparent 3deg 15deg);
+    -webkit-mask: radial-gradient(circle, transparent 21%, #000 27%, rgba(0,0,0,.4) 42%, transparent 58%);
+            mask: radial-gradient(circle, transparent 21%, #000 27%, rgba(0,0,0,.4) 42%, transparent 58%);
+    animation: spin 120s linear infinite; }
+  .hero-planet .planet-glow { inset: 14%; background: radial-gradient(circle, rgba(61,255,154,.22) 0%, rgba(245,224,138,.14) 32%, transparent 64%); }
+  .hero-planet .xat-logo { filter: drop-shadow(0 16px 30px rgba(0,0,0,.75)) drop-shadow(0 0 26px rgba(212,175,55,.34)); }
+  .xg-glint { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; pointer-events: none; opacity: 0;
+    background: radial-gradient(circle, #fff 0 8%, rgba(255,246,207,.85) 16%, transparent 44%),
+                linear-gradient(90deg, transparent 46%, rgba(255,255,255,.9) 50%, transparent 54%),
+                linear-gradient(0deg, transparent 46%, rgba(255,255,255,.9) 50%, transparent 54%);
+    animation: xGlint 5.2s ease-in-out infinite; animation-delay: var(--gd, 0s); }
+  @keyframes xGlint { 0%, 60%, 100% { opacity: 0; transform: scale(.2) rotate(0deg); } 72% { opacity: 1; transform: scale(1) rotate(45deg); } 84% { opacity: 0; transform: scale(.3) rotate(90deg); } }
+
+  /* ---------- the split name + Prince / ID ---------- */
+  .nameplate { inset: 0; margin: 0; pointer-events: none; font-size: var(--nmfs); --in: .25s; }
+  .nm { position: absolute; top: var(--nmy); transform: translateY(-50%); font-family: var(--royal); font-weight: 900; font-size: var(--nmfs);
+    letter-spacing: .06em; line-height: 1.1; white-space: nowrap; filter: drop-shadow(0 4px 10px rgba(0,0,0,.6)); }
+  .nm-l { right: calc(50% + var(--nmgap)); }
+  .nm-r { left: calc(50% + var(--nmgap)); }
+  .prince-id { margin: 0; left: 50%; top: var(--idy); transform: translateX(-50%); display: flex; align-items: center; gap: 14px; white-space: nowrap; --in: .4s;
+    font-family: var(--royal); font-weight: 700; font-size: clamp(12px, 1vw, 15px); letter-spacing: .38em; color: var(--gold-light); text-shadow: 0 1px 0 #000, 0 0 14px rgba(212,175,55,.35); }
+  .prince-id::before, .prince-id::after { content: ""; width: clamp(40px, 4vw, 64px); height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .prince-id::after { transform: scaleX(-1); }
+  .pid-name { margin-right: -.38em; }
+  .pid-dot { width: 6px; height: 6px; rotate: 45deg; background: var(--gold); box-shadow: 0 0 8px rgba(245,224,138,.8); }
+  .pid-num { margin-right: -.38em; color: #FFF2BF; }
+  .pid-k { font-size: .72em; color: rgba(245,224,138,.6); letter-spacing: .2em; }
+
+  /* ---------- disclaimer: top-right ---------- */
+  .disclaimer { top: calc(var(--edge) + 3.2vh); bottom: auto; right: calc(var(--edge) + 2.4vw); width: clamp(240px, 18.5vw, 272px); font-size: 11.5px; line-height: 1.55; }
+  .disc-relic { display: block; margin-top: 7px; color: rgba(255,242,191,.85); }
+
+  /* ---------- Groups: bottom-right ---------- */
+  .groups-obj { --w: clamp(150px, 12vw, 180px); top: auto; bottom: calc(var(--edge) + 3vh); right: calc(var(--edge) + 2.4vw); }
+
+  /* ---------- record bottom-centre; player bar at the very bottom ---------- */
+  .turntable.record { bottom: calc(var(--disc) * -.2); }
+  .record .np-capsule { top: auto; bottom: calc(var(--disc) * .2 + var(--edge) + 1.2vh); }
+
+  /* ---------- About bio ---------- */
+  .about-sign { font-family: var(--serif); font-style: italic; font-size: 1.12em; color: var(--gold-light); }
+
+  /* ---------- far-background planets ---------- */
+  .bg-planets { z-index: 5; overflow: hidden; translate: calc(var(--mx) * -16px) calc(var(--my) * -10px); }
+  .bp { position: absolute; width: var(--s); height: var(--s); opacity: .12; will-change: transform;
+    animation: bpDrift var(--d, 140s) ease-in-out infinite alternate; }
+  .bp svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .bp1 { left: 4%; top: 52%; --d: 170s; --dx: 70px; --dy: -40px; }
+  .bp2 { left: 84%; top: 36%; --d: 120s; --dx: -50px; --dy: 30px; opacity: .1; }
+  .bp3 { left: 66%; top: 66%; --d: 190s; --dx: -80px; --dy: -24px; opacity: .09; }
+  .bp4 { left: 33%; top: 70%; --d: 110s; --dx: 40px; --dy: -50px; opacity: .14; }
+  .bp5 { left: 88%; top: 82%; --d: 150s; --dx: -40px; --dy: -30px; opacity: .1; }
+  .bp6 { left: 22%; top: 24%; --d: 100s; --dx: 50px; --dy: 30px; opacity: .16; }
+  @keyframes bpDrift { from { transform: translate(0, 0) rotate(-4deg); } to { transform: translate(var(--dx), var(--dy)) rotate(6deg); } }
+
+  /* ---------- storm: green lightning up top ---------- */
+  #storm-canvas { z-index: 6; }
+  .storm-flash { z-index: 6; opacity: 0;
+    background: radial-gradient(ellipse 60% 42% at var(--fx, 50%) 0%, rgba(61,255,154,.34), rgba(20,120,70,.12) 45%, transparent 75%); }
+  .storm-flash.on { animation: stormFlash 1s ease-out; }
+  @keyframes stormFlash { 0% { opacity: 0; } 5% { opacity: .9; } 13% { opacity: .15; } 22% { opacity: .65; } 100% { opacity: 0; } }
+
+  @media (max-width: 760px), (max-aspect-ratio: 3/4) {
+    #stage { --sdisc: 62vw; }
+    .nm { letter-spacing: .04em; }
+    .prince-id { font-size: 10px; letter-spacing: .26em; gap: 8px; } .pid-name, .pid-num { margin-right: -.26em; }
+    .prince-id::before, .prince-id::after { width: 26px; }
+    .disclaimer { top: calc(var(--edge) + 2vh); right: calc(var(--edge) + 3vw); width: 58vw; font-size: 9px; line-height: 1.42; padding-right: 8px; }
+    .disc-relic { margin-top: 4px; }
+    .libra-obj { top: 54vh; }
+    .groups-obj { --w: 96px; top: 55vh; bottom: auto; right: calc(var(--edge) + 6vw); }
+    .record .np-capsule { bottom: calc(var(--disc) * .36 + var(--edge) + 1vh); }
+    .bp { opacity: .09; }
+  }
+  @media (prefers-reduced-motion: reduce) { .bp, .xg-rays, .xg-glint { animation: none; } }
+
+  /* perf: keep the static logo cached in its own layer; animate only composited layers around it */
+  .hero-planet .xat-logo, .xg-rays, .xg-glint, .hero-planet .planet-glow, .bg-planets { will-change: transform; }
 </style>
 </head>
 <body>
@@ -1039,6 +1133,10 @@
   <!-- 2. MARBLE WORLD (static background layers) -->
   <div class="layer marble-bg"></div><div class="layer marble-clouds"></div><div class="layer marble-veins"></div>
   <div class="layer xat-pattern"></div><div class="layer marble-sheen"></div><div class="layer vignette"></div>
+  <!-- far-background planets: faint, slow drift  [MOTION] -->
+  <div class="layer bg-planets" aria-hidden="true"><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><radialGradient id="g-bpg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#7fe0ac"/><stop offset=".55" stop-color="#1a6a43"/><stop offset="1" stop-color="#03140a"/></radialGradient><radialGradient id="g-bpo" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFF2BF"/><stop offset=".5" stop-color="#9C7A1E"/><stop offset="1" stop-color="#1a1203"/></radialGradient></defs></svg><span class="bp bp1" style="--s:150px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><ellipse cx="50" cy="50" rx="47" ry="11" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".8" transform="rotate(-18 50 50)"/><circle cx="50" cy="50" r="24" fill="url(#g-bpg)"/><path d="M3 50 A47 11 0 0 0 97 50" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".9" transform="rotate(-18 50 50)"/></svg></span><span class="bp bp2" style="--s:64px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" fill="url(#g-bpo)"/></svg></span><span class="bp bp3" style="--s:110px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><ellipse cx="50" cy="50" rx="47" ry="11" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".8" transform="rotate(-18 50 50)"/><circle cx="50" cy="50" r="24" fill="url(#g-bpo)"/><path d="M3 50 A47 11 0 0 0 97 50" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".9" transform="rotate(-18 50 50)"/></svg></span><span class="bp bp4" style="--s:42px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" fill="url(#g-bpg)"/></svg></span><span class="bp bp5" style="--s:86px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" fill="url(#g-bpg)"/></svg></span><span class="bp bp6" style="--s:30px"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><ellipse cx="50" cy="50" rx="47" ry="11" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".8" transform="rotate(-18 50 50)"/><circle cx="50" cy="50" r="24" fill="url(#g-bpo)"/><path d="M3 50 A47 11 0 0 0 97 50" fill="none" stroke="#F5E08A" stroke-width="1.6" opacity=".9" transform="rotate(-18 50 50)"/></svg></span></div>
+
+  <canvas id="storm-canvas" class="layer"></canvas><div class="layer storm-flash" id="storm-flash"></div>
   <canvas id="particles-canvas" class="layer"></canvas>
   <div class="ambient-rocket" aria-hidden="true"><svg viewBox="0 0 60 150" aria-hidden="true" focusable="false"><use href="#sym-rocket" width="60" height="150"/></svg></div>
 
@@ -1053,45 +1151,72 @@
       <span class="fr-tick l"></span><span class="fr-tick r"></span>
     </div>
 
-    <!-- ===== CENTREPIECE: the xat logo (ringed planet) in green marble + molten gold.
-         The 10 Instagram photos orbit it as an outer ring.
+    <!-- ===== CENTREPIECE: the xat logo (ringed planet) in green marble + molten gold, high in the top-middle.
+         The 10 Instagram photos orbit it as an outer ring, offset a little to the left.
          [IMAGE] ./ig1.jpg … ig10.jpg   [MOTION] ORBIT_SECONDS in the script ===== -->
     <div class="obj saturn-hero" id="saturn-hero">
-      <div class="starmap" aria-hidden="true"><span class="sm sm1"></span><span class="sm sm2"></span><i style="--a:0deg">&#9800;</i><i style="--a:30deg">&#9801;</i><i style="--a:60deg">&#9802;</i><i style="--a:90deg">&#9803;</i><i style="--a:120deg">&#9804;</i><i style="--a:150deg">&#9805;</i><i style="--a:180deg">&#9806;</i><i style="--a:210deg">&#9807;</i><i style="--a:240deg">&#9808;</i><i style="--a:270deg">&#9809;</i><i style="--a:300deg">&#9810;</i><i style="--a:330deg">&#9811;</i></div>
       <div class="ring-tilt" aria-hidden="true"><span class="track t-main"></span><span class="track t-in"></span><span class="track t-out"></span></div>
-      <div class="hero-planet" aria-hidden="true"><span class="planet-glow"></span><svg class="xat-logo" viewBox="0 0 440 440" focusable="false" aria-hidden="true">
+      <div class="hero-planet" aria-hidden="true">
+        <span class="xg-rays"></span><span class="planet-glow"></span>
+        <svg class="xat-logo" viewBox="0 0 440 440" focusable="false" aria-hidden="true">
           <defs>
             <linearGradient id="g-xring" x1="0" y1="0" x2="1" y2=".3">
-              <stop offset="0" stop-color="#9C7A1E"/><stop offset=".18" stop-color="#F5E08A"/><stop offset=".38" stop-color="#FFF6CF"/>
-              <stop offset=".55" stop-color="#D4AF37"/><stop offset=".78" stop-color="#F5E08A"/><stop offset="1" stop-color="#8a6a16"/>
+              <stop offset="0" stop-color="#7a5c12"/><stop offset=".14" stop-color="#D4AF37"/><stop offset=".3" stop-color="#FFF6CF"/><stop offset=".4" stop-color="#F5E08A"/>
+              <stop offset=".58" stop-color="#B8901F"/><stop offset=".76" stop-color="#FFF2BF"/><stop offset=".9" stop-color="#D4AF37"/><stop offset="1" stop-color="#6b5212"/>
             </linearGradient>
-            <radialGradient id="g-xplanet" cx=".6" cy=".38" r=".75">
-              <stop offset="0" stop-color="#4fc28a"/><stop offset=".35" stop-color="#1a7a4c"/><stop offset=".75" stop-color="#0a3a20"/><stop offset="1" stop-color="#03130a"/>
+            <linearGradient id="g-xring-edge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6CF" stop-opacity=".9"/><stop offset=".5" stop-color="#FFF6CF" stop-opacity="0"/><stop offset="1" stop-color="#3a2a05" stop-opacity=".7"/></linearGradient>
+            <radialGradient id="g-xplanet" cx=".62" cy=".36" r=".78">
+              <stop offset="0" stop-color="#8ff0bf"/><stop offset=".16" stop-color="#3fb47a"/><stop offset=".45" stop-color="#157046"/><stop offset=".78" stop-color="#083720"/><stop offset="1" stop-color="#020c06"/>
             </radialGradient>
+            <radialGradient id="g-xshade" cx=".7" cy=".3" r=".95"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".72"/></radialGradient>
             <linearGradient id="g-xcres" x1="0" y1="0" x2="1" y2="0">
-              <stop offset=".55" stop-color="#eafff3" stop-opacity="0"/><stop offset=".9" stop-color="#eafff3" stop-opacity=".75"/><stop offset="1" stop-color="#FFF6CF" stop-opacity=".95"/>
+              <stop offset=".5" stop-color="#eafff3" stop-opacity="0"/><stop offset=".86" stop-color="#eafff3" stop-opacity=".8"/><stop offset="1" stop-color="#FFF6CF" stop-opacity="1"/>
             </linearGradient>
-            <mask id="m-xcres"><circle cx="220" cy="219" r="99" fill="#fff"/><circle cx="204" cy="214" r="96" fill="#000"/></mask>
+            <radialGradient id="g-xspec" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+            <mask id="m-xcres"><circle cx="220" cy="219" r="99" fill="#fff"/><circle cx="203" cy="213" r="96" fill="#000"/></mask>
             <clipPath id="c-xplanet"><circle cx="220" cy="219" r="99"/></clipPath>
-            <filter id="f-xsoft" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="1.1"/></filter>
+            <filter id="f-xsoft" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="1"/></filter>
+            <filter id="f-xblur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
           </defs>
+          <!-- back half of the ring -->
           <g transform="rotate(-21.5 220 222)">
+            <ellipse cx="220" cy="222" rx="195" ry="30" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="34" filter="url(#f-xblur)" transform="translate(0 10)"/>
             <ellipse cx="220" cy="222" rx="195" ry="30" fill="none" stroke="url(#g-xring)" stroke-width="30" filter="url(#f-xsoft)"/>
-            <ellipse cx="220" cy="222" rx="203" ry="38" fill="none" stroke="#FFF6CF" stroke-width="1" opacity=".55"/>
-            <ellipse cx="220" cy="222" rx="186" ry="22" fill="none" stroke="#6b5212" stroke-width="1.4" opacity=".7"/>
+            <ellipse cx="220" cy="222" rx="195" ry="30" fill="none" stroke="url(#g-xring-edge)" stroke-width="30" opacity=".55"/>
+            <ellipse cx="220" cy="222" rx="203" ry="38" fill="none" stroke="#FFF6CF" stroke-width="1" opacity=".6"/>
+            <ellipse cx="220" cy="222" rx="186" ry="22" fill="none" stroke="#5a440e" stroke-width="1.6" opacity=".8"/>
+            <ellipse cx="220" cy="222" rx="195" ry="30" fill="none" stroke="#5a440e" stroke-width="1" stroke-dasharray="1 7" opacity=".5"/>
           </g>
+          <!-- planet: green marble globe -->
+          <circle cx="220" cy="219" r="104" fill="none" stroke="#3dff9a" stroke-opacity=".18" stroke-width="10" filter="url(#f-xblur)"/>
           <circle cx="220" cy="219" r="99" fill="url(#g-xplanet)"/>
-          <circle cx="220" cy="219" r="99" fill="#0f5132" filter="url(#f-marble)" opacity=".28"/>
-          <g clip-path="url(#c-xplanet)" fill="none" stroke="#F5E08A" opacity=".22" transform="rotate(-21.5 220 219)">
-            <path d="M110 180 Q220 168 330 180" stroke-width="1.2"/><path d="M110 250 Q220 242 330 250" stroke-width="5" opacity=".5"/>
+          <circle cx="220" cy="219" r="99" fill="#0f5132" filter="url(#f-marble)" opacity=".32"/>
+          <g clip-path="url(#c-xplanet)">
+            <g fill="none" stroke="#F5E08A" transform="rotate(-21.5 220 219)">
+              <path d="M100 170 Q220 156 340 170" stroke-width="1.2" opacity=".28"/>
+              <path d="M100 196 Q220 184 340 196" stroke-width="7" opacity=".08"/>
+              <path d="M100 252 Q220 244 340 252" stroke-width="5" opacity=".1"/>
+              <path d="M100 274 Q220 268 340 274" stroke-width="1" opacity=".24"/>
+            </g>
+            <!-- shadow the ring casts on the globe -->
+            <path d="M25 210 A195 30 0 0 0 415 210" fill="none" stroke="#000" stroke-opacity=".38" stroke-width="16" filter="url(#f-xblur)" transform="rotate(-21.5 220 222)"/>
+            <circle cx="220" cy="219" r="99" fill="url(#g-xshade)"/>
+            <ellipse cx="252" cy="172" rx="40" ry="22" fill="url(#g-xspec)" transform="rotate(-30 252 172)"/>
           </g>
           <rect x="110" y="110" width="220" height="220" fill="url(#g-xcres)" mask="url(#m-xcres)"/>
-          <circle cx="220" cy="219" r="99" fill="none" stroke="url(#g-gold)" stroke-width="1.6" opacity=".9"/>
+          <circle cx="220" cy="219" r="99" fill="none" stroke="url(#g-gold)" stroke-width="1.8"/>
+          <circle cx="220" cy="219" r="94" fill="none" stroke="#F5E08A" stroke-width=".6" stroke-dasharray="1.5 5" opacity=".45"/>
+          <!-- front half of the ring -->
           <g transform="rotate(-21.5 220 222)">
             <path d="M25 222 A195 30 0 0 0 415 222" fill="none" stroke="url(#g-xring)" stroke-width="30" filter="url(#f-xsoft)"/>
-            <path d="M28 226 A192 26 0 0 0 412 226" fill="none" stroke="#FFF6CF" stroke-width="1.6" opacity=".6"/>
+            <path d="M25 222 A195 30 0 0 0 415 222" fill="none" stroke="url(#g-xring-edge)" stroke-width="30" opacity=".5"/>
+            <path d="M17 222 A203 38 0 0 0 423 222" fill="none" stroke="#FFF6CF" stroke-width="1.4" opacity=".75"/>
+            <path d="M34 222 A186 22 0 0 0 406 222" fill="none" stroke="#5a440e" stroke-width="1.4" opacity=".7"/>
+            <path d="M25 222 A195 30 0 0 0 415 222" fill="none" stroke="#5a440e" stroke-width="1" stroke-dasharray="1 7" opacity=".55"/>
           </g>
-        </svg></div>
+        </svg>
+        <span class="xg-glint" style="left:13.7%;top:67.8%;--gd:0s"></span><span class="xg-glint" style="left:41.7%;top:60.8%;--gd:1.6s"></span><span class="xg-glint" style="left:71.6%;top:48.4%;--gd:2.7s"></span><span class="xg-glint" style="left:89.1%;top:37.8%;--gd:3.9s"></span>
+      </div>
       <div class="ring-tilt front" aria-hidden="true"><span class="track t-main"></span></div>
       <div class="orbs" id="orbs">
       <button type="button" class="orb" data-idx="0" aria-label="Open photo 1 of 10"><span class="orb-in" style="--in:1.00s"><img src="./ig1.jpg" alt="Instagram photo 1" loading="eager"></span></button>
@@ -1107,6 +1232,10 @@
       </div>
     </div>
 
+    <!-- ===== NAME: "Charles" left of the globe, "Leone" right of it; Prince + xat ID underneath  [TEXT]/[ID] ===== -->
+    <h1 class="obj nameplate"><span class="nm nm-l gold-shimmer">Charles</span> <span class="nm nm-r gold-shimmer">Leone&trade;</span></h1>
+    <p class="obj prince-id"><span class="pid-name">Prince</span><span class="pid-dot" aria-hidden="true"></span><span class="pid-num"><span class="pid-k">ID</span> 809877009</span></p>
+
     <!-- ===== ABOUT: marble tablet hanging from the portrait on braided gold cords ===== -->
     <div class="obj about-obj">
       <div class="swing">
@@ -1118,23 +1247,16 @@
       </div>
     </div>
 
-    <!-- ===== IDENTITY: carved astrolabe portrait with gyroscope orbits (click = About) ===== -->
-    <!-- [IMAGE] avatar = ./ig8.jpg -->
-    <button type="button" class="obj avatar-obj" data-open="about" aria-label="Open About Charles Leone">
+    <!-- ===== IDENTITY: carved astrolabe portrait with gyroscope orbits (click = xat forum profile, new tab) ===== -->
+    <!-- [IMAGE] avatar = ./ig8.jpg   [LINK] forum profile -->
+    <a class="obj avatar-obj" href="https://forum.xat.com/profile/58016/" target="_blank" rel="noopener" aria-label="Charles Leone on the xat forum (opens in a new tab)">
       <span class="avatar-halo"></span>
       <span class="gyro">
         <span class="bezel"><svg class="bezel-svg" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><defs><path id="bezel-arc" d="M100,100 m-81,0 a81,81 0 1,1 162,0 a81,81 0 1,1 -162,0"/></defs><g filter="url(#f-emboss)"><circle cx="100" cy="100" r="99.5" fill="url(#g-gold)"/><circle cx="100" cy="100" r="96" fill="url(#g-seal)"/><circle cx="100" cy="100" r="96" fill="#0b2e13" filter="url(#f-marble)" opacity=".7"/></g><circle cx="100" cy="100" r="96" fill="none" stroke="#9C7A1E" stroke-width="1"/><g class="bezel-ticks"><line x1="187.5" y1="100.0" x2="194.5" y2="100.0" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="189.0" y1="109.4" x2="194.0" y2="109.9" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="187.5" y1="118.6" x2="192.4" y2="119.6" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="185.1" y1="127.7" x2="189.9" y2="129.2" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="181.8" y1="136.4" x2="186.3" y2="138.4" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="175.8" y1="143.8" x2="181.8" y2="147.2" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="172.4" y1="152.6" x2="176.5" y2="155.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="166.5" y1="159.9" x2="170.2" y2="163.2" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="159.9" y1="166.5" x2="163.2" y2="170.2" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="152.6" y1="172.4" x2="155.5" y2="176.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="143.8" y1="175.8" x2="147.2" y2="181.8" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="136.4" y1="181.8" x2="138.4" y2="186.3" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="127.7" y1="185.1" x2="129.2" y2="189.9" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="118.6" y1="187.5" x2="119.6" y2="192.4" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="109.4" y1="189.0" x2="109.9" y2="194.0" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="100.0" y1="187.5" x2="100.0" y2="194.5" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="90.6" y1="189.0" x2="90.1" y2="194.0" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="81.4" y1="187.5" x2="80.4" y2="192.4" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="72.3" y1="185.1" x2="70.8" y2="189.9" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="63.6" y1="181.8" x2="61.6" y2="186.3" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="56.3" y1="175.8" x2="52.8" y2="181.8" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="47.4" y1="172.4" x2="44.5" y2="176.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="40.1" y1="166.5" x2="36.8" y2="170.2" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="33.5" y1="159.9" x2="29.8" y2="163.2" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="27.6" y1="152.6" x2="23.5" y2="155.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="24.2" y1="143.8" x2="18.2" y2="147.2" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="18.2" y1="136.4" x2="13.7" y2="138.4" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="14.9" y1="127.7" x2="10.1" y2="129.2" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="12.5" y1="118.6" x2="7.6" y2="119.6" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="11.0" y1="109.4" x2="6.0" y2="109.9" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="12.5" y1="100.0" x2="5.5" y2="100.0" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="11.0" y1="90.6" x2="6.0" y2="90.1" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="12.5" y1="81.4" x2="7.6" y2="80.4" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="14.9" y1="72.3" x2="10.1" y2="70.8" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="18.2" y1="63.6" x2="13.7" y2="61.6" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="24.2" y1="56.2" x2="18.2" y2="52.7" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="27.6" y1="47.4" x2="23.5" y2="44.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="33.5" y1="40.1" x2="29.8" y2="36.8" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="40.1" y1="33.5" x2="36.8" y2="29.8" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="47.4" y1="27.6" x2="44.5" y2="23.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="56.2" y1="24.2" x2="52.7" y2="18.2" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="63.6" y1="18.2" x2="61.6" y2="13.7" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="72.3" y1="14.9" x2="70.8" y2="10.1" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="81.4" y1="12.5" x2="80.4" y2="7.6" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="90.6" y1="11.0" x2="90.1" y2="6.0" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="100.0" y1="12.5" x2="100.0" y2="5.5" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="109.4" y1="11.0" x2="109.9" y2="6.0" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="118.6" y1="12.5" x2="119.6" y2="7.6" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="127.7" y1="14.9" x2="129.2" y2="10.1" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="136.4" y1="18.2" x2="138.4" y2="13.7" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="143.8" y1="24.2" x2="147.2" y2="18.2" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="152.6" y1="27.6" x2="155.5" y2="23.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="159.9" y1="33.5" x2="163.2" y2="29.8" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="166.5" y1="40.1" x2="170.2" y2="36.8" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="172.4" y1="47.4" x2="176.5" y2="44.5" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="175.8" y1="56.2" x2="181.8" y2="52.7" stroke="#F5E08A" stroke-width="1.4" opacity="0.95"/><line x1="181.8" y1="63.6" x2="186.3" y2="61.6" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="185.1" y1="72.3" x2="189.9" y2="70.8" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="187.5" y1="81.4" x2="192.4" y2="80.4" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><line x1="189.0" y1="90.6" x2="194.0" y2="90.1" stroke="#F5E08A" stroke-width="0.7" opacity="0.55"/><text fill="url(#g-gold)" font-family="Cinzel, Georgia, serif" font-size="7.2" font-weight="700" letter-spacing="1.5"><textPath href="#bezel-arc" textLength="500" lengthAdjust="spacing">&#10022; CHARLES LEONE&#8482; &#10022; PRINCE &#10022; 809877009 &#10022; LONG LIVE THE PRINCE &#10022; XAT</textPath></text></g><circle cx="100" cy="100" r="79.5" fill="none" stroke="url(#g-gold)" stroke-width="3.4"/></svg><img class="portrait" src="./ig8.jpg" alt="Charles Leone (Prince)"><span class="portrait-glass"></span></span>
         <span class="orbit o1"><span class="moon"></span></span>
         <span class="orbit o2"><span class="moon m2"></span></span>
       </span>
-    </button>
-    <div class="obj ident">
-      <!-- [TEXT] name / [ID] username + xat ID -->
-      <h1 class="gold-shimmer">Charles Leone&trade;</h1>
-      <p class="handle">Prince &#9670; 809877009</p>
-    </div>
-    <!-- [TEXT] vertical motto (desktop only) -->
-    <p class="obj motto" aria-hidden="true">Long live the Prince</p>
+    </a>
 
     <!-- ===== ASTROLOGY: the constellation Libra, drawn as the Scales in starlight (click = natal charts) ===== -->
     <button type="button" class="obj libra-obj" data-open="astro" aria-label="Open astrology: Western and Vedic natal charts">
@@ -1209,8 +1331,8 @@
       </div>
     </div>
 
-    <!-- [TEXT] ventures disclaimer -->
-    <p class="obj disclaimer"><b>A note on XatMarket &amp; XatDeck</b>Both are 100% commercial-free. Every service is either free or part of the core xat platform. If anything is ever sold, it&rsquo;s for the xat ecosystem and bought only with xats or days &mdash; nothing happens outside of xat.</p>
+    <!-- [TEXT] ventures disclaimer, Saturn-voiced -->
+    <p class="obj disclaimer"><b>A word from Saturn</b>Out here in orbit, every door is free to walk through: XatMarket and XatDeck are 100% commercial-free. Every service is either free or part of xat&rsquo;s own core, and if anything ever trades hands, it&rsquo;s for the xat ecosystem, paid in xats or days only &mdash; nothing ever leaves orbit. <span class="disc-relic">P.S. Those photos circling the planet? Ancient relics. Want to see the current me? You&rsquo;ve gotta video chat.</span></p>
   </main>
 
   <!-- =============================================================
@@ -1225,8 +1347,10 @@
       <p class="p-kicker">The Prince of xat</p>
       <h2 class="p-title gold-shimmer" id="t-about">Charles Leone&trade;</h2>
       <!-- [TEXT] bio -->
-      <p class="p-text">Known across xat simply as <strong>Prince</strong>. Collector of rare powers, builder of worlds, and founder of XatMarket and XatDeck. Gold, green marble and a rocket ride to Saturn &mdash; welcome to my corner of the galaxy.</p>
-      <p class="p-text">Come say hi in chat, check out my stars, flip through the photos &mdash; and long live the Prince.</p>
+      <!-- [TEXT] bio, in Charles's own words -->
+      <p class="p-text">I&rsquo;ve been on xat since I was seven. I moved around a lot growing up, but I always had xat, and xat always had me &mdash; it&rsquo;s where I learned how to type, how to treat people, and who I actually am. So this is home, and I&rsquo;m not going anywhere.</p>
+      <p class="p-text">These days I build for the community we still have, with XatMarket, XatDeck, and anything else that keeps the chats full &mdash; because if there&rsquo;s a spark here, it deserves whatever oxygen I&rsquo;ve got.</p>
+      <p class="p-text about-sign">I&rsquo;m Charles. Nice to meet you.</p>
       <div class="facts">
         <div class="fact"><b>Prince</b><span>Username</span></div>
         <div class="fact"><b>809877009</b><span>xat ID</span></div>
@@ -1247,8 +1371,8 @@
       <ul class="group-list">
           <!-- [LINK] Flirt chat -->
           <li><a href="https://xat.com/flirt" target="_blank" rel="noopener"><svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg><span><b>Flirt</b><span>xat.com/flirt</span></span><span class="go"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></a></li>
-          <!-- [LINK] Chat chat -->
-          <li><a href="https://xat.com/chat" target="_blank" rel="noopener"><svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg><span><b>Chat</b><span>xat.com/chat</span></span><span class="go"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></a></li>
+          <!-- [LINK] Xat chat -->
+          <li><a href="https://xat.com/xat" target="_blank" rel="noopener"><svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg><span><b>Xat</b><span>xat.com/xat</span></span><span class="go"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></a></li>
           <!-- [LINK] Help chat -->
           <li><a href="https://xat.com/help" target="_blank" rel="noopener"><svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="#sym-saturn" width="200" height="200"/></svg><span><b>Help</b><span>xat.com/help</span></span><span class="go"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></a></li>
           <!-- [LINK] Market chat -->
@@ -1556,7 +1680,7 @@
   if (reduceMotion) { const lbl = document.querySelector('.launch-label'); if (lbl) lbl.textContent = 'Enter'; }
 
   /* ================================================================
-     PHOTO RING: 10 photos orbit the xat logo on a tilted ellipse (same tilt as the logo's ring) (rAF-driven)
+     PHOTO RING: 10 photos orbit the xat logo on a tilted ellipse, offset a little left of the globe (rAF-driven)
      front half → larger, brighter, in front of the planet
      back half  → smaller, dimmer, passes behind the planet body
      [MOTION] ORBIT_SECONDS = one full revolution
@@ -1565,18 +1689,25 @@
   const hero = $('saturn-hero');
   const orbEls = [...document.querySelectorAll('.orb')];
   const ORBIT_SECONDS = 96;
-  const ring = { rx: 389, ry: 105, tilt: -21.5 * Math.PI / 180 };
+  const ring = { rx: 300, ry: 62, tilt: -5 * Math.PI / 180, ox: -40, oy: 38 };
   let orbitPhase = -Math.PI / 2 + 0.31, orbitSpeed = 1, orbitTarget = 1;
   function layoutRing() {
     const W = innerWidth, H = innerHeight, port = portraitMQ.matches;
-    let rx, ry, pr, ps, smr, td;
-    if (port) { rx = Math.min(W * .40, H * .22, 230); ry = rx * .28; pr = rx * .27; ps = Math.max(40, Math.min(62, rx * .34)); smr = Math.min(W * .47, H * .21); td = -21.5; }
-    else { rx = Math.min(W * .27, H * .44, 400); ry = rx * .27; pr = rx * .28; ps = Math.max(60, Math.min(98, rx * .22)); smr = Math.min(H * .40, W * .28); td = -21.5; }
-    ring.rx = rx; ring.ry = ry; ring.tilt = td * Math.PI / 180;
-    const ymax = Math.hypot(rx * Math.sin(ring.tilt), ry * Math.cos(ring.tilt));
-    const set = (k, v) => hero.style.setProperty(k, v);
-    set('--rx', rx.toFixed(1) + 'px'); set('--ry', ry.toFixed(1) + 'px'); set('--pr', pr.toFixed(1) + 'px');
-    set('--ps', ps.toFixed(1) + 'px'); set('--smr', smr.toFixed(1) + 'px'); set('--tilt', td + 'deg');
+    let L;
+    // [LAYOUT] gy = globe height, pr = globe radius, ox/oy = photo-ring offset from the globe (ring sits a little left),
+    //          fs/gap/ny = the split name, idGap = space above "Prince · ID"
+    if (port) { const k = Math.min(W / 390, H / 844);
+      L = { gy: H * .35, pr: 33 * k, ox: -12 * k, oy: 15 * k, rx: Math.min(124 * k, W * .33), ry: 26 * k, td: -5, ps: 40 * k, fs: 18 * k, gap: 80 * k, ny: -41 * k, idGap: 16 * k }; }
+    else { const k = Math.min(W / 1440, H / 900);
+      L = { gy: H * .291, pr: 92 * k, ox: -40 * k, oy: 38 * k, rx: 300 * k, ry: 62 * k, td: -5, ps: 72 * k, fs: 44 * k, gap: 196 * k, ny: -90 * k, idGap: 24 * k }; }
+    Object.assign(ring, { rx: L.rx, ry: L.ry, tilt: L.td * Math.PI / 180, ox: L.ox, oy: L.oy });
+    const ymax = Math.hypot(L.rx * Math.sin(ring.tilt), L.ry * Math.cos(ring.tilt));
+    const px = v => v.toFixed(1) + 'px';
+    const hs = hero.style, ss = $('stage').style;
+    hs.setProperty('--rx', px(L.rx)); hs.setProperty('--ry', px(L.ry)); hs.setProperty('--pr', px(L.pr)); hs.setProperty('--ps', px(L.ps));
+    hs.setProperty('--tilt', L.td + 'deg'); hs.setProperty('--ox', px(L.ox)); hs.setProperty('--oy', px(L.oy));
+    ss.setProperty('--gy', px(L.gy)); ss.setProperty('--nmy', px(L.gy + L.ny)); ss.setProperty('--nmfs', px(L.fs)); ss.setProperty('--nmgap', px(L.gap));
+    ss.setProperty('--idy', px(L.gy + L.oy + ymax + L.ps * .54 + L.idGap));
   }
   layoutRing();
   window.addEventListener('resize', layoutRing);
@@ -1595,12 +1726,104 @@
     for (let i = 0; i < orbEls.length; i++) {
       const th = orbitPhase + i * TAU / orbEls.length, sn = Math.sin(th);
       const ex = ring.rx * Math.cos(th), ey = ring.ry * sn;
-      const x = ex * c - ey * s, y = ex * s + ey * c;
+      const x = ring.ox + ex * c - ey * s, y = ring.oy + ex * s + ey * c;
       const d = (sn + 1) / 2;                     // 0 = far side, 1 = nearest
       const el = orbEls[i];
       el.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${(.5 + .58 * d).toFixed(3)})`;
       el.style.zIndex = sn > 0 ? String(10 + Math.round(d * 20)) : String(1 + Math.round(d * 3));
       el.style.opacity = (.5 + .5 * d).toFixed(3);
+    }
+  }
+
+  /* ================================================================
+     STORM: occasional green lightning up top (every ~20–40 s) + a soft
+     synthesized thunder rumble (WebAudio, no audio file, kept quiet).
+     Skipped entirely with prefers-reduced-motion.
+     ================================================================ */
+  const storm = (() => {
+    const cv = $('storm-canvas'), sc = cv.getContext('2d'), flash = $('storm-flash');
+    let bolts = [], t0 = 0, raf = 0, actx = null;
+    function size() { cv.width = innerWidth; cv.height = innerHeight; }
+    window.addEventListener('resize', size); size();
+    function makeBolt(x, y, len, ang, depth) {
+      const pts = [[x, y]]; const step = 16; let px = x, py = y;
+      for (let i = 0; i < Math.round(len / step); i++) { ang += (Math.random() - .5) * .7; px += Math.sin(ang) * step; py += Math.cos(ang) * step; pts.push([px, py]); }
+      const out = [{ pts, w: depth ? 1 : 2.1 }];
+      if (depth < 2) for (let b = 0; b < 2; b++) if (Math.random() < .75) {
+        const i = 2 + Math.floor(Math.random() * Math.max(1, pts.length - 4));
+        out.push(...makeBolt(pts[i][0], pts[i][1], len * .38, ang + (Math.random() < .5 ? -.8 : .8), depth + 1));
+      }
+      return out;
+    }
+    const ENV = [[0, 0], [35, 1], [90, .12], [150, .85], [260, .45], [720, 0]];
+    function env(t) { for (let i = 1; i < ENV.length; i++) if (t <= ENV[i][0]) { const [a, va] = ENV[i - 1], [b, vb] = ENV[i]; return va + (vb - va) * (t - a) / (b - a); } return 0; }
+    function draw(a) {
+      sc.clearRect(0, 0, cv.width, cv.height); if (a <= 0) return;
+      sc.lineCap = 'round'; sc.lineJoin = 'round';
+      for (const b of bolts) {
+        sc.beginPath(); b.pts.forEach(([x, y], i) => i ? sc.lineTo(x, y) : sc.moveTo(x, y));
+        sc.shadowColor = 'rgba(61,255,154,.9)'; sc.shadowBlur = 16; sc.strokeStyle = `rgba(61,255,154,${(.28 * a).toFixed(3)})`; sc.lineWidth = b.w * 5; sc.stroke();
+        sc.shadowBlur = 0; sc.strokeStyle = `rgba(214,255,232,${(.85 * a).toFixed(3)})`; sc.lineWidth = b.w; sc.stroke();
+      }
+    }
+    function loop(now) { const t = now - t0; draw(env(t)); if (t < 740) raf = requestAnimationFrame(loop); else sc.clearRect(0, 0, cv.width, cv.height); }
+    function thunder() {
+      if (!actx || actx.state !== 'running') return;
+      const au = $('audio'); const vol = au.muted ? 0 : .5 + .5 * au.volume; if (!vol) return;
+      const dur = 2.6 + Math.random() * 1.4, sr = actx.sampleRate, buf = actx.createBuffer(1, Math.floor(sr * dur), sr), d = buf.getChannelData(0);
+      let last = 0; for (let i = 0; i < d.length; i++) { last = (last + .02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }   // brown noise
+      const src = actx.createBufferSource(); src.buffer = buf;
+      const lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.setValueAtTime(320, actx.currentTime); lp.frequency.exponentialRampToValueAtTime(80, actx.currentTime + dur);
+      const g = actx.createGain(), t = actx.currentTime, peak = .085 * vol;   // [MOTION] thunder loudness (kept quiet under the music)
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + .14); g.gain.exponentialRampToValueAtTime(peak * .45, t + .5);
+      g.gain.exponentialRampToValueAtTime(peak * .8, t + .75); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(lp); lp.connect(g); g.connect(actx.destination); src.start(t); src.stop(t + dur);
+    }
+    function strike() {
+      if (document.hidden) return;
+      const W = innerWidth, H = innerHeight, x = W * (.1 + Math.random() * .8);
+      bolts = makeBolt(x, -10, H * (.2 + Math.random() * .16), (Math.random() - .5) * .5, 0);
+      flash.style.setProperty('--fx', (x / W * 100).toFixed(1) + '%');
+      flash.classList.remove('on'); void flash.offsetWidth; flash.classList.add('on');
+      t0 = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
+      setTimeout(thunder, 450 + Math.random() * 1200);
+    }
+    function initAudio() { if (actx) { if (actx.state === 'suspended') actx.resume(); return; } try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; } }
+    document.addEventListener('pointerdown', initAudio, { capture: true });
+    document.addEventListener('keydown', initAudio, { capture: true });
+    function schedule(first) {   // [MOTION] first strike ~9–15 s after load, then every 20–40 s
+      setTimeout(() => { if (document.body.classList.contains('entered')) strike(); schedule(false); }, first ? 9000 + Math.random() * 6000 : 20000 + Math.random() * 20000);
+    }
+    if (!reduceMotion) schedule(true);
+    return { strike };
+  })();
+  window.xatStorm = storm;   // lets you trigger a strike from the console: xatStorm.strike()
+
+  /* ---------------- RAINING MINI XAT GLOBES (sparse, drawn on the gold-dust canvas) ---------------- */
+  const rainSprite = document.createElement('canvas');
+  (function paintSprite() {
+    rainSprite.width = rainSprite.height = 64; const g = rainSprite.getContext('2d');
+    g.translate(32, 32); g.rotate(-21.5 * Math.PI / 180);
+    const ringG = g.createLinearGradient(-30, 0, 30, 0); ringG.addColorStop(0, '#9C7A1E'); ringG.addColorStop(.4, '#FFF2BF'); ringG.addColorStop(1, '#D4AF37');
+    g.strokeStyle = ringG; g.lineWidth = 4.5;
+    g.beginPath(); g.ellipse(0, 0, 29, 5.5, 0, Math.PI, 2 * Math.PI); g.stroke();          // back half
+    g.rotate(21.5 * Math.PI / 180);
+    const pg = g.createRadialGradient(4, -4, 1, 0, 0, 15); pg.addColorStop(0, '#8ff0bf'); pg.addColorStop(.5, '#1a7a4c'); pg.addColorStop(1, '#03130a');
+    g.fillStyle = pg; g.beginPath(); g.arc(0, 0, 14.5, 0, 2 * Math.PI); g.fill();
+    g.strokeStyle = 'rgba(245,224,138,.8)'; g.lineWidth = 1; g.stroke();
+    g.rotate(-21.5 * Math.PI / 180); g.strokeStyle = ringG; g.lineWidth = 4.5;
+    g.beginPath(); g.ellipse(0, 0, 29, 5.5, 0, 0, Math.PI); g.stroke();                   // front half
+  })();
+  const drops = [], RAIN_MAX = innerWidth < 768 ? 6 : 10;   // [MOTION] max globes on screen
+  function fxDraw(f) {
+    if (!document.body.classList.contains('entered')) return;
+    if (drops.length < RAIN_MAX && Math.random() < .007 * f)
+      drops.push({ x: Math.random() * canvas.width, y: -24, s: 6 + Math.random() * 9, vy: .3 + Math.random() * .4, a: .16 + Math.random() * .22, ph: Math.random() * 6.28, r: (Math.random() - .5) * .5 });
+    for (let i = drops.length - 1; i >= 0; i--) {
+      const d = drops[i]; d.y += d.vy * f * (.6 + d.s / 18); d.ph += .012 * f;
+      ctx.save(); ctx.globalAlpha = d.a; ctx.translate(d.x + Math.sin(d.ph) * 9, d.y); ctx.rotate(d.r + Math.sin(d.ph) * .12);
+      ctx.drawImage(rainSprite, -d.s, -d.s, d.s * 2, d.s * 2); ctx.restore();
+      if (d.y > canvas.height + 30) drops.splice(i, 1);
     }
   }
 
@@ -1690,6 +1913,7 @@
       rootStyle.setProperty('--mx', smx.toFixed(3)); rootStyle.setProperty('--my', smy.toFixed(3));
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => { p.update(f); p.draw(smx, smy); });
+      fxDraw(f);   // raining mini xat globes
     }
     orbitStep(Math.min(0.1, f * 16.67 / 1000));
     requestAnimationFrame(frame);
