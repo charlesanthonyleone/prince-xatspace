@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- [TEXT] Browser tab title -->
+<title>Charles Leone™ — PRINCE XATSPACE</title>
+
+<!--
+  =====================================================================
+   PRINCE XATSPACE  —  Charles Leone™ (username: Prince, ID 809877009)
+   Theme: green & black marble with gold streaks.
+   Mechanics modeled on xat.me/epika: splash → enterSite(), canvas
+   particles, 3D rotating gallery, crossfading quotes, profile modals,
+   vinyl music player w/ equalizer.
+
+   HOW TO CUSTOMIZE — search this file for these tags:
+     [COLOR]  theme colors        [IMAGE]  pictures to replace
+     [MUSIC]  audio + cover art   [TEXT]   words / names / quotes
+     [ID]     xat username / ID   [VIDEO]  optional background video
+  =====================================================================
+-->
+
+<!-- Google Fonts: Cinzel + Playfair Display (headings), Lato (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font Awesome icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- [COLOR] Tailwind theme palette — change these hex values to re-theme -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          emerald2: '#0F5132',   // [COLOR] rich green
+          jade:     '#0b2e13',   // [COLOR] deep green
+          onyx:     '#050a07',   // [COLOR] near-black
+          ivory:    '#F7F3E8',   // [COLOR] text color
+          oro:      '#D4AF37',   // [COLOR] gold accent
+          oroLight: '#F5E08A',   // [COLOR] light gold
+        },
+        fontFamily: {
+          royal: ['Cinzel', '"Playfair Display"', 'Georgia', 'serif'],
+          serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          sans:  ['Lato', 'Helvetica', 'Arial', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Placeholder generator: draws a green/gold SVG box when an image file is missing -->
+<script>
+  function ph(w, h, text) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0F5132"/><stop offset="1" stop-color="#050a07"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/><text x="50%" y="50%" fill="#D4AF37" font-family="Georgia,serif" font-size="${Math.round(Math.min(w,h)/7)}" text-anchor="middle" dominant-baseline="middle">${text}</text></svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+</script>
+
+<style>
+  /* [COLOR] CSS variables used by the hand-written CSS below */
+  :root {
+    --gold: #D4AF37;
+    --gold-light: #F5E08A;
+    --gold-deep: #9C7A1E;
+    --green: #0F5132;
+    --green-deep: #0b2e13;
+    --onyx: #050a07;
+  }
+
+  body {
+    margin: 0; padding: 0;
+    overflow-x: hidden;
+    background-color: var(--onyx);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+
+  /* --- Scrollbar --- */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--onyx); }
+  ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+  .ios-scroll-fix { -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
+
+  /* =========================================================
+     MARBLE BACKGROUND
+     Layer 1 (top): optional marble photo  →  [IMAGE] marble.jpg
+     Layer 2: gold veins (thin blurred diagonal streaks)
+     Layer 3: green/black cloudy marble made of radial gradients
+     ========================================================= */
+  .marble-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      /* gold veins */
+      linear-gradient(118deg, transparent 0 31%, rgba(212,175,55,.28) 31.3%, transparent 31.8% 100%),
+      linear-gradient(128deg, transparent 0 56%, rgba(245,224,138,.18) 56.2%, transparent 56.6% 100%),
+      linear-gradient(62deg,  transparent 0 71%, rgba(212,175,55,.20) 71.2%, transparent 71.7% 100%),
+      linear-gradient(150deg, transparent 0 12%, rgba(212,175,55,.12) 12.2%, transparent 12.5% 100%),
+      /* green clouds */
+      radial-gradient(ellipse at 20% 15%, rgba(21,94,58,.85) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 35%, rgba(15,81,50,.70) 0%, transparent 50%),
+      radial-gradient(ellipse at 35% 80%, rgba(9,48,28,.90) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 90%, rgba(26,110,70,.35) 0%, transparent 40%),
+      linear-gradient(185deg, #0b2e13 0%, #06180c 50%, #000 100%);
+    filter: saturate(1.05);
+  }
+  /* Optional real marble texture on top (blended). If marble.jpg is missing, nothing breaks. */
+  .marble-texture {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url('marble.jpg'); /* [IMAGE] green/black marble texture, e.g. 1920x1080 */
+    background-size: cover; background-position: center;
+    mix-blend-mode: overlay; opacity: .55;
+  }
+  /* Slow drifting gold sheen across the marble */
+  .marble-sheen {
+    position: fixed; inset: -50%; z-index: 2; pointer-events: none;
+    background: linear-gradient(115deg, transparent 40%, rgba(245,224,138,.07) 50%, transparent 60%);
+    animation: sheen 18s ease-in-out infinite;
+  }
+  @keyframes sheen { 0%,100% { transform: translateX(-20%); } 50% { transform: translateX(20%); } }
+
+  /* --- Glow animations (borrowed from epika) --- */
+  @keyframes elegantGlow {
+    0%,100% { box-shadow: 0 0 10px rgba(212,175,55,.12); border-color: rgba(212,175,55,.25); }
+    50%     { box-shadow: 0 0 26px rgba(212,175,55,.45); border-color: rgba(212,175,55,.7); }
+  }
+  .animate-elegant-glow { animation: elegantGlow 4s ease-in-out infinite; }
+
+  /* --- Gold shimmer text --- */
+  .gold-shimmer {
+    color: var(--gold);
+    background: linear-gradient(90deg, var(--gold-deep) 0%, var(--gold) 25%, #fff6cf 50%, var(--gold) 75%, var(--gold-deep) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 6s linear infinite;
+    filter: drop-shadow(0 0 14px rgba(212,175,55,.35));
+  }
+  @keyframes shimmer { to { background-position: -200% center; } }
+
+  /* --- Sparkle stars (epika's luxury sparkle) --- */
+  @keyframes luxurySparkle {
+    0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+    50%  { opacity: 1; transform: scale(1) rotate(45deg); filter: drop-shadow(0 0 8px rgba(255,240,190,.95)); }
+    100% { opacity: 0; transform: scale(0) rotate(90deg); }
+  }
+  .sparkle-star {
+    position: absolute; width: 14px; height: 14px;
+    background: #fff6cf;
+    clip-path: polygon(50% 0%, 55% 45%, 100% 50%, 55% 55%, 50% 100%, 45% 55%, 0% 50%, 45% 45%);
+    animation: luxurySparkle 3s infinite ease-in-out;
+    pointer-events: none; z-index: 10;
+  }
+  .sparkle-1 { top: 0%;   left: 6%;  animation-delay: 0s; }
+  .sparkle-2 { bottom: 5%; right: 4%; animation-delay: 1.2s; width: 20px; height: 20px; }
+  .sparkle-3 { top: 20%;  right: 12%; width: 10px; height: 10px; animation-delay: .7s; }
+  .sparkle-4 { bottom: 0%; left: 18%; animation-delay: 2.1s; width: 16px; height: 16px; }
+  .sparkle-5 { top: 45%;  left: 45%; width: 8px; height: 8px; animation-delay: 1.8s; }
+
+  /* --- Crown float --- */
+  .crown { display: inline-block; animation: floatY 4s ease-in-out infinite; filter: drop-shadow(0 0 12px rgba(245,224,138,.6)); }
+  @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+  /* =========================================================
+     3D ROTATING GALLERY (same math as epika: 360/5 = 72deg)
+     ========================================================= */
+  .gallery-stage { height: 340px; display: flex; align-items: center; justify-content: center; }
+  .gallery-wrap {
+    position: relative; width: 150px; height: 225px;
+    perspective: 1000px; touch-action: pan-y;
+  }
+  .gallery-3d {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    animation: rotateGallery 25s linear infinite;
+  }
+  .gallery-wrap:hover .gallery-3d { animation-play-state: paused; }
+  @keyframes rotateGallery { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+  .gallery-item {
+    position: absolute; inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(calc(var(--i) * 72deg)) translateZ(210px);
+    -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, rgba(0,0,0,.18));
+  }
+  .gallery-item img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; border-radius: 8px;
+    border: 1px solid rgba(212,175,55,.35);
+    box-shadow: 0 10px 30px rgba(0,0,0,.9);
+    filter: grayscale(60%) brightness(.9);
+    transition: all .8s cubic-bezier(.25,.8,.25,1);
+    cursor: pointer;
+  }
+  .gallery-item img:hover, .gallery-item img:active {
+    filter: grayscale(0%) brightness(1.1);
+    transform: scale(1.06);
+    border-color: rgba(212,175,55,.9);
+    box-shadow: 0 0 35px rgba(212,175,55,.45);
+  }
+
+  /* =========================================================
+     MUSIC PLAYER
+     ========================================================= */
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; }
+  input[type=range]::-webkit-slider-runnable-track { height: 4px; background: rgba(247,243,232,.15); border-radius: 2px; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%;
+    background: var(--gold); margin-top: -4px; cursor: pointer;
+    box-shadow: 0 0 10px rgba(212,175,55,.6); transition: transform .2s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+  input[type=range]::-moz-range-track { height: 4px; background: rgba(247,243,232,.15); border-radius: 2px; }
+  input[type=range]::-moz-range-progress { height: 4px; background: var(--gold); border-radius: 2px; }
+  input[type=range]::-moz-range-thumb { height: 12px; width: 12px; border: 0; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,.6); }
+
+  .eq-bar { transition: height .1s ease; }
+  .playing .eq-bar { background: var(--gold); animation: eqPlay .8s infinite alternate ease-in-out; }
+  .playing .eq-bar:nth-child(1) { animation-delay: 0s; }
+  .playing .eq-bar:nth-child(2) { animation-delay: .2s; }
+  .playing .eq-bar:nth-child(3) { animation-delay: .4s; }
+  .playing .eq-bar:nth-child(4) { animation-delay: .1s; }
+  .playing .eq-bar:nth-child(5) { animation-delay: .3s; }
+  @keyframes eqPlay { 0% { height: 20%; } 100% { height: 100%; } }
+
+  .record-spin { animation: spinRecord 5s linear infinite; }
+  .record-spin.paused { animation-play-state: paused; }
+  @keyframes spinRecord { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  /* Vinyl grooves over the cover */
+  .vinyl-grooves {
+    background: repeating-radial-gradient(circle, rgba(0,0,0,0) 0 3px, rgba(0,0,0,.22) 3px 4px);
+  }
+
+  /* --- Splash enter button pulse --- */
+  @keyframes enterPulse {
+    0%,100% { box-shadow: 0 0 18px rgba(212,175,55,.25), inset 0 0 10px rgba(212,175,55,.08); }
+    50%     { box-shadow: 0 0 40px rgba(212,175,55,.55), inset 0 0 18px rgba(212,175,55,.2); }
+  }
+  .enter-btn { animation: enterPulse 3s ease-in-out infinite; }
+
+  /* --- Mobile tweaks --- */
+  @media (max-width: 768px) {
+    .gallery-stage { height: 270px; }
+    .gallery-wrap { width: 110px; height: 165px; }
+    .gallery-item { transform: rotateY(calc(var(--i) * 72deg)) translateZ(135px); }
+  }
+
+  /* --- Accessibility: turn off motion for users who request it --- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .gallery-3d { animation: none !important; transform: rotateY(-20deg); }
+    .marble-sheen { display: none; }
+    #particles-canvas { display: none; }
+  }
+</style>
+</head>
+
+<body class="text-ivory font-sans antialiased">
+
+  <!-- =============================================================
+       1. SPLASH SCREEN — click ENTER → enterSite() fades it out
+       ============================================================= -->
+  <div id="splash-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-onyx/60 backdrop-blur-2xl transition-opacity duration-1000 px-6">
+    <div class="relative mb-10 flex flex-col items-center text-center px-8 py-6">
+      <!-- [IMAGE] Optional: replace the crown emoji with your logo, e.g. <img src="logo.png" class="w-64"> -->
+      <div class="crown text-6xl md:text-7xl mb-3">👑</div>
+      <!-- [TEXT] Splash title -->
+      <div class="font-royal font-black gold-shimmer text-4xl md:text-6xl tracking-[0.08em]" role="heading" aria-level="2">Charles Leone™</div>
+      <!-- [ID] Username + xat ID -->
+      <p class="font-royal text-oroLight/80 text-xs md:text-sm tracking-[0.45em] uppercase mt-3">Prince &mdash; 809877009</p>
+      <div class="sparkle-star sparkle-1"></div><div class="sparkle-star sparkle-2"></div>
+      <div class="sparkle-star sparkle-3"></div><div class="sparkle-star sparkle-4"></div>
+      <div class="sparkle-star sparkle-5"></div>
+    </div>
+    <!-- [TEXT] Button label: "Enter" (or "Ingresar") -->
+    <button onclick="enterSite()" class="enter-btn text-oroLight font-royal text-sm md:text-base tracking-[0.35em] uppercase border border-oro/60 hover:border-oro px-12 py-3 rounded-full bg-jade/40 hover:bg-emerald2/60 hover:text-white transition-all duration-500 hover:scale-105">
+      Enter
+    </button>
+  </div>
+
+  <!-- =============================================================
+       2. BACKGROUND LAYERS
+       ============================================================= -->
+  <div class="marble-bg"></div>
+  <div class="marble-texture"></div>
+  <div class="marble-sheen"></div>
+
+  <!-- [VIDEO] Optional background video. Uncomment & set src (keep it muted for autoplay).
+  <video autoplay loop muted playsinline class="fixed inset-0 w-full h-full object-cover z-[3] pointer-events-none opacity-30 mix-blend-screen">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+  -->
+
+  <!-- Dark tint + bottom fade (like epika) -->
+  <div class="fixed inset-0 bg-gradient-to-b from-onyx/30 via-transparent to-onyx/70 z-[4] pointer-events-none"></div>
+  <div class="fixed bottom-0 left-0 w-full h-[30vh] bg-gradient-to-t from-onyx via-jade/50 to-transparent z-[5] pointer-events-none"></div>
+
+  <!-- Floating gold particles -->
+  <canvas id="particles-canvas" class="fixed inset-0 pointer-events-none z-[6]"></canvas>
+
+  <!-- =============================================================
+       MAIN SITE
+       ============================================================= -->
+  <main class="relative z-20 min-h-screen w-full max-w-6xl mx-auto px-4 pt-8 pb-16 flex flex-col md:flex-row md:items-start gap-8">
+
+    <!-- == LEFT COLUMN: avatar, profile buttons, music == -->
+    <aside class="flex flex-col items-center md:w-48 shrink-0 order-2 md:order-1">
+
+      <!-- [IMAGE] Main circular avatar (square image, ~300x300). Can be a .gif too. -->
+      <div class="relative group cursor-pointer w-24 h-24 md:w-32 md:h-32 rounded-full border border-oro/60 p-1.5 bg-jade/50 transition-all duration-700 hover:scale-105 hover:border-oro hover:shadow-[0_0_25px_rgba(212,175,55,0.55)] overflow-hidden" onclick="openProfile('about')">
+        <img src="avatar.jpg" onerror="this.onerror=null;this.src=ph(300,300,'Prince')" alt="Prince avatar" class="w-full h-full rounded-full object-cover">
+        <div class="absolute inset-1.5 rounded-full bg-onyx/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
+      </div>
+
+      <!-- [TEXT] Small badges under avatar (swap icons/text as you like) -->
+      <div class="flex items-center gap-3 mt-3 mb-4 text-oro/80 text-sm">
+        <i class="fas fa-crown" title="Prince"></i>
+        <i class="fas fa-gem" title="Gold"></i>
+        <i class="fas fa-chess-king" title="Royal"></i>
+      </div>
+
+      <!-- Profile buttons → open modals. [TEXT] Labels; data lives in profilesData (script). -->
+      <nav class="flex flex-col items-center space-y-4 bg-onyx/70 backdrop-blur-xl px-5 py-5 rounded-2xl border border-oro/15 shadow-[0_10px_30px_rgba(0,0,0,0.5)] w-full max-w-[220px] transition-colors duration-500 hover:border-oro/35">
+        <button onclick="openProfile('about')"   class="w-full text-[11px] md:text-xs font-royal uppercase tracking-[0.25em] text-ivory/70 hover:text-oro transition-all duration-300 hover:scale-105">About</button>
+        <div class="w-8 h-px bg-gradient-to-r from-transparent via-oro/40 to-transparent"></div>
+        <button onclick="openProfile('friends')" class="w-full text-[11px] md:text-xs font-royal uppercase tracking-[0.25em] text-ivory/70 hover:text-oro transition-all duration-300 hover:scale-105">Friends</button>
+        <div class="w-8 h-px bg-gradient-to-r from-transparent via-oro/40 to-transparent"></div>
+        <button onclick="openProfile('groups')"  class="w-full text-[11px] md:text-xs font-royal uppercase tracking-[0.25em] text-ivory/70 hover:text-oro transition-all duration-300 hover:scale-105">Groups</button>
+      </nav>
+
+      <!-- == MUSIC PLAYER == -->
+      <div class="relative flex flex-col items-center w-full mt-8">
+        <!-- Minimized: spinning vinyl -->
+        <div id="player-minimized" class="relative cursor-pointer group hover:scale-105 transition-transform duration-500" onclick="togglePlayerState()">
+          <div class="relative w-20 h-20 rounded-full border border-oro/60 overflow-hidden animate-elegant-glow">
+            <!-- [MUSIC] Cover art for the vinyl (also set per-track in playlist) -->
+            <img id="record-cover" src="cover1.jpg" onerror="this.onerror=null;this.src=ph(200,200,'♫')" alt="Record" class="w-full h-full object-cover record-spin paused brightness-90">
+            <div class="absolute inset-0 vinyl-grooves rounded-full pointer-events-none"></div>
+            <div class="absolute inset-0 m-auto w-5 h-5 bg-onyx rounded-full border border-oro/50 shadow-[inset_0_2px_5px_rgba(0,0,0,0.8)]"></div>
+          </div>
+          <span class="absolute -top-9 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-ivory bg-onyx/90 border border-oro/20 px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-xl">Open Music</span>
+        </div>
+
+        <!-- Expanded player -->
+        <div id="player-expanded" class="hidden opacity-0 translate-y-4 w-[88vw] max-w-[320px] bg-onyx/80 backdrop-blur-xl border border-oro/30 rounded-2xl p-6 shadow-[0_20px_40px_rgba(0,0,0,0.9)] transition-all duration-700 md:absolute md:top-0 md:left-0 z-40">
+          <audio id="audio-player" preload="none"></audio>
+          <div class="flex items-center justify-between mb-5 cursor-pointer group" onclick="togglePlayerState()" title="Minimize to vinyl">
+            <div class="flex items-center gap-3 min-w-0">
+              <img id="player-cover" src="cover1.jpg" onerror="this.onerror=null;this.src=ph(200,200,'♫')" alt="" class="w-11 h-11 rounded-md object-cover border border-oro/40 shrink-0">
+              <div class="min-w-0">
+                <h2 id="track-title" class="text-oro font-serif text-base font-bold truncate group-hover:text-ivory transition-colors duration-500">Track Title</h2>
+                <p class="text-ivory/50 text-[10px] tracking-[0.2em] uppercase flex items-center gap-2 mt-1">Now playing <i class="fas fa-chevron-down text-[9px] opacity-0 group-hover:opacity-100 transition-opacity"></i></p>
+              </div>
+            </div>
+            <div id="equalizer" class="flex items-end h-6 space-x-[3px] opacity-90 shrink-0">
+              <div class="eq-bar w-[3px] bg-oro/70 rounded-t-full h-1"></div>
+              <div class="eq-bar w-[3px] bg-oro/70 rounded-t-full h-2"></div>
+              <div class="eq-bar w-[3px] bg-oro/70 rounded-t-full h-1"></div>
+              <div class="eq-bar w-[3px] bg-oro/70 rounded-t-full h-3"></div>
+              <div class="eq-bar w-[3px] bg-oro/70 rounded-t-full h-2"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center space-x-8 mb-5">
+            <button onclick="prevTrack()" aria-label="Previous" class="text-ivory/60 hover:text-oro transition-all hover:scale-110"><i class="fas fa-backward"></i></button>
+            <button onclick="togglePlay()" aria-label="Play/Pause" class="w-14 h-14 rounded-full bg-gradient-to-br from-oroLight via-oro to-yellow-700 text-onyx flex items-center justify-center transition-all duration-500 shadow-[0_0_20px_rgba(212,175,55,0.45)] hover:shadow-[0_0_30px_rgba(245,224,138,0.7)] hover:scale-105">
+              <i id="play-icon" class="fas fa-play ml-1 text-lg"></i>
+            </button>
+            <button onclick="nextTrack()" aria-label="Next" class="text-ivory/60 hover:text-oro transition-all hover:scale-110"><i class="fas fa-forward"></i></button>
+          </div>
+
+          <div class="flex items-center space-x-4 text-xs text-ivory/50">
+            <i class="fas fa-volume-down"></i>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+            <i class="fas fa-volume-up"></i>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- == CENTER COLUMN: logo, gallery, quotes == -->
+    <section class="flex-1 flex flex-col items-center order-1 md:order-2 text-center">
+
+      <!-- Logo / title area -->
+      <div class="relative inline-flex flex-col items-center px-10 py-4 mt-2">
+        <div class="crown text-5xl md:text-6xl mb-2">👑</div>
+        <!-- [TEXT] Display name -->
+        <h1 class="font-royal font-black gold-shimmer text-4xl sm:text-5xl md:text-6xl tracking-[0.06em] leading-tight">Charles Leone™</h1>
+        <!-- [ID] Username — ID -->
+        <p class="font-royal text-oroLight/80 text-[11px] md:text-sm tracking-[0.45em] uppercase mt-3">Prince &mdash; 809877009</p>
+        <div class="w-40 h-px mt-5 bg-gradient-to-r from-transparent via-oro to-transparent"></div>
+        <div class="sparkle-star sparkle-1"></div><div class="sparkle-star sparkle-2"></div>
+        <div class="sparkle-star sparkle-3"></div><div class="sparkle-star sparkle-4"></div>
+        <div class="sparkle-star sparkle-5"></div>
+      </div>
+
+      <!-- 3D rotating gallery. [IMAGE] Replace each src with your photo (portrait, 150x225 ratio = 2:3). -->
+      <div class="gallery-stage w-full mt-4">
+        <div class="gallery-wrap" id="gallery-container">
+          <div class="gallery-3d" id="gallery-animation">
+            <div class="gallery-item" style="--i:1;"><img src="https://via.placeholder.com/150x225/0b2e13/D4AF37?text=Photo+1" onerror="this.onerror=function(){this.onerror=null;this.src=ph(150,225,'Photo 1')};this.src='https://placehold.co/150x225/0b2e13/D4AF37?text=Photo+1'" alt="Photo 1"></div>
+            <div class="gallery-item" style="--i:2;"><img src="https://via.placeholder.com/150x225/0b2e13/D4AF37?text=Photo+2" onerror="this.onerror=function(){this.onerror=null;this.src=ph(150,225,'Photo 2')};this.src='https://placehold.co/150x225/0b2e13/D4AF37?text=Photo+2'" alt="Photo 2"></div>
+            <div class="gallery-item" style="--i:3;"><img src="https://via.placeholder.com/150x225/0b2e13/D4AF37?text=Photo+3" onerror="this.onerror=function(){this.onerror=null;this.src=ph(150,225,'Photo 3')};this.src='https://placehold.co/150x225/0b2e13/D4AF37?text=Photo+3'" alt="Photo 3"></div>
+            <div class="gallery-item" style="--i:4;"><img src="https://via.placeholder.com/150x225/0b2e13/D4AF37?text=Photo+4" onerror="this.onerror=function(){this.onerror=null;this.src=ph(150,225,'Photo 4')};this.src='https://placehold.co/150x225/0b2e13/D4AF37?text=Photo+4'" alt="Photo 4"></div>
+            <div class="gallery-item" style="--i:5;"><img src="https://via.placeholder.com/150x225/0b2e13/D4AF37?text=Photo+5" onerror="this.onerror=function(){this.onerror=null;this.src=ph(150,225,'Photo 5')};this.src='https://placehold.co/150x225/0b2e13/D4AF37?text=Photo+5'" alt="Photo 5"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Crossfading quotes. [TEXT] Edit the two quotes below. -->
+      <div class="relative w-full max-w-2xl h-20 mt-10 flex items-center justify-center pointer-events-none">
+        <p id="quote1" class="absolute px-4 text-ivory/90 font-serif italic text-[15px] md:text-lg tracking-wide transition-opacity duration-[2500ms] ease-in-out opacity-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+          &ldquo;A crown is not given; it is earned, carried with grace, and worn with honor.&rdquo;
+        </p>
+        <p id="quote2" class="absolute px-4 text-ivory/90 font-serif italic text-[15px] md:text-lg tracking-wide transition-opacity duration-[2500ms] ease-in-out opacity-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+          &ldquo;True royalty is measured not by the throne, but by the kindness of the one who sits upon it.&rdquo;
+        </p>
+      </div>
+
+      <!-- Gold "shower" button (epika's Click Me effect, re-themed with crowns) -->
+      <button onclick="showCrownEffect()" class="mt-6 text-oro font-royal text-[11px] tracking-[0.3em] uppercase border border-oro/40 px-7 py-2.5 rounded-full bg-onyx/70 backdrop-blur-md hover:bg-emerald2/70 hover:text-ivory transition-all duration-500 animate-elegant-glow hover:scale-105">
+        <i class="fas fa-crown mr-2"></i>Long Live the Prince
+      </button>
+
+    </section>
+
+    <!-- Spacer so the layout stays centered on desktop -->
+    <div class="hidden md:block md:w-48 shrink-0 order-3"></div>
+  </main>
+
+  <!-- [TEXT] Footer -->
+  <footer class="relative z-20 text-center pb-10 -mt-6 text-[9px] text-ivory/35 tracking-[0.25em] uppercase">&copy;2026 Charles Leone&trade; &middot; Prince Xatspace</footer>
+
+  <!-- =============================================================
+       PROFILE MODAL (shared by About / Friends / Groups)
+       ============================================================= -->
+  <div id="profile-modal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-700 ease-out" role="dialog" aria-modal="true">
+    <div class="absolute inset-0 bg-onyx/90 backdrop-blur-xl cursor-pointer" onclick="closeProfile()"></div>
+    <div id="modal-content" class="relative bg-gradient-to-br from-emerald2/50 via-jade/80 to-onyx/95 border border-oro/30 rounded-3xl p-8 md:p-12 max-w-3xl w-[90%] md:w-full mx-auto flex flex-col md:flex-row gap-8 md:gap-12 items-center shadow-[0_30px_60px_rgba(0,0,0,0.9),0_0_40px_rgba(212,175,55,0.15)] scale-90 translate-y-8 transition-all duration-700 ease-out max-h-[90vh] overflow-y-auto ios-scroll-fix">
+      <button onclick="closeProfile()" aria-label="Close" class="absolute top-5 right-6 text-ivory/40 hover:text-oro hover:rotate-90 text-2xl transition-all duration-500 z-10"><i class="fas fa-times"></i></button>
+      <div class="shrink-0 relative group">
+        <img id="modal-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="w-40 h-40 md:w-60 md:h-60 rounded-full object-cover border border-oro/60 shadow-[0_0_40px_rgba(212,175,55,0.25)] transition-all duration-700 group-hover:scale-105 group-hover:shadow-[0_0_55px_rgba(212,175,55,0.45)]">
+        <div class="absolute inset-0 rounded-full border border-oro/20 scale-[1.08] pointer-events-none transition-transform duration-700 group-hover:scale-[1.12]"></div>
+      </div>
+      <div class="text-center md:text-left flex-1 w-full">
+        <p id="modal-subtitle" class="text-oro uppercase tracking-[0.4em] text-[10px] md:text-xs font-semibold mb-3"></p>
+        <h2 id="modal-title" class="text-3xl md:text-5xl font-royal gold-shimmer mb-5 tracking-wide">Profile</h2>
+        <div class="w-12 h-px bg-gradient-to-r from-oro to-transparent mb-6 mx-auto md:mx-0"></div>
+        <div id="modal-text" class="text-ivory/75 font-light leading-loose text-sm md:text-base italic max-h-[50vh] overflow-y-auto pr-3 pb-2 ios-scroll-fix"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  /* ================================================================
+     [MUSIC] PLAYLIST — add as many tracks as you like.
+     src   = audio file (mp3) — put next to index.html or use a full URL
+     cover = square image used for the vinyl + player thumbnail
+     ================================================================ */
+  const playlist = [
+    { title: "Track One — Artist",   src: "track1.mp3", cover: "cover1.jpg" },
+    // { title: "Track Two — Artist", src: "track2.mp3", cover: "cover2.jpg" },
+  ];
+  const COVER_FALLBACK = ph(200, 200, "♫");
+
+  /* ================================================================
+     [TEXT] [IMAGE] PROFILE MODALS — edit titles, subtitles, photos, text
+     ================================================================ */
+  const profilesData = {
+    about: {
+      title: "PRINCE",
+      subtitle: "ID: 809877009",                          // [ID]
+      img: "about.jpg",                                    // [IMAGE] ~400x400
+      text: `<div class="space-y-4">
+        <p>Welcome to my xatspace. I'm Charles Leone&trade; &mdash; known around xat as <span class="text-oro not-italic font-semibold">Prince</span>.</p>
+        <p>Write a few lines about yourself here: what you love, where you chat, and what makes your corner of xat feel like home.</p>
+        <p>Loyal to my friends, gracious to everyone. &#128081;</p>
+      </div>`
+    },
+    friends: {
+      title: "FRIENDS",
+      subtitle: "My Royal Court",
+      img: "friends.jpg",                                  // [IMAGE] ~400x400
+      text: `<div class="space-y-4">
+        <p>To everyone who has stood by me &mdash; thank you. You know who you are, and you all hold a special place in my kingdom.</p>
+        <p class="not-italic text-oro/90 tracking-wide">Friend One &middot; Friend Two &middot; Friend Three</p>
+      </div>`
+    },
+    groups: {
+      title: "GROUPS",
+      subtitle: "Where to find me",
+      img: "groups.jpg",                                   // [IMAGE] ~400x400
+      text: `<div class="space-y-4">
+        <p>Come say hello in my favorite chats:</p>
+        <ul class="not-italic space-y-2">
+          <li><i class="fas fa-crown text-oro mr-2"></i><a class="hover:text-oro underline decoration-oro/40" href="https://xat.com/" target="_blank" rel="noopener">Group One</a></li>
+          <li><i class="fas fa-crown text-oro mr-2"></i><a class="hover:text-oro underline decoration-oro/40" href="https://xat.com/web_gear/chat/groups.php?" target="_blank" rel="noopener">Browse xat groups</a></li>
+          <li><i class="fas fa-crown text-oro mr-2"></i><a class="hover:text-oro underline decoration-oro/40" href="https://xat.com/store" target="_blank" rel="noopener">xat Store</a></li>
+        </ul>
+      </div>`
+    }
+  };
+  const MODAL_FALLBACK = ph(400, 400, "Photo");
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- MUSIC PLAYER ---------------- */
+  const audioPlayer   = document.getElementById('audio-player');
+  const playIcon      = document.getElementById('play-icon');
+  const trackTitle    = document.getElementById('track-title');
+  const volumeSlider  = document.getElementById('volume-slider');
+  const equalizer     = document.getElementById('equalizer');
+  const recordCover   = document.getElementById('record-cover');
+  const playerCover   = document.getElementById('player-cover');
+  const playerExpanded  = document.getElementById('player-expanded');
+  const playerMinimized = document.getElementById('player-minimized');
+
+  let currentTrackIndex = 0, isPlaying = false, isPlayerMinimized = true;
+  audioPlayer.loop = playlist.length === 1;
+
+  function setCover(img, src) { img.onerror = () => { img.onerror = null; img.src = COVER_FALLBACK; }; img.src = src; }
+
+  function loadTrack(i) {
+    const t = playlist[i];
+    audioPlayer.src = t.src;
+    trackTitle.innerText = t.title;
+    setCover(recordCover, t.cover);
+    setCover(playerCover, t.cover);
+    audioPlayer.load();
+  }
+
+  function setPlayingUI(on) {
+    playIcon.classList.toggle('fa-pause', on);
+    playIcon.classList.toggle('fa-play', !on);
+    playIcon.classList.toggle('ml-1', !on);
+    equalizer.classList.toggle('playing', on);
+    recordCover.classList.toggle('paused', !on);
+  }
+
+  function togglePlay() {
+    if (isPlaying) {
+      audioPlayer.pause(); isPlaying = false; setPlayingUI(false);
+    } else {
+      const p = audioPlayer.play();
+      isPlaying = true; setPlayingUI(true);
+      if (p !== undefined) p.catch(() => { isPlaying = false; setPlayingUI(false); console.warn('Playback blocked or track missing (track1.mp3).'); });
+    }
+  }
+  function changeTrack(step) {
+    if (isPlaying) togglePlay();
+    currentTrackIndex = (currentTrackIndex + step + playlist.length) % playlist.length;
+    loadTrack(currentTrackIndex);
+    togglePlay();   // prev/next always starts playback (like epika)
+  }
+  function nextTrack() { changeTrack(1); }
+  function prevTrack() { changeTrack(-1); }
+  audioPlayer.addEventListener('ended', () => { if (playlist.length > 1) nextTrack(); });
+
+  function togglePlayerState() {
+    isPlayerMinimized = !isPlayerMinimized;
+    if (isPlayerMinimized) {
+      playerExpanded.classList.remove('opacity-100', 'translate-y-0');
+      playerExpanded.classList.add('opacity-0', 'translate-y-4');
+      setTimeout(() => { playerExpanded.classList.add('hidden'); playerMinimized.classList.remove('hidden'); }, 500);
+    } else {
+      playerExpanded.classList.remove('hidden');
+      playerMinimized.classList.add('hidden');
+      setTimeout(() => { playerExpanded.classList.remove('opacity-0', 'translate-y-4'); playerExpanded.classList.add('opacity-100', 'translate-y-0'); }, 10);
+    }
+  }
+
+  volumeSlider.addEventListener('input', e => { audioPlayer.volume = e.target.value; });
+  audioPlayer.volume = 0.5;
+  loadTrack(currentTrackIndex);
+
+  /* ---------------- SPLASH → ENTER ---------------- */
+  function enterSite() {
+    const splash = document.getElementById('splash-screen');
+    splash.classList.add('opacity-0', 'pointer-events-none');
+    setTimeout(() => splash.remove(), 1000);
+    if (!isPlaying) togglePlay();   // user click = allowed to start audio
+  }
+
+  /* ---------------- 3D GALLERY: pause on touch ---------------- */
+  const galleryContainer = document.getElementById('gallery-container');
+  const galleryAnimation = document.getElementById('gallery-animation');
+  galleryContainer.addEventListener('touchstart', () => galleryAnimation.style.animationPlayState = 'paused',  { passive: true });
+  galleryContainer.addEventListener('touchend',   () => galleryAnimation.style.animationPlayState = 'running', { passive: true });
+
+  /* ---------------- GOLD PARTICLES (canvas) ---------------- */
+  /* [COLOR] particle color is set in draw() via rgba(212,175,55,…) / rgba(255,240,190,…) */
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  const NUM_PARTICLES = window.innerWidth < 768 ? 28 : 45;
+  let particles = [];
+  function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class GoldDust {
+    constructor() { this.reset(); this.y = Math.random() * canvas.height; }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + Math.random() * 100 + 20;
+      this.r = Math.random() * 2.6 + 0.8;
+      this.vy = -(Math.random() * 0.35 + 0.08);
+      this.vx = (Math.random() - 0.5) * 0.15;
+      this.alpha = Math.random() * 0.55 + 0.25;
+      this.wobble = Math.random() * Math.PI * 2;
+      this.ws = Math.random() * 0.01 + 0.004;
+      this.twinkle = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.y += this.vy; this.wobble += this.ws; this.twinkle += 0.03;
+      this.x += this.vx + Math.sin(this.wobble) * 0.2;
+      if (this.y < -10 || this.x < -10 || this.x > canvas.width + 10) this.reset();
+    }
+    draw() {
+      const a = this.alpha * (0.7 + 0.3 * Math.sin(this.twinkle));
+      const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 2.2);
+      g.addColorStop(0,   `rgba(255,240,190,${a})`);
+      g.addColorStop(0.4, `rgba(212,175,55,${a * 0.8})`);
+      g.addColorStop(1,   `rgba(212,175,55,0)`);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r * 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+    }
+  }
+  for (let i = 0; i < NUM_PARTICLES; i++) particles.push(new GoldDust());
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animateParticles);
+  }
+  if (!reduceMotion) animateParticles();
+
+  /* ---------------- PROFILE MODALS ---------------- */
+  const profileModal = document.getElementById('profile-modal');
+  const modalContent = document.getElementById('modal-content');
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSubtitle = document.getElementById('modal-subtitle');
+  const modalText = document.getElementById('modal-text');
+
+  function openProfile(id) {
+    const d = profilesData[id]; if (!d) return;
+    modalImg.onerror = () => { modalImg.onerror = null; modalImg.src = MODAL_FALLBACK; };
+    modalImg.src = d.img; modalImg.alt = d.title;
+    modalTitle.innerText = d.title;
+    modalSubtitle.innerText = d.subtitle;
+    modalText.innerHTML = d.text;
+    modalText.scrollTop = 0; modalContent.scrollTop = 0;
+    profileModal.classList.remove('opacity-0', 'pointer-events-none');
+    modalContent.classList.remove('scale-90', 'translate-y-8');
+    modalContent.classList.add('scale-100', 'translate-y-0');
+  }
+  function closeProfile() {
+    profileModal.classList.add('opacity-0', 'pointer-events-none');
+    modalContent.classList.remove('scale-100', 'translate-y-0');
+    modalContent.classList.add('scale-90', 'translate-y-8');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProfile(); });
+
+  /* ---------------- CROWN SHOWER (epika's "Click Me" effect) ---------------- */
+  function showCrownEffect() {
+    const count = reduceMotion ? 0 : 15;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.textContent = Math.random() < 0.6 ? '👑' : '✨';   // [TEXT] swap emoji or use an <img>
+      el.className = 'fixed pointer-events-none z-[100] transition-all duration-[2000ms] ease-out opacity-0 drop-shadow-[0_0_14px_rgba(212,175,55,0.9)]';
+      const size = Math.random() * 26 + 22, startX = Math.random() * window.innerWidth;
+      Object.assign(el.style, { fontSize: size + 'px', left: startX + 'px', top: (window.innerHeight + 60) + 'px', transform: `rotate(${Math.random()*60-30}deg) scale(.5)` });
+      document.body.appendChild(el);
+      setTimeout(() => {
+        el.classList.replace('opacity-0', 'opacity-100');
+        el.style.top  = (window.innerHeight * Math.random() * 0.6) + 'px';
+        el.style.left = (startX + (Math.random() - 0.5) * 300) + 'px';
+        el.style.transform = `rotate(${Math.random()*60-30}deg) scale(1.2)`;
+      }, 50);
+      setTimeout(() => { el.classList.replace('opacity-100', 'opacity-0'); setTimeout(() => el.remove(), 2000); }, 1500 + Math.random() * 1000);
+    }
+  }
+
+  /* ---------------- QUOTE CROSSFADE (every 9s) ---------------- */
+  const quote1 = document.getElementById('quote1'), quote2 = document.getElementById('quote2');
+  let showingQuote1 = true;
+  setInterval(() => {
+    quote1.classList.toggle('opacity-100', !showingQuote1); quote1.classList.toggle('opacity-0', showingQuote1);
+    quote2.classList.toggle('opacity-100', showingQuote1);  quote2.classList.toggle('opacity-0', !showingQuote1);
+    showingQuote1 = !showingQuote1;
+  }, 9000);
+</script>
+</body>
+</html>
